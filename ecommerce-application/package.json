@@ -10,7 +10,8 @@
     "format": "prettier --write",
     "ci:format": "prettier --check",
     "lint:fix": "eslint --debug src/ --fix",
-    "prepare": "cd .. && husky ecommerce-application/.husky"
+    "prepare": "cd .. && husky ecommerce-application/.husky",
+    "test": "jest"
   },
   "husky": {
     "hooks": {
