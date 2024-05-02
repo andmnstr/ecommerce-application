@@ -31,7 +31,7 @@ module.exports = {
       modules: true,
       experimentalObjectRestSpread: true,
     },
-    project: ['./tsconfig.json', './tsconfig.node.json'],
+    project: ['./tsconfig.json', './tsconfig.eslint.json'],
     tsconfigRootDir: __dirname,
   },
   plugins: ['react-refresh', '@typescript-eslint', 'unused-imports', 'simple-import-sort', 'prettier', 'import'],

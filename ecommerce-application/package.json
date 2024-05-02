@@ -13,6 +13,27 @@
     "lint:write": "eslint --debug src/ --fix",
     "prepare": "cd .. && husky ecommerce-application/.husky"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "validate-branch-name"
+    }
+  },
+  "format-staged": {
+    "*.(js|jsx|ts|css|scss|html)": [
+      "npm run format"
+    ]
+  },
+  "lint-staged": {
+    "*.(js|jsx|ts|tsx|css|scss|html)": [
+      "npm run format",
+      "npm run lint:write"
+    ]
+  },
+  "validate-branch-name": {
+    "pattern": "^(feat|fix|chore|refactor|docs)/RSS_ECOMM-\\d+_[a-zA-Z0-9-]+$",
+    "errorMsg": "Name of branch is not valid!"
+  },
   "dependencies": {
     "react": "18.2.0",
     "react-dom": "18.2.0"
