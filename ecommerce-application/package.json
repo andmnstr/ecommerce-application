@@ -2,7 +2,6 @@
   "name": "ecommerce-application",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -10,7 +9,7 @@
     "preview": "vite preview",
     "format": "prettier --write",
     "ci:format": "prettier --check",
-    "lint:write": "eslint --debug src/ --fix",
+    "lint:fix": "eslint --debug src/ --fix",
     "prepare": "cd .. && husky ecommerce-application/.husky"
   },
   "husky": {
@@ -27,7 +26,7 @@
   "lint-staged": {
     "*.(js|jsx|ts|tsx|css|scss|html)": [
       "npm run format",
-      "npm run lint:write"
+      "npm run lint:fix"
     ]
   },
   "validate-branch-name": {
@@ -59,6 +58,10 @@
     "husky": "^9.0.11",
     "prettier": "3.2.5",
     "typescript": "5.2.2",
-    "vite": "^5.2.11"
+    "vite": "5.2.0",
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
+    "lint-staged": "^15.2.2",
+    "validate-branch-name": "^1.3.0"
   }
 }

@@ -12,6 +12,7 @@ module.exports = {
     'airbnb/hooks',
     'airbnb-typescript',
     'plugin:prettier/recommended',
+    'prettier',
   ],
   overrides: [
     {
