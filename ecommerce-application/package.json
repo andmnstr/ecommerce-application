@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "format": "prettier --write",
     "ci:format": "prettier --check",
-    "lint:write": "eslint --debug src/ --fix"
+    "lint:write": "eslint --debug src/ --fix",
+    "prepare": "cd .. && husky ecommerce-application/.husky"
   },
   "dependencies": {
     "react": "18.2.0",
