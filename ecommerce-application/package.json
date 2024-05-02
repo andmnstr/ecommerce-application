@@ -30,7 +30,7 @@
     ]
   },
   "validate-branch-name": {
-    "pattern": "^(feat|fix|chore|refactor|docs)/RSS_ECOMM_\\d+_[a-zA-Z0-9-]+$",
+    "pattern": "^(feat|fix|hotfix|release|chore|refactor)\/(RSS_ECOMM_\\d{1,2})_\\d{1,2}_[A-Z]+[A-Za-z0-9]",
     "errorMsg": "Name of branch is not valid!"
   },
   "dependencies": {
