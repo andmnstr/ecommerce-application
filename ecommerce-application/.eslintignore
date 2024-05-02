@@ -13,3 +13,5 @@ out/
 !**/*.ts
 **/*.scss
 **/*.html
+vite.*.ts
+jest.*.ts
