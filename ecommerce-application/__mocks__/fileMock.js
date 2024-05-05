@@ -1,4 +1,4 @@
-// src/test/__mocks__/fileMock.js
+// __mocks__/fileMock.js
 
 module.exports = {
   __esModule: true,
