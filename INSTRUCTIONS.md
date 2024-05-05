@@ -1,7 +1,7 @@
 ## How to set up and run the project locally
 
 1. Clone this repository: `https://github.com/andmnstr/ecommerce-application.git` by `git clone` command
-2. Go to the folder `ecommerce-application`
+2. Run `cd ecommerce-application` to go to the folder `ecommerce-application`
 3. Run the command `npm install` to install all dependencies of the project
 4. To see the project in a dev mode, run the command `npm run dev`
 5. To build the project and see the result, run the command `npm run build` and then `npm run preview`
