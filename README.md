@@ -31,6 +31,7 @@ The application includes:
 - React JS
 - Redux Toolkit
 - TypeScript
+- SASS
 - Jest & React Testing library
 - Future Sliced Design architecture
 
