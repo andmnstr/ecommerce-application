@@ -35,9 +35,13 @@
     "errorMsg": "Name of branch is not valid!"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "2.2.3",
+    "@types/react-redux": "7.1.33",
     "jest-environment-jsdom": "29.7.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-redux": "9.1.2",
+    "react-router-dom": "6.23.0"
   },
   "devDependencies": {
     "@commitlint/cli": "19.3.0",
