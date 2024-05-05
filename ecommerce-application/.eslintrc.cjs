@@ -22,7 +22,7 @@ module.exports = {
       files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
     },
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs'],
+  ignorePatterns: ['dist', '.eslintrc.cjs', 'vite.config.ts'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
