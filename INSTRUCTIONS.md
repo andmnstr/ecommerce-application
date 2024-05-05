@@ -3,7 +3,7 @@
 1. Clone this repository: `https://github.com/andmnstr/ecommerce-application.git` by `git clone` command
 2. Run `cd ecommerce-application` to go to the folder `ecommerce-application`
 3. Run the command `npm install` to install all dependencies of the project
-4. Change the file `.env.api-client` to `.env`
+4. Change the name of file `.env.api-client` to `.env`
 5. To see the project in a dev mode, run the command `npm run dev`
 6. To build the project and see the result, run the command `npm run build` and then `npm run preview`
 
