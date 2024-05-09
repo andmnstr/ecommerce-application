@@ -38,14 +38,7 @@ module.exports = {
   plugins: ['react-refresh', '@typescript-eslint', 'unused-imports', 'simple-import-sort', 'prettier', 'import'],
   rules: {
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
-    'react/jsx-props-no-spreading': [
-      {
-        html: 'ignore',
-        custom: 'ignore',
-        explicitSpread: 'ignore',
-        exceptions: [],
-      },
-    ],
+    'react/jsx-props-no-spreading': 'off',
     'no-var': 'error',
     'no-multi-spaces': 'error',
     'space-in-parens': 'error',
