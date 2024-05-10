@@ -39,6 +39,10 @@ module.exports = {
   rules: {
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     'react/jsx-props-no-spreading': 'off',
+    'react/function-component-definition': ['error', {
+      "namedComponents": ["function-declaration", "function-expression", "arrow-function"],
+      "unnamedComponents": ["function-expression", "arrow-function"]
+    }],
     'no-var': 'error',
     'no-multi-spaces': 'error',
     'space-in-parens': 'error',
