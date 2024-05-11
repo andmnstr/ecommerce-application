@@ -1,11 +1,11 @@
 import { Box, Container, Stack, Typography } from '@mui/material';
 import type React from 'react'; // убрать type
 
-import { CustomButton } from '../../../shared/UI/button/CustomButton';
 import CustomInputText from '../../../shared/UI/CustomInputText/CustomInputText';
 import FormCheckbox from '../../../shared/UI/FormCheckbox/FormCheckbox';
 import { AddressBox } from './AddressBox/AddressBox';
 import classes from './RegistrationForm.module.scss';
+import { SignupButton } from './SignupButton/SignupButton';
 
 export const RegistrationForm: React.FC = () => {
   return (
@@ -73,13 +73,8 @@ export const RegistrationForm: React.FC = () => {
           label="My shipping and billing addresses are the same"
           sx={{ alignSelf: 'center' }}
         />
-        <CustomButton
-          variant="contained"
-          size="large"
-          className={classes.button}
-        >
-          Signup
-        </CustomButton>
+
+        <SignupButton />
       </Box>
     </Container>
   );
