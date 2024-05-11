@@ -1,5 +1,5 @@
 import { Box, Container, Stack, Typography } from '@mui/material';
-import type React from 'react'; // убрать type
+import type React from 'react';
 
 import CustomInputText from '../../../shared/UI/CustomInputText/CustomInputText';
 import FormCheckbox from '../../../shared/UI/FormCheckbox/FormCheckbox';
