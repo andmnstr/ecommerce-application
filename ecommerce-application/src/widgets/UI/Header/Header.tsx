@@ -2,8 +2,8 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { AppBar, StyledEngineProvider, Toolbar } from '@mui/material';
 import type * as React from 'react';
 
-import { CustomButton } from '../../../shared/UI/button/CustomButton';
 import { CustomLink } from '../../../shared/UI/CustomLink/CustomLink';
+import { AuthSection } from './AuthSection';
 import styles from './Header.module.scss';
 import { Logo } from './Logo';
 
@@ -49,20 +49,7 @@ export const Header: React.FC = () => {
               Contact us
             </CustomLink>
           </div>
-          <div className={styles.ButtonSection}>
-            <CustomButton
-              className={styles.Button}
-              variant="contained"
-            >
-              Login
-            </CustomButton>
-            <CustomButton
-              className={styles.Button}
-              variant="contained"
-            >
-              Sign-Up
-            </CustomButton>
-          </div>
+          <AuthSection />
         </Toolbar>
       </AppBar>
     </StyledEngineProvider>

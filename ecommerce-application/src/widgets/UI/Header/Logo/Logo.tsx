@@ -1,6 +1,6 @@
 import type * as React from 'react';
 
-import ShopLogo from './assets/Shop-logo.svg';
+import ShopLogo from '../assets/Shop-logo.svg';
 import styles from './Logo.module.scss';
 
 export const Logo: React.FC = (): JSX.Element => {

@@ -1,0 +1,33 @@
+.ButtonSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+}
+
+.Button {
+  min-width: 98px;
+  height: 50px;
+  margin: auto;
+  border-radius: 10px;
+}
+
+@media screen and (width <= 900px) {
+  .Button {
+    min-width: 85px;
+  }
+
+  .ButtonSection {
+    gap: 20px;
+  }
+}
+
+@media screen and (width < 768px) {
+  .Button {
+    display: none;
+  }
+
+  .ButtonSection {
+    display: none;
+  }
+}
