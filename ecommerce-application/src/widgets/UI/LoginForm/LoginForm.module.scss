@@ -13,6 +13,13 @@
   margin-top: 20px;
 }
 
+.loginTitleAndDescription {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .loginTitle {
   font-size: 30px;
   color: #131118;

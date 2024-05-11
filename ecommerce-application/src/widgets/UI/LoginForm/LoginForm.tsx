@@ -1,12 +1,12 @@
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { Box, IconButton, InputAdornment, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import type React from 'react';
 import { useState } from 'react';
 
-import { CustomButton } from '../../shared/UI/button/CustomButton';
-import CustomInputText from '../../shared/UI/CustomInputText/CustomInputText';
-import FormCheckbox from '../../shared/UI/FormCheckbox/FormCheckbox';
+import { CustomButton } from '../../../shared/UI/button/CustomButton';
+import CustomInputText from '../../../shared/UI/CustomInputText/CustomInputText';
+import FormCheckbox from '../../../shared/UI/FormCheckbox/FormCheckbox';
 import classes from './LoginForm.module.scss';
+import { PasswordEndAdornment } from './PasswordEndAdornment';
 
 export const LoginForm: React.FC = () => {
   const [values, setValues] = useState({
@@ -28,8 +28,9 @@ export const LoginForm: React.FC = () => {
       onSubmit={e => {
         e.preventDefault();
       }}
+      autoComplete="false"
     >
-      <div>
+      <div className={classes.loginTitleAndDescription}>
         <Typography className={classes.loginTitle}>Welcome</Typography>
         <Typography className={classes.loginDescription}>Please login here</Typography>
       </div>
@@ -49,15 +50,10 @@ export const LoginForm: React.FC = () => {
           fullWidth
           InputProps={{
             endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={showOrHidePassword}>
-                  {values.showPassword ? (
-                    <VisibilityOff style={{ color: '#131118' }} />
-                  ) : (
-                    <Visibility style={{ color: '#131118' }} />
-                  )}
-                </IconButton>
-              </InputAdornment>
+              <PasswordEndAdornment
+                onClick={showOrHidePassword}
+                showPassword={values.showPassword}
+              />
             ),
           }}
         />
