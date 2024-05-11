@@ -1,0 +1,33 @@
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+  min-width: 300px;
+  width: 90%;
+  gap: 10px;
+}
+
+.loginButton {
+  font-size: 16px;
+  padding: 16px;
+  margin-top: 20px;
+}
+
+.loginTitle {
+  font-size: 30px;
+  color: #131118;
+  line-height: 145%;
+  font-weight: 700;
+}
+
+.loginDescription {
+  font-size: 16px;
+  color: #a09b98;
+  line-height: 145%;
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+
+.loginInput {
+  margin-top: 10px;
+}
