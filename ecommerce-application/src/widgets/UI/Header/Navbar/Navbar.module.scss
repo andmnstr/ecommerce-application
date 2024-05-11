@@ -1,0 +1,45 @@
+.NavBar {
+  gap: 30px;
+}
+
+.NavBar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: auto;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1em;
+  font-weight: 600;
+  text-align: center;
+  color: #131118;
+  text-transform: none;
+}
+
+@media screen and (hover: hover) {
+  .Link:hover {
+    transition: all ease-in-out 0.5s;
+    color: #6e6d6d;
+  }
+}
+
+@media screen and (width <= 900px) {
+  .NavBar {
+    gap: 20px;
+  }
+}
+
+@media screen and (width < 768px) {
+  .Link {
+    display: none;
+  }
+
+  .NavBar {
+    display: none;
+  }
+}
