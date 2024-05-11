@@ -1,0 +1,101 @@
+.AppBar {
+  background-color: #fff;
+  width: 100%;
+  margin: 16px 0 30px 0;
+  box-shadow: none;
+}
+
+.NavBar {
+  gap: 30px;
+}
+
+.ToolBar {
+  display: flex;
+  justify-content: space-between;
+  background-color: #fff;
+  color: #131118;
+  padding: 0 80px;
+}
+
+.Logo {
+  height: 64px;
+  width: 170px;
+  background-size: contain;
+}
+
+.NavBar,
+.ButtonSection,
+.Tab {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: auto;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1em;
+  font-weight: 600;
+  text-align: center;
+  color: #131118;
+  text-transform: none;
+}
+
+.ButtonSection {
+  gap: 25px;
+}
+
+.Button {
+  min-width: 98px;
+  height: 50px;
+  margin: auto;
+  border-radius: 10px;
+}
+
+@media screen and (hover: hover) {
+  .Link:hover {
+    transition: all ease-in-out 0.5s;
+    color: #6e6d6d;
+  }
+}
+
+@media screen and (width <= 900px) {
+  .Button {
+    min-width: 85px;
+  }
+
+  .ButtonSection {
+    gap: 20px;
+  }
+
+  .NavBar {
+    gap: 20px;
+  }
+}
+
+@media screen and (width <= 900px) {
+  .ToolBar {
+    padding: 0 20px;
+  }
+}
+
+@media screen and (width < 768px) {
+  .Link {
+    display: none;
+  }
+
+  .Button {
+    display: none;
+  }
+
+  .ButtonSection {
+    display: none;
+  }
+
+  .NavBar {
+    display: none;
+  }
+}
