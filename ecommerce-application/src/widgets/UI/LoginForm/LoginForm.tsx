@@ -4,7 +4,6 @@ import { useState } from 'react';
 
 import { CustomButton } from '../../../shared/UI/button/CustomButton';
 import CustomInputText from '../../../shared/UI/CustomInputText/CustomInputText';
-import FormCheckbox from '../../../shared/UI/FormCheckbox/FormCheckbox';
 import classes from './LoginForm.module.scss';
 import { PasswordEndAdornment } from './PasswordEndAdornment';
 
@@ -58,10 +57,6 @@ export const LoginForm: React.FC = () => {
           }}
         />
       </div>
-      <FormCheckbox
-        className={classes.loginCheckbox}
-        label="Remember Me"
-      />
       <CustomButton
         className={classes.loginButton}
         type="submit"
