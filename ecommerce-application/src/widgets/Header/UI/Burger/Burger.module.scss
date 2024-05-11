@@ -1,0 +1,47 @@
+.Box {
+  display: 'flex';
+  margin: auto 0 auto 0;
+}
+
+.DrawerHeader {
+  display: 'flex';
+  align-items: 'center';
+  justify-content: 'flex-start';
+}
+
+.MenuIcon {
+  width: 40px;
+  height: 40px;
+  color: #131118;
+}
+
+.MenuButton {
+  border-radius: 0;
+}
+
+.PageLink,
+.AuthLink {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: auto;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1em;
+  font-weight: 400;
+  letter-spacing: 3px;
+  text-align: left;
+  color: #131118;
+  text-transform: none;
+}
+
+.AuthLink {
+  font-weight: 600;
+  color: #03a9f4;
+  letter-spacing: 1px;
+}
+
+@media screen and (width > 767px) {
+  .Box {
+    display: none;
+  }
+}

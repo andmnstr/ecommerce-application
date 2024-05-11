@@ -1,0 +1,17 @@
+.AppBar {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 100%;
+  background-color: #fff;
+  color: #131118;
+  margin: 16px 0 30px 0;
+  padding: 0 80px;
+  box-shadow: none;
+}
+
+@media screen and (width <= 900px) {
+  .AppBar {
+    padding: 0 20px;
+  }
+}
