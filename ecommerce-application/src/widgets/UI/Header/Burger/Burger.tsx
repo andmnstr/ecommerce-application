@@ -1,20 +1,19 @@
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import MenuIcon from '@mui/icons-material/Menu';
-import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
 import * as React from 'react';
 
+import { CustomLink } from '../../../../shared/ui/CustomLink/CustomLink';
 import styles from './Burger.module.scss';
-import { AUTH, PAGES } from './config';
+import { appPages, authPages } from './config';
 import { DrawerStyle } from './style';
 
-export default function PersistentDrawerRight(): JSX.Element {
+export const BurgerMenu: React.FC = (): JSX.Element => {
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = (): void => {
@@ -26,7 +25,7 @@ export default function PersistentDrawerRight(): JSX.Element {
   };
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <div className={styles.Box}>
       <IconButton
         color="inherit"
         aria-label="open drawer"
@@ -45,19 +44,24 @@ export default function PersistentDrawerRight(): JSX.Element {
       >
         <div className={styles.DrawerHeader}>
           <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
+            <ChevronRightIcon />
           </IconButton>
         </div>
         <Divider />
         <List>
-          {PAGES.map(text => {
+          {appPages.map(page => {
             return (
               <ListItem
-                key={text}
+                key={page.id}
                 disablePadding
               >
                 <ListItemButton>
-                  <ListItemText primary={text} />
+                  <CustomLink
+                    className={styles.PageLink}
+                    href={page.href}
+                  >
+                    {page.text}
+                  </CustomLink>
                 </ListItemButton>
               </ListItem>
             );
@@ -65,20 +69,25 @@ export default function PersistentDrawerRight(): JSX.Element {
         </List>
         <Divider />
         <List>
-          {AUTH.map(text => {
+          {authPages.map(page => {
             return (
               <ListItem
-                key={text}
+                key={page.id}
                 disablePadding
               >
                 <ListItemButton>
-                  <ListItemText primary={text} />
+                  <CustomLink
+                    className={styles.AuthLink}
+                    href={page.href}
+                  >
+                    {page.text}
+                  </CustomLink>
                 </ListItemButton>
               </ListItem>
             );
           })}
         </List>
       </Drawer>
-    </Box>
+    </div>
   );
-}
+};

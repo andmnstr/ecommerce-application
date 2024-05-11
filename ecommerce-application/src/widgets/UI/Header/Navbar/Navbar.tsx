@@ -1,7 +1,7 @@
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import type * as React from 'react';
 
-import { CustomLink } from '../../../../shared/UI/CustomLink/CustomLink';
+import { CustomLink } from '../../../../shared/ui/CustomLink/CustomLink';
 import { items } from './config';
 import styles from './Navbar.module.scss';
 import { linkStyle } from './style';

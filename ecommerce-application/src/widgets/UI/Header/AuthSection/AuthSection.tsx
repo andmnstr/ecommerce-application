@@ -1,6 +1,6 @@
 import type * as React from 'react';
 
-import { CustomButton } from '../../../../shared/UI/button/CustomButton';
+import { CustomButton } from '../../../../shared/ui/button/CustomButton';
 import styles from './AuthSection.module.scss';
 
 export const AuthSection: React.FC = (): JSX.Element => {
