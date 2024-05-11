@@ -4,8 +4,8 @@ import type * as React from 'react';
 
 import { CustomButton } from '../../../shared/UI/button/CustomButton';
 import { CustomLink } from '../../../shared/UI/CustomLink/CustomLink';
-import ShopLogo from './assets/Shop-logo.svg';
 import styles from './Header.module.scss';
+import { Logo } from './Logo';
 
 const shopLinkStyle = {
   display: 'flex',
@@ -17,13 +17,7 @@ export const Header: React.FC = () => {
     <StyledEngineProvider injectFirst>
       <AppBar className={styles.AppBar}>
         <Toolbar className={styles.ToolBar}>
-          <div>
-            <img
-              src={ShopLogo}
-              alt="Shop logo"
-              className={styles.Logo}
-            />
-          </div>
+          <Logo />
           <div className={styles.NavBar}>
             <CustomLink
               href="/"
