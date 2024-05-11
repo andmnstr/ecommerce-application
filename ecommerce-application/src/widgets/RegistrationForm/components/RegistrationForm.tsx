@@ -2,9 +2,9 @@ import { Box, Container, Stack, Typography } from '@mui/material';
 import type React from 'react';
 
 import CustomInputText from '../../../shared/UI/CustomInputText/CustomInputText';
-import FormCheckbox from '../../../shared/UI/FormCheckbox/FormCheckbox';
 import { AddressBox } from './AddressBox/AddressBox';
 import classes from './RegistrationForm.module.scss';
+import { SameAddressCheckbox } from './SameAddressCheckbox/SameAddressCheckbox';
 import { SignupButton } from './SignupButton/SignupButton';
 
 export const RegistrationForm: React.FC = () => {
@@ -68,12 +68,7 @@ export const RegistrationForm: React.FC = () => {
             checkboxLabel="Set as default billing address"
           />
         </Box>
-
-        <FormCheckbox
-          label="My shipping and billing addresses are the same"
-          sx={{ alignSelf: 'center' }}
-        />
-
+        <SameAddressCheckbox />
         <SignupButton />
       </Box>
     </Container>
