@@ -16,7 +16,7 @@ export const AuthSection: React.FC = (): JSX.Element => {
         className={styles.Button}
         variant="contained"
       >
-        Sign-Up
+        Signup
       </CustomButton>
     </div>
   );
