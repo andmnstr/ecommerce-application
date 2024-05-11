@@ -1,4 +1,4 @@
-import { AppBar, StyledEngineProvider } from '@mui/material';
+import { AppBar } from '@mui/material';
 import type * as React from 'react';
 
 import { AuthSection } from './AuthSection';
@@ -9,13 +9,11 @@ import { Navbar } from './Navbar';
 
 export const Header: React.FC = (): JSX.Element => {
   return (
-    <StyledEngineProvider injectFirst>
-      <AppBar className={styles.AppBar}>
-        <Logo />
-        <Navbar />
-        <AuthSection />
-        <BurgerMenu />
-      </AppBar>
-    </StyledEngineProvider>
+    <AppBar className={styles.AppBar}>
+      <Logo />
+      <Navbar />
+      <AuthSection />
+      <BurgerMenu />
+    </AppBar>
   );
 };
