@@ -1,4 +1,4 @@
-import { AboutPage, ContactsPage, LoginPage, MainPage, Page404, ShopPage, SignupPage } from '../../pages';
+import { AboutPage, ContactsPage, LoginPage, MainPage, Page404, ShopPage, SignupPage } from '../../../pages';
 
 export const pages = [
   { id: 1, page: MainPage, path: '/' },
