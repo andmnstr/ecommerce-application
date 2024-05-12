@@ -52,45 +52,47 @@ export const LoginForm: React.FC = () => {
         <Controller
           name="email"
           control={control}
-          // eslint-disable-next-line implicit-arrow-linebreak
-          render={({ field }) => (
-            <CustomInputText
-              onChange={field.onChange}
-              className={classes.loginInput}
-              type="text"
-              label="Enter your e-mail"
-              fullWidth
-              autoComplete="false"
-            />
-          )}
+          render={({ field }) => {
+            return (
+              <CustomInputText
+                onChange={field.onChange}
+                className={classes.loginInput}
+                type="text"
+                label="Enter your e-mail"
+                fullWidth
+                autoComplete="false"
+              />
+            );
+          }}
         />
-        <p>{errors.email?.message}</p>
+        <p className={classes.errorMessage}>{errors.email?.message}</p>
       </div>
       <div>
         <Controller
           name="password"
           control={control}
-          // eslint-disable-next-line implicit-arrow-linebreak
-          render={({ field }) => (
-            <CustomInputText
-              onChange={field.onChange}
-              className={classes.loginInput}
-              type={values.showPassword ? 'text' : 'password'}
-              label="Enter password"
-              fullWidth
-              autoComplete="false"
-              InputProps={{
-                endAdornment: (
-                  <PasswordEndAdornment
-                    onClick={showOrHidePassword}
-                    showPassword={values.showPassword}
-                  />
-                ),
-              }}
-            />
-          )}
+          render={({ field }) => {
+            return (
+              <CustomInputText
+                onChange={field.onChange}
+                className={classes.loginInput}
+                type={values.showPassword ? 'text' : 'password'}
+                label="Enter password"
+                fullWidth
+                autoComplete="false"
+                InputProps={{
+                  endAdornment: (
+                    <PasswordEndAdornment
+                      onClick={showOrHidePassword}
+                      showPassword={values.showPassword}
+                    />
+                  ),
+                }}
+              />
+            );
+          }}
         />
-        <p>{errors.password?.message}</p>
+        <p className={classes.errorMessage}>{errors.password?.message}</p>
       </div>
       <CustomButton
         className={classes.loginButton}
