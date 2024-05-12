@@ -1,0 +1,95 @@
+.Container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  justify-content: center;
+  align-items: center;
+  margin: 150px auto auto auto;
+  width: 100%;
+  min-height: 100%;
+}
+
+.FaultIcon {
+  margin: auto;
+  width: 100px;
+  height: 100px;
+  animation: rotate 3s linear infinite;
+  color: #03a9f4;
+}
+
+.Heading,
+.Text,
+.SubText {
+  font-family: sans-serif;
+  font-weight: 600;
+  margin: 5px auto;
+  user-select: none;
+  text-align: center;
+}
+
+.Heading {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  font-size: 5rem;
+}
+
+.Text {
+  font-size: 1.5rem;
+}
+
+.SubText {
+  font-size: 1.2rem;
+}
+
+.Image {
+  width: 800px;
+  margin: 0 auto;
+}
+
+.ShopName {
+  color: #03a9f4;
+  font-weight: 800;
+}
+
+.Button {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  min-width: 250px;
+  height: 60px;
+  margin: 20px auto auto auto;
+  border-radius: 10px;
+  font-size: 1.2rem;
+}
+
+.HomePage_link {
+  text-decoration: none;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(360deg);
+  }
+}
+
+@media screen and (width < 768px) {
+  .Image {
+    width: 90%;
+  }
+
+  .Heading {
+    font-size: 3.5rem;
+  }
+
+  .Text {
+    font-size: 1.2rem;
+  }
+
+  .SubText {
+    font-size: 1rem;
+  }
+}
