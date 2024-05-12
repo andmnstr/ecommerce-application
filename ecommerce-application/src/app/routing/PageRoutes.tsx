@@ -5,18 +5,16 @@ import { pages } from './config';
 
 export const PageRoutes: React.FC = () => {
   return (
-    <>
+    <Routes>
       {pages.map(page => {
         return (
-          <Routes key={page.id}>
-            <Route
-              path={page.path}
-              element={<page.page />}
-              key={page.id}
-            />
-          </Routes>
+          <Route
+            path={page.path}
+            element={<page.page />}
+            key={page.id}
+          />
         );
       })}
-    </>
+    </Routes>
   );
 };
