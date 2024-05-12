@@ -8,6 +8,7 @@ export const SignupButton: React.FC = () => {
     <CustomButton
       variant="contained"
       size="large"
+      type="submit"
       className={classes.button}
     >
       Signup
