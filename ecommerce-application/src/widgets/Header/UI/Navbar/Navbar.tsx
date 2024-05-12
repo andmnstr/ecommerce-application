@@ -1,10 +1,9 @@
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import type * as React from 'react';
+import { Link } from 'react-router-dom';
 
-import { CustomLink } from '../../../../shared/ui/CustomLink/CustomLink';
 import { items } from './config';
 import styles from './Navbar.module.scss';
-import { linkStyle } from './style';
 
 export const Navbar: React.FC = (): JSX.Element => {
   return (
@@ -12,26 +11,24 @@ export const Navbar: React.FC = (): JSX.Element => {
       {items.map(item => {
         if (item.href === '/shop') {
           return (
-            <CustomLink
-              href={item.href}
+            <Link
+              to={item.href}
               className={styles.Link}
-              sx={linkStyle}
               key={item.id}
             >
               {item.text}
               <KeyboardArrowDownIcon />
-            </CustomLink>
+            </Link>
           );
         }
         return (
-          <CustomLink
-            href={item.href}
+          <Link
+            to={item.href}
             className={styles.Link}
-            sx={linkStyle}
             key={item.id}
           >
             {item.text}
-          </CustomLink>
+          </Link>
         );
       })}
     </div>

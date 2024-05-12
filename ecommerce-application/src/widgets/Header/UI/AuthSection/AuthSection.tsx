@@ -1,7 +1,7 @@
 import type * as React from 'react';
+import { Link } from 'react-router-dom';
 
 import { CustomButton } from '../../../../shared/ui/button/CustomButton';
-import { CustomLink } from '../../../../shared/ui/CustomLink/CustomLink';
 import styles from './AuthSection.module.scss';
 import { authPages } from './config';
 
@@ -10,8 +10,8 @@ export const AuthSection: React.FC = (): JSX.Element => {
     <div className={styles.ButtonSection}>
       {authPages.map(page => {
         return (
-          <CustomLink
-            href={page.href}
+          <Link
+            to={page.href}
             key={page.id}
           >
             <CustomButton
@@ -20,7 +20,7 @@ export const AuthSection: React.FC = (): JSX.Element => {
             >
               {page.text}
             </CustomButton>
-          </CustomLink>
+          </Link>
         );
       })}
     </div>
