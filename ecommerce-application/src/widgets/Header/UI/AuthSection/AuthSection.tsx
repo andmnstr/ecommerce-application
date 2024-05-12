@@ -1,7 +1,7 @@
 import type * as React from 'react';
 import { Link } from 'react-router-dom';
 
-import { CustomButton } from '../../../../shared/ui/button/CustomButton';
+import { CustomButton } from '../../../../shared/UI/button/CustomButton';
 import styles from './AuthSection.module.scss';
 import { authPages } from './config';
 
