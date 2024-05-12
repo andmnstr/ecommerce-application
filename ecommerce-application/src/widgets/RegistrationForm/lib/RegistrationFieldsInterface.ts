@@ -1,4 +1,4 @@
-export interface RegistrationFields {
+export interface IRegistrationFields {
   firstName: string;
   lastName: string;
   email: string;
