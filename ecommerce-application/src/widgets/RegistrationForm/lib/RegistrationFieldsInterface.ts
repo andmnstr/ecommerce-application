@@ -3,4 +3,5 @@ export interface IRegistrationFields {
   lastName: string;
   email: string;
   password: string;
+  dateOfBirth: Date;
 }
