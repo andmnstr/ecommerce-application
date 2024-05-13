@@ -2,21 +2,13 @@ import * as yup from 'yup';
 
 const regExpEmail = /^\S+@\S+\.\S+$/;
 const regExpName = /^[a-zA-Z]+$/;
+const minAge = 13 * 365 * 24 * 3600 * 1000;
+const maxDateofBirth = new Date(Date.now() - minAge);
 
 export const schema = yup.object().shape({
-  firstName: yup
-    .string()
-    .trim()
-    .required('Field is required')
-    .min(1, 'Enter at least one character')
-    .matches(regExpName, 'No special characters/numbers'),
+  firstName: yup.string().trim().required('Field is required').matches(regExpName, 'No special characters/numbers'),
 
-  lastName: yup
-    .string()
-    .trim()
-    .required('Field is required')
-    .min(1, 'Enter at least one character')
-    .matches(regExpName, 'No special characters/numbers'),
+  lastName: yup.string().trim().required('Field is required').matches(regExpName, 'No special characters/numbers'),
 
   email: yup.string().required('Field is required').matches(regExpEmail, 'Invalid email format'),
 
@@ -29,4 +21,10 @@ export const schema = yup.object().shape({
     .matches(/[A-Z]/, 'Use at least one uppercase letter')
     .matches(/[a-z]/, 'Use at least one lowercase letter')
     .matches(/[^\s]$/, 'Password cannot end with a space'),
+
+  dateOfBirth: yup
+    .date()
+    .typeError('Invalid date')
+    .required('Field is required')
+    .max(maxDateofBirth, 'You should be older than 13'),
 });
