@@ -4,10 +4,10 @@ import type React from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 
-import CustomInputText from '../../../../shared/UI/CustomInputText/CustomInputText';
 import type { IRegistrationFields } from '../../lib/RegistrationFieldsInterface';
 import { schema } from '../../lib/ValidationSchema';
 import { AddressBox } from '../AddressBox/AddressBox';
+import { DateInputWithController } from '../DateInputWithController/DateInputWithController';
 import { InputWithController } from '../InputWithController/InputWithController';
 import classes from '../RegistrationForm.module.scss';
 import { SameAddressCheckbox } from '../SameAddressCheckbox/SameAddressCheckbox';
@@ -24,7 +24,7 @@ export const SubmitForm: React.FC = () => {
   });
 
   const submitForm: SubmitHandler<IRegistrationFields> = data => {
-    console.log({ data });
+    console.log(data);
   };
 
   console.log(errors);
@@ -51,10 +51,9 @@ export const SubmitForm: React.FC = () => {
           label="Last Name"
           helperText={errors.lastName?.message}
         />
-
-        <CustomInputText
-          label="Date of Birth"
-          fullWidth
+        <DateInputWithController
+          control={control}
+          helperText={errors.dateOfBirth?.message}
         />
       </Stack>
 
