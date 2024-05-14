@@ -7,8 +7,8 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 
-import { CustomLink } from '../../../../shared/ui/CustomLink/CustomLink';
 import styles from './Burger.module.scss';
 import { appPages, authPages } from './config';
 import { DrawerStyle } from './style';
@@ -56,12 +56,13 @@ export const BurgerMenu: React.FC = (): JSX.Element => {
                 disablePadding
               >
                 <ListItemButton>
-                  <CustomLink
+                  <Link
                     className={styles.PageLink}
-                    href={page.href}
+                    to={page.href}
+                    onClick={handleDrawerClose}
                   >
                     {page.text}
-                  </CustomLink>
+                  </Link>
                 </ListItemButton>
               </ListItem>
             );
@@ -76,12 +77,13 @@ export const BurgerMenu: React.FC = (): JSX.Element => {
                 disablePadding
               >
                 <ListItemButton>
-                  <CustomLink
+                  <Link
                     className={styles.AuthLink}
-                    href={page.href}
+                    to={page.href}
+                    onClick={handleDrawerClose}
                   >
                     {page.text}
-                  </CustomLink>
+                  </Link>
                 </ListItemButton>
               </ListItem>
             );
