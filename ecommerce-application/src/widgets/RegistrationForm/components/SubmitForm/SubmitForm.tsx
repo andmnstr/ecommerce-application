@@ -79,10 +79,16 @@ export const SubmitForm: React.FC = () => {
         <AddressBox
           title="Shipping Address"
           checkboxLabel="Set as default shipping address"
+          names={['shippingStreet', 'shippingCity']}
+          control={control}
+          helperTexts={[errors.shippingStreet?.message, errors.shippingCity?.message]}
         />
         <AddressBox
           title="Billing Address"
           checkboxLabel="Set as default billing address"
+          names={['billingStreet', 'billingCity']}
+          control={control}
+          helperTexts={[errors.billingStreet?.message, errors.billingCity?.message]}
         />
       </Box>
 

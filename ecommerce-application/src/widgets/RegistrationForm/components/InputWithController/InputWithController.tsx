@@ -6,7 +6,15 @@ import CustomInputText from '../../../../shared/UI/CustomInputText/CustomInputTe
 import type { IRegistrationFields } from '../../lib/RegistrationFieldsInterface';
 
 interface IInputProps {
-  name: 'firstName' | 'lastName' | 'email' | 'password';
+  name:
+    | 'firstName'
+    | 'lastName'
+    | 'email'
+    | 'password'
+    | 'shippingStreet'
+    | 'shippingCity'
+    | 'billingStreet'
+    | 'billingCity';
   control: Control<IRegistrationFields>;
   label: string;
   helperText: string | undefined;
