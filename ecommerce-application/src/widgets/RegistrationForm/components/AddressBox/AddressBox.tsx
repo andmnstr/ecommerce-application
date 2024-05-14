@@ -9,6 +9,8 @@ import { SelectWithController } from '../SelectWtihController/SelectWithControll
 
 export const AddressBox: React.FC<IAddressBoxProps> = props => {
   const { title, checkboxLabel, control, names, helperTexts } = props;
+  const labels = ['Street', 'City', 'Postal Code', 'Country'];
+  const inputs = [0, 1, 2];
   return (
     <Box className={classes.addressBox}>
       <Typography
@@ -18,28 +20,22 @@ export const AddressBox: React.FC<IAddressBoxProps> = props => {
         {title}
       </Typography>
 
-      <InputWithController
-        name={names[0]}
-        control={control}
-        label="Street"
-        helperText={helperTexts[0]}
-      />
-      <InputWithController
-        name={names[1]}
-        control={control}
-        label="City"
-        helperText={helperTexts[1]}
-      />
-      <InputWithController
-        name={names[2]}
-        control={control}
-        label="Postal Code"
-        helperText={helperTexts[2]}
-      />
+      {inputs.map((item: number) => {
+        return (
+          <InputWithController
+            key={item}
+            name={names[item]}
+            control={control}
+            label={labels[item]}
+            helperText={helperTexts[item]}
+          />
+        );
+      })}
+
       <SelectWithController
         name={names[3]}
         control={control}
-        label="Country"
+        label={labels[3]}
         helperText={helperTexts[3]}
       />
       <FormCheckbox label={checkboxLabel} />
