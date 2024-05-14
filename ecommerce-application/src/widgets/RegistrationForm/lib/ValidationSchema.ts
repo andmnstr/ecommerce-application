@@ -27,4 +27,10 @@ export const schema = yup.object().shape({
     .typeError('Invalid date')
     .required('Field is required')
     .max(maxDateofBirth, 'You should be older than 13'),
+
+  shippingStreet: yup.string().trim().required('Field is required'),
+  billingStreet: yup.string().trim().required('Field is required'),
+
+  shippingCity: yup.string().trim().required('Field is required').matches(regExpName, 'No special characters/numbers'),
+  billingCity: yup.string().trim().required('Field is required').matches(regExpName, 'No special characters/numbers'),
 });
