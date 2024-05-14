@@ -3,18 +3,11 @@ import type { Control } from 'react-hook-form';
 import { Controller } from 'react-hook-form';
 
 import CustomInputText from '../../../../shared/UI/CustomInputText/CustomInputText';
+import type { InputNames } from '../../lib/InputNamesType';
 import type { IRegistrationFields } from '../../lib/RegistrationFieldsInterface';
 
 interface IInputProps {
-  name:
-    | 'firstName'
-    | 'lastName'
-    | 'email'
-    | 'password'
-    | 'shippingStreet'
-    | 'shippingCity'
-    | 'billingStreet'
-    | 'billingCity';
+  name: InputNames;
   control: Control<IRegistrationFields>;
   label: string;
   helperText: string | undefined;
@@ -30,8 +23,8 @@ export const InputWithController: React.FC<IInputProps> = props => {
         return (
           <CustomInputText
             onChange={field.onChange}
-            type={name === 'password' ? 'password' : 'text'}
             label={label}
+            type={label === 'Password' ? 'password' : 'text'}
             fullWidth
             autoComplete="false"
             helperText={helperText ?? ' '}
