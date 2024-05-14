@@ -4,7 +4,14 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  resolve: {
+    alias: {
+      'node-fetch': 'isomorphic-fetch',
+    },
+  },
+  define: {
+    global: {},
+  },
 });
