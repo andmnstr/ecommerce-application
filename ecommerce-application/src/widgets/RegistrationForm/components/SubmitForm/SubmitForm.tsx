@@ -4,7 +4,7 @@ import type React from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 
-import type { IRegistrationFields } from '../../lib/RegistrationFieldsInterface';
+import type { IRegistrationFields } from '../../lib/types/RegistrationFields';
 import { schema } from '../../lib/ValidationSchema';
 import { AddressBox } from '../AddressBox/AddressBox';
 import { DateInputWithController } from '../DateInputWithController/DateInputWithController';
@@ -26,8 +26,6 @@ export const SubmitForm: React.FC = () => {
   const submitForm: SubmitHandler<IRegistrationFields> = data => {
     console.log(data);
   };
-
-  console.log(errors);
 
   return (
     <Box
@@ -79,16 +77,26 @@ export const SubmitForm: React.FC = () => {
         <AddressBox
           title="Shipping Address"
           checkboxLabel="Set as default shipping address"
-          names={['shippingStreet', 'shippingCity']}
+          names={['shippingStreet', 'shippingCity', 'shippingPostalCode', 'shippingCountry']}
           control={control}
-          helperTexts={[errors.shippingStreet?.message, errors.shippingCity?.message]}
+          helperTexts={[
+            errors.shippingStreet?.message,
+            errors.shippingCity?.message,
+            errors.shippingPostalCode?.message,
+            errors.shippingCountry?.message,
+          ]}
         />
         <AddressBox
           title="Billing Address"
           checkboxLabel="Set as default billing address"
-          names={['billingStreet', 'billingCity']}
+          names={['billingStreet', 'billingCity', 'billingPostalCode', 'billingCountry']}
           control={control}
-          helperTexts={[errors.billingStreet?.message, errors.billingCity?.message]}
+          helperTexts={[
+            errors.billingStreet?.message,
+            errors.billingCity?.message,
+            errors.billingPostalCode?.message,
+            errors.billingCountry?.message,
+          ]}
         />
       </Box>
 

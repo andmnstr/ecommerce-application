@@ -1,21 +1,11 @@
 import { Box, Typography } from '@mui/material';
 import type React from 'react';
-import type { Control } from 'react-hook-form';
 
-import CustomInputText from '../../../../shared/UI/CustomInputText/CustomInputText';
 import FormCheckbox from '../../../../shared/UI/FormCheckbox/FormCheckbox';
-import type { InputNames } from '../../lib/InputNamesType';
-import type { IRegistrationFields } from '../../lib/RegistrationFieldsInterface';
+import type { IAddressBoxProps } from '../../lib/types/AdressBoxProps';
 import { InputWithController } from '../InputWithController/InputWithController';
 import classes from '../RegistrationForm.module.scss';
-
-interface IAddressBoxProps {
-  title: string;
-  checkboxLabel: string;
-  control: Control<IRegistrationFields>;
-  names: InputNames[];
-  helperTexts: (string | undefined)[];
-}
+import { SelectWithController } from '../SelectWtihController/SelectWithController';
 
 export const AddressBox: React.FC<IAddressBoxProps> = props => {
   const { title, checkboxLabel, control, names, helperTexts } = props;
@@ -40,8 +30,18 @@ export const AddressBox: React.FC<IAddressBoxProps> = props => {
         label="City"
         helperText={helperTexts[1]}
       />
-      <CustomInputText label="Postal Code" />
-      <CustomInputText label="Country" />
+      <InputWithController
+        name={names[2]}
+        control={control}
+        label="Postal Code"
+        helperText={helperTexts[2]}
+      />
+      <SelectWithController
+        name={names[3]}
+        control={control}
+        label="Country"
+        helperText={helperTexts[3]}
+      />
       <FormCheckbox label={checkboxLabel} />
     </Box>
   );
