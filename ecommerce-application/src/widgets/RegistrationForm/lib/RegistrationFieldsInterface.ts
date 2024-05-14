@@ -4,4 +4,8 @@ export interface IRegistrationFields {
   email: string;
   password: string;
   dateOfBirth: Date;
+  shippingStreet: string;
+  shippingCity: string;
+  billingStreet: string;
+  billingCity: string;
 }
