@@ -11,6 +11,7 @@ export default defineConfig({
       'node-fetch': 'isomorphic-fetch',
     },
   },
-define: {
-  global: {},
-},
+  define: {
+    global: {},
+  },
+});
