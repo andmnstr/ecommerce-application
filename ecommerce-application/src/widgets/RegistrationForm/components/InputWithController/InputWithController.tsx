@@ -1,17 +1,8 @@
 import type React from 'react';
-import type { Control } from 'react-hook-form';
 import { Controller } from 'react-hook-form';
 
 import CustomInputText from '../../../../shared/UI/CustomInputText/CustomInputText';
-import type { InputNames } from '../../lib/InputNamesType';
-import type { IRegistrationFields } from '../../lib/RegistrationFieldsInterface';
-
-interface IInputProps {
-  name: InputNames;
-  control: Control<IRegistrationFields>;
-  label: string;
-  helperText: string | undefined;
-}
+import type { IInputProps } from '../../lib/types/InputProps';
 
 export const InputWithController: React.FC<IInputProps> = props => {
   const { name, control, label, helperText } = props;
