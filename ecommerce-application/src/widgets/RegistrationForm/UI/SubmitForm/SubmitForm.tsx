@@ -37,7 +37,7 @@ export const SubmitForm: React.FC = () => {
       >
         <Stack
           direction="row"
-          spacing={2}
+          className={classes.stack}
         >
           <InputWithController
             name="firstName"
@@ -59,7 +59,7 @@ export const SubmitForm: React.FC = () => {
 
         <Stack
           direction="row"
-          spacing={2}
+          className={classes.stack}
         >
           <InputWithController
             name="email"
