@@ -8,6 +8,10 @@ import type { ITokenCache } from './Lib/types';
 const { VITE_PROJECT_KEY, VITE_CLIENT_SECRET, VITE_CLIENT_ID, VITE_AUTH_URL, VITE_API_URL, VITE_SCOPES } = import.meta
   .env;
 
+const isTokenStore = (value: unknown): value is TokenStore => {
+  return true;
+};
+
 export const createClientWithAccessToken = (email: string, password: string): ByProjectKeyRequestBuilder => {
   const passwordAuthMiddlewareOptions: PasswordAuthMiddlewareOptions = {
     host: VITE_AUTH_URL,
@@ -23,8 +27,12 @@ export const createClientWithAccessToken = (email: string, password: string): By
     scopes: [VITE_SCOPES],
     tokenCache: {
       get: (): TokenStore => {
-        const token = localStorage.getItem('access_token');
-        return token ? (JSON.parse(token) as TokenStore) : ({} as TokenStore);
+        const storageItem = localStorage.getItem('access_token');
+        let token: unknown;
+        if (storageItem) {
+          token = JSON.parse(storageItem);
+        }
+        return isTokenStore(token) ? token : { token: '', expirationTime: 0 };
       },
       set: (cache: ITokenCache) => {
         localStorage.setItem('access_token', JSON.stringify(cache));
