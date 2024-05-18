@@ -1,9 +1,8 @@
-import { createClientWitAnonimousToken } from '../../../../shared/Api/createClientWithAnonymousToken/createClientWithAnonymousToken';
+import { createClientWitAnonimousToken } from '../createClientWithAnonymousToken/createClientWithAnonymousToken';
 import { handleRequest } from './handleRequest';
 
 export const authorizeCustomer = (data: { email: string; password: string }): void => {
-  const apiRoot = createClientWitAnonimousToken();
-  const customer = apiRoot
+  const customer = createClientWitAnonimousToken()
     .me()
     .login()
     .post({ body: { ...data } })
