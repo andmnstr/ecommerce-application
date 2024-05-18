@@ -4,6 +4,7 @@ import type React from 'react';
 import { Controller } from 'react-hook-form';
 
 import CustomInputText from '../../../../shared/UI/CustomInputText/CustomInputText';
+import { dateView } from '../../consts/RegistrationForm.consts';
 import type { IDateInputProps } from '../../lib/types/DateInputProps';
 
 export const DateInputWithController: React.FC<IDateInputProps> = props => {
@@ -18,7 +19,7 @@ export const DateInputWithController: React.FC<IDateInputProps> = props => {
             <DatePicker
               onChange={field.onChange}
               label="Date of Birth"
-              views={['day', 'month', 'year']}
+              views={dateView}
               format="DD/MM/YYYY"
               slots={{
                 textField: CustomInputText,

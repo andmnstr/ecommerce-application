@@ -2,6 +2,7 @@ import { Box, Typography } from '@mui/material';
 import type React from 'react';
 
 import FormCheckbox from '../../../../shared/UI/FormCheckbox/FormCheckbox';
+import { addressBoxInputs, addressBoxLabels } from '../../consts/RegistrationForm.consts';
 import type { IAddressBoxProps } from '../../lib/types/AdressBoxProps';
 import { InputWithController } from '../InputWithController/InputWithController';
 import classes from '../RegistrationForm.module.scss';
@@ -9,8 +10,6 @@ import { SelectWithController } from '../SelectWtihController/SelectWithControll
 
 export const AddressBox: React.FC<IAddressBoxProps> = props => {
   const { title, checkboxLabel, control, names, helperTexts } = props;
-  const labels = ['Street', 'City', 'Postal Code', 'Country'];
-  const inputs = [0, 1, 2];
   return (
     <Box className={classes.addressBox}>
       <Typography
@@ -20,13 +19,13 @@ export const AddressBox: React.FC<IAddressBoxProps> = props => {
         {title}
       </Typography>
 
-      {inputs.map((item: number) => {
+      {addressBoxInputs.map((item: number) => {
         return (
           <InputWithController
             key={item}
             name={names[item]}
             control={control}
-            label={labels[item]}
+            label={addressBoxLabels[item]}
             helperText={helperTexts[item]}
           />
         );
@@ -35,7 +34,7 @@ export const AddressBox: React.FC<IAddressBoxProps> = props => {
       <SelectWithController
         name={names[3]}
         control={control}
-        label={labels[3]}
+        label={addressBoxLabels[3]}
         helperText={helperTexts[3]}
       />
       <FormCheckbox label={checkboxLabel} />

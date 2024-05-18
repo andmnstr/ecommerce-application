@@ -3,7 +3,7 @@ import type React from 'react';
 import { Controller } from 'react-hook-form';
 
 import CustomInputText from '../../../../shared/UI/CustomInputText/CustomInputText';
-import { countries } from '../../consts/AvailableCountriesList';
+import { countries } from '../../consts/RegistrationForm.consts';
 import type { IInputProps } from '../../lib/types/InputProps';
 
 export const SelectWithController: React.FC<IInputProps> = props => {
@@ -22,6 +22,7 @@ export const SelectWithController: React.FC<IInputProps> = props => {
             autoComplete="false"
             helperText={helperText ?? ' '}
             error={typeof helperText === 'string'}
+            id="select"
             select
             defaultValue=""
             style={{ textAlign: 'start' }}
