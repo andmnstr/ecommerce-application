@@ -3,6 +3,8 @@ import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import type { HttpMiddlewareOptions, PasswordAuthMiddlewareOptions, TokenStore } from '@commercetools/sdk-client-v2';
 import { ClientBuilder } from '@commercetools/sdk-client-v2';
 
+import type { ITokenCache } from './Lib/types';
+
 const { VITE_PROJECT_KEY, VITE_CLIENT_SECRET, VITE_CLIENT_ID, VITE_AUTH_URL, VITE_API_URL, VITE_SCOPES } = import.meta
   .env;
 
@@ -24,7 +26,7 @@ export const createClientWithAccessToken = (email: string, password: string): By
         const token = localStorage.getItem('access_token');
         return token ? (JSON.parse(token) as TokenStore) : ({} as TokenStore);
       },
-      set: (cache: { token: string; expirationTime: number }) => {
+      set: (cache: ITokenCache) => {
         localStorage.setItem('access_token', JSON.stringify(cache));
         return cache;
       },

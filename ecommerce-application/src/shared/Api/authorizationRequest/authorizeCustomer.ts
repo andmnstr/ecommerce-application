@@ -1,7 +1,8 @@
 import { createClientWitAnonimousToken } from '../createClientWithAnonymousToken/createClientWithAnonymousToken';
 import { handleRequest } from './handleRequest';
+import type { IAuthorizationData } from './Lib/types';
 
-export const authorizeCustomer = (data: { email: string; password: string }): void => {
+export const authorizeCustomer = (data: IAuthorizationData): void => {
   const customer = createClientWitAnonimousToken()
     .me()
     .login()
