@@ -14,11 +14,10 @@
   font-size: 18px;
 }
 
-.form,
-.addressBox {
+.form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 5px;
 }
 
 .address {
@@ -28,10 +27,20 @@
 }
 
 .addressBox {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
   width: 50%;
 }
 
 .button {
   padding-top: 15px;
   padding-bottom: 15px;
+}
+
+.errorMessage {
+  margin-left: 5px;
+  margin-bottom: 0px;
+  color: #ff0000;
+  font-size: 12px;
 }
