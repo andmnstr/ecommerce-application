@@ -46,11 +46,6 @@ export const createClientWithAccessToken = (email: string, password: string): By
     .build();
 
   const apiRoot = createApiBuilderFromCtpClient(client, VITE_API_URL).withProjectKey({ projectKey: VITE_PROJECT_KEY });
-  apiRoot
-    .me()
-    .get()
-    .execute()
-    .then(() => {})
-    .catch(() => {});
+  apiRoot.me().get().execute();
   return apiRoot;
 };
