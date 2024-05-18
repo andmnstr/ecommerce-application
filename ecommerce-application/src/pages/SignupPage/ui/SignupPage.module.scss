@@ -54,6 +54,16 @@
   }
 }
 
+@media screen and (width < 1200px) {
+  .container,
+  .form div,
+  .form label,
+  .form input {
+    color: #fff;
+    text-shadow: 1px 1px 2px #000;
+  }
+}
+
 @media screen and (width < 760px) {
   .SignupPage__inputs {
     width: 95%;
