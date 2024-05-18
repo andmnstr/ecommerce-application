@@ -87,5 +87,6 @@ module.exports = {
         "attributes": false
       }
     }],
+    "@typescript-eslint/no-floating-promises": "off",
   },
 };
