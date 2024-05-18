@@ -6,7 +6,7 @@ import styles from './SignupPage.module.scss';
 
 export const SignupPage: React.FC = () => {
   return (
-    <div>
+    <>
       <Header />
       <div className={styles.SignupPage__container}>
         <div className={styles.SignupPage__image} />
@@ -14,6 +14,6 @@ export const SignupPage: React.FC = () => {
           <RegistrationForm />
         </div>
       </div>
-    </div>
+    </>
   );
 };
