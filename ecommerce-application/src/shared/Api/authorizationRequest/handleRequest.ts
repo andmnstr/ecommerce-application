@@ -7,9 +7,6 @@ export const handleRequest = async (
   email: string,
   password: string
 ): Promise<void> => {
-  await customer
-    .then(() => {
-      createClientWithAccessToken(email, password);
-    })
-    .catch(() => {});
+  await customer;
+  createClientWithAccessToken(email, password);
 };
