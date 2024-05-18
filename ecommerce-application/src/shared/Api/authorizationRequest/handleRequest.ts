@@ -2,12 +2,12 @@ import type { ClientResponse, CustomerSignInResult } from '@commercetools/platfo
 
 import { createClientWithAccessToken } from './createClientWithAccessToken';
 
-export const handleRequest = (
+export const handleRequest = async (
   customer: Promise<ClientResponse<CustomerSignInResult>>,
   email: string,
   password: string
-): void => {
-  customer
+): Promise<void> => {
+  await customer
     .then(() => {
       createClientWithAccessToken(email, password);
     })
