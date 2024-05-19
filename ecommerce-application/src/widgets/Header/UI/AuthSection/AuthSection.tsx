@@ -1,36 +1,15 @@
 import LogoutIcon from '@mui/icons-material/Logout';
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import type React from 'react';
+import { Link } from 'react-router-dom';
 
 import { CustomButton } from '../../../../shared/UI/button/CustomButton';
+import { type AuthSectionProps } from '../../lib/types/Header.types';
 import styles from './AuthSection.module.scss';
 import { authPages } from './config';
 
-export const AuthSection: React.FC = (): JSX.Element => {
-  const [logoutEnable, setLogoutEnable] = React.useState(false);
-  const [loginPage, signupPage] = authPages;
+export const AuthSection: React.FC<AuthSectionProps> = (props): JSX.Element => {
+  const { userLoggedOn, logoutFn } = props;
   const currentPage = window.location.pathname;
-  const TOKEN_NAME = 'hardcoders_access_token';
-  const token: string | null = localStorage.getItem(TOKEN_NAME);
-  const navigate = useNavigate();
-
-  const logoutFromApp = (): void => {
-    setLogoutEnable(false);
-
-    if (token) {
-      localStorage.removeItem(TOKEN_NAME);
-    }
-  };
-
-  React.useEffect(() => {
-    if (token) {
-      setLogoutEnable(true);
-
-      if (currentPage === loginPage.href || currentPage === signupPage.href) {
-        navigate('/');
-      }
-    }
-  }, [navigate, token, logoutEnable, currentPage, loginPage.href, signupPage.href]);
 
   return (
     <div className={styles.ButtonSection}>
@@ -39,7 +18,7 @@ export const AuthSection: React.FC = (): JSX.Element => {
           <Link
             to={page.href}
             key={page.id}
-            hidden={logoutEnable || page.href === currentPage}
+            hidden={userLoggedOn || page.href === currentPage}
           >
             <CustomButton
               className={styles.Button}
@@ -52,12 +31,12 @@ export const AuthSection: React.FC = (): JSX.Element => {
       })}
       <Link
         to="/"
-        hidden={!logoutEnable}
+        hidden={!userLoggedOn}
       >
         <CustomButton
           className={styles.Button}
           variant="outlined"
-          onClick={logoutFromApp}
+          onClick={logoutFn}
           style={{ gap: '5px' }}
         >
           <LogoutIcon />
