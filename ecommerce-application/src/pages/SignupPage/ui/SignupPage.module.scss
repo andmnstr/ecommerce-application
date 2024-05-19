@@ -44,6 +44,7 @@
   }
   .SignupPage__image {
     width: 100%;
+    background-position: top;
   }
 
   .SignupPage__inputs {
@@ -55,8 +56,12 @@
 
 @media screen and (width < 760px) {
   .SignupPage__inputs {
-    backdrop-filter: grayscale(0.7) blur(10px);
     width: 95%;
-    height: auto;
+  }
+}
+
+@media screen and (width < 560px) {
+  .SignupPage__image {
+    position: fixed;
   }
 }
