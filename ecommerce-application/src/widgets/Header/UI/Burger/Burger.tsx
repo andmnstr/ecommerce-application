@@ -1,4 +1,5 @@
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import LogoutIcon from '@mui/icons-material/Logout';
 import MenuIcon from '@mui/icons-material/Menu';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
@@ -6,15 +7,18 @@ import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
-import * as React from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { type AuthSectionProps } from '../../lib/types/Header.types';
 import styles from './Burger.module.scss';
 import { appPages, authPages } from './config';
 import { DrawerStyle } from './style';
 
-export const BurgerMenu: React.FC = (): JSX.Element => {
+export const BurgerMenu: React.FC<AuthSectionProps> = (props): JSX.Element => {
   const [open, setOpen] = React.useState(false);
+  const currentPage = window.location.pathname;
+  const { userLoggedOn, logoutFn } = props;
 
   const handleDrawerOpen = (): void => {
     setOpen(true);
@@ -75,6 +79,7 @@ export const BurgerMenu: React.FC = (): JSX.Element => {
               <ListItem
                 key={page.id}
                 disablePadding
+                style={{ display: userLoggedOn || page.href === currentPage ? 'none' : undefined }}
               >
                 <ListItemButton>
                   <Link
@@ -88,6 +93,21 @@ export const BurgerMenu: React.FC = (): JSX.Element => {
               </ListItem>
             );
           })}
+          <ListItem style={{ display: !userLoggedOn ? 'none' : undefined }}>
+            <ListItemButton>
+              <Link
+                to="/"
+                className={styles.AuthLink}
+                onClick={() => {
+                  handleDrawerClose();
+                  logoutFn();
+                }}
+              >
+                <LogoutIcon />
+                Logout
+              </Link>
+            </ListItemButton>
+          </ListItem>
         </List>
       </Drawer>
     </div>
