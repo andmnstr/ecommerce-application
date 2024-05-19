@@ -19,7 +19,6 @@ export const createClientWithRefreshedToken = (refreshToken: string): ByProjectK
     refreshToken,
     tokenCache: {
       get: (): TokenStore => {
-        console.log(false);
         const storageItem = localStorage.getItem(accessToken);
         let token: unknown;
         if (storageItem) {
