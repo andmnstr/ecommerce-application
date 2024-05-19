@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 
 import { billingAddressInputNames, shippingAddressInputNames } from '../../consts/RegistrationForm.consts';
 import type { IRegistrationFields } from '../../lib/types/RegistrationFields';
-import { schema } from '../../lib/validationSchema';
+import { schema } from '../../lib/ValidationSchema';
 import { AddressBox } from '../AddressBox/AddressBox';
 import { DateInputWithController } from '../DateInputWithController/DateInputWithController';
 import { InputWithController } from '../InputWithController/InputWithController';
