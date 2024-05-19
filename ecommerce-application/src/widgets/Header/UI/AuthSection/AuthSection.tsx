@@ -10,7 +10,7 @@ export const AuthSection: React.FC = (): JSX.Element => {
   const [logoutEnable, setLogoutEnable] = React.useState(false);
   const [loginPage, signupPage] = authPages;
   const currentPage = window.location.pathname;
-  const TOKEN_NAME = 'access_token';
+  const TOKEN_NAME = 'hardcoders_access_token';
   const token: string | null = localStorage.getItem(TOKEN_NAME);
   const navigate = useNavigate();
 
