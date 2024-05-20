@@ -9,7 +9,10 @@ import { isTokenStore } from '../Lib/isTokenStore';
 const { VITE_PROJECT_KEY, VITE_CLIENT_SECRET, VITE_CLIENT_ID, VITE_AUTH_URL, VITE_API_URL, VITE_SCOPES } = import.meta
   .env;
 
-export const createClientWithAccessToken = (email: string, password: string): ByProjectKeyRequestBuilder => {
+export const createClientWithAccessToken = async (
+  email: string,
+  password: string
+): Promise<ByProjectKeyRequestBuilder> => {
   const passwordAuthMiddlewareOptions: PasswordAuthMiddlewareOptions = {
     host: VITE_AUTH_URL,
     projectKey: VITE_PROJECT_KEY,
@@ -51,6 +54,6 @@ export const createClientWithAccessToken = (email: string, password: string): By
     .build();
 
   const apiRoot = createApiBuilderFromCtpClient(client, VITE_API_URL).withProjectKey({ projectKey: VITE_PROJECT_KEY });
-  apiRoot.me().get().execute();
+  await apiRoot.me().get().execute();
   return apiRoot;
 };
