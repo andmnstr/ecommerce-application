@@ -23,6 +23,8 @@ export const SubmitForm: React.FC = () => {
   const {
     handleSubmit,
     getValues,
+    setValue,
+    register,
     control,
     formState: { errors },
   } = useForm<IRegistrationFields>({
@@ -46,6 +48,11 @@ export const SubmitForm: React.FC = () => {
   const navigate = useNavigate();
 
   const submitForm: SubmitHandler<IRegistrationFields> = async () => {
+    register('billingStreet');
+    register('billingCity');
+    register('billingPostalCode');
+    register('billingCountry');
+
     const dateOfBirth = new Date(getValues('dateOfBirth'));
 
     const userData: ICustomerDraft = {
@@ -108,6 +115,13 @@ export const SubmitForm: React.FC = () => {
 
   const makeSameAddresses = (): void => {
     setSameAddresses(!sameAddresses);
+
+    if (!sameAddresses) {
+      setValue('billingStreet', getValues('shippingStreet'));
+      setValue('billingCity', getValues('shippingCity'));
+      setValue('billingPostalCode', getValues('shippingPostalCode'));
+      setValue('billingCountry', getValues('shippingCountry'));
+    }
   };
 
   const makeDefaultShipAddress = (): void => {
