@@ -27,13 +27,13 @@ export const SelectWithController: React.FC<IInputProps> = props => {
             defaultValue=""
             style={{ textAlign: 'start' }}
           >
-            {countries.map((item: string) => {
+            {countries.map((item: string[]) => {
               return (
                 <MenuItem
-                  key={item}
-                  value={item}
+                  key={item[0]}
+                  value={item[0]}
                 >
-                  {item}
+                  {item[0]}
                 </MenuItem>
               );
             })}

@@ -1,12 +1,14 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, FormControl, Stack } from '@mui/material';
+import { Alert, Box, FormControl, Stack } from '@mui/material';
 import type React from 'react';
+import { useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 
 import { registerCustomer } from '../../api/createCustomer';
 import { billingAddressInputNames, countries, shippingAddressInputNames } from '../../consts/RegistrationForm.consts';
 import type { ICustomerDraft } from '../../lib/types/customerDraft';
+import { ErrorMessages } from '../../lib/types/errorMessagesEnum';
 import type { IRegistrationFields } from '../../lib/types/RegistrationFields';
 import { schema } from '../../lib/ValidationSchema';
 import { AddressBox } from '../AddressBox/AddressBox';
@@ -26,6 +28,16 @@ export const SubmitForm: React.FC = () => {
     resolver: yupResolver(schema),
     mode: 'onChange',
   });
+
+  const [className, setClassName] = useState(classes.invisible);
+  const [errorMessage, setErrorMessage] = useState('');
+  const showError = (message: string): void => {
+    setClassName(classes.visible);
+    setErrorMessage(message);
+  };
+  const hideError = (): void => {
+    setClassName(classes.invisible);
+  };
 
   const submitForm: SubmitHandler<IRegistrationFields> = async () => {
     const dateOfBirth = new Date(getValues('dateOfBirth'));
@@ -60,11 +72,25 @@ export const SubmitForm: React.FC = () => {
       defaultBillingAddress: 0,
     };
 
-    await registerCustomer(userData);
+    const registrationResponse = await registerCustomer(userData);
+
+    if (typeof registrationResponse === 'number') {
+      const message = registrationResponse === 400 ? ErrorMessages.WrongLoginOrPasswordError : ErrorMessages.OtherError;
+      showError(message);
+    } else {
+      hideError();
+    }
   };
 
   return (
     <FormControl>
+      <Alert
+        severity="error"
+        variant="filled"
+        className={className}
+      >
+        {errorMessage}
+      </Alert>
       <Box
         component="form"
         className={classes.form}
