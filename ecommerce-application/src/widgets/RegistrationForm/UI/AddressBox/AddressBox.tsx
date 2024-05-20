@@ -9,7 +9,7 @@ import classes from '../RegistrationForm.module.scss';
 import { SelectWithController } from '../SelectWtihController/SelectWithController';
 
 export const AddressBox: React.FC<IAddressBoxProps> = props => {
-  const { title, checkboxLabel, control, names, helperTexts } = props;
+  const { title, checkboxLabel, control, names, helperTexts, defaultFlag } = props;
   return (
     <Box className={classes.addressBox}>
       <Typography
@@ -37,7 +37,12 @@ export const AddressBox: React.FC<IAddressBoxProps> = props => {
         label={addressBoxLabels[3]}
         helperText={helperTexts[3]}
       />
-      <FormCheckbox label={checkboxLabel} />
+      <FormCheckbox
+        label={checkboxLabel}
+        onChange={() => {
+          defaultFlag();
+        }}
+      />
     </Box>
   );
 };

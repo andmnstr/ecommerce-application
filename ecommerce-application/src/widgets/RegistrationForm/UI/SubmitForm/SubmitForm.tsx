@@ -33,6 +33,8 @@ export const SubmitForm: React.FC = () => {
   const [className, setClassName] = useState(classes.invisible);
   const [errorMessage, setErrorMessage] = useState('');
   const [sameAddresses, setSameAddresses] = useState(false);
+  const [defaultShipAddress, setDefaultShipAddress] = useState(false);
+  const [defaultBillAddress, setDefaultBillAddress] = useState(false);
   const showError = (message: string): void => {
     setClassName(classes.visible);
     setErrorMessage(message);
@@ -72,9 +74,26 @@ export const SubmitForm: React.FC = () => {
       ],
       shippingAddresses: [0],
       billingAddresses: [1],
-      defaultShippingAddress: 0,
-      defaultBillingAddress: 0,
+      defaultShippingAddress: undefined,
+      defaultBillingAddress: undefined,
     };
+
+    if (sameAddresses) {
+      const firstAddress = JSON.stringify(userData.addresses[0]);
+
+      if (firstAddress) {
+        const secondAddress: IAddress = JSON.parse(firstAddress) as IAddress;
+        userData.addresses[1] = secondAddress;
+      }
+    }
+
+    if (defaultShipAddress) {
+      userData.defaultShippingAddress = 0;
+    }
+
+    if (defaultBillAddress) {
+      userData.defaultBillingAddress = 1;
+    }
 
     const registrationResponse = await registerCustomer(userData);
 
@@ -85,19 +104,18 @@ export const SubmitForm: React.FC = () => {
       navigate('/');
       hideError();
     }
-
-    if (sameAddresses) {
-      const firstAddress = JSON.stringify(userData.addresses[0]);
-
-      if (firstAddress) {
-        const secondAddress: IAddress = JSON.parse(firstAddress) as IAddress;
-        userData.addresses[1] = secondAddress;
-      }
-    }
   };
 
   const makeSameAddresses = (): void => {
     setSameAddresses(!sameAddresses);
+  };
+
+  const makeDefaultShipAddress = (): void => {
+    setDefaultShipAddress(!defaultShipAddress);
+  };
+
+  const makeDefaultBillAddress = (): void => {
+    setDefaultBillAddress(!defaultBillAddress);
   };
 
   return (
@@ -166,6 +184,7 @@ export const SubmitForm: React.FC = () => {
               errors.shippingPostalCode?.message,
               errors.shippingCountry?.message,
             ]}
+            defaultFlag={makeDefaultShipAddress}
           />
           <AddressBox
             title="Billing Address"
@@ -178,6 +197,7 @@ export const SubmitForm: React.FC = () => {
               errors.billingPostalCode?.message,
               errors.billingCountry?.message,
             ]}
+            defaultFlag={makeDefaultBillAddress}
           />
         </Box>
         <SameAddressCheckbox changeHandle={makeSameAddresses} />
