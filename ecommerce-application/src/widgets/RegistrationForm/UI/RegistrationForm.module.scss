@@ -48,6 +48,15 @@
   font-size: 12px;
 }
 
+.invisible {
+  display: none;
+}
+
+.visible {
+  display: flex;
+  margin-bottom: 10px;
+}
+
 @media screen and (width < 1200px) {
   .container,
   .form div,
