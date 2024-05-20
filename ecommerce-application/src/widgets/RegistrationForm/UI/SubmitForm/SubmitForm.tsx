@@ -4,6 +4,7 @@ import type React from 'react';
 import { useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 import { registerCustomer } from '../../api/createCustomer';
 import { billingAddressInputNames, countries, shippingAddressInputNames } from '../../consts/RegistrationForm.consts';
@@ -38,6 +39,8 @@ export const SubmitForm: React.FC = () => {
   const hideError = (): void => {
     setClassName(classes.invisible);
   };
+
+  const navigate = useNavigate();
 
   const submitForm: SubmitHandler<IRegistrationFields> = async () => {
     const dateOfBirth = new Date(getValues('dateOfBirth'));
@@ -78,6 +81,7 @@ export const SubmitForm: React.FC = () => {
       const message = registrationResponse === 400 ? ErrorMessages.WrongLoginOrPasswordError : ErrorMessages.OtherError;
       showError(message);
     } else {
+      navigate('/');
       hideError();
     }
   };
