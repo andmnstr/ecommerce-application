@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { registerCustomer } from '../../api/createCustomer';
 import { billingAddressInputNames, countries, shippingAddressInputNames } from '../../consts/RegistrationForm.consts';
-import type { ICustomerDraft } from '../../lib/types/customerDraft';
+import type { IAddress, ICustomerDraft } from '../../lib/types/customerDraft';
 import { ErrorMessages } from '../../lib/types/errorMessagesEnum';
 import type { IRegistrationFields } from '../../lib/types/RegistrationFields';
 import { schema } from '../../lib/ValidationSchema';
@@ -32,6 +32,7 @@ export const SubmitForm: React.FC = () => {
 
   const [className, setClassName] = useState(classes.invisible);
   const [errorMessage, setErrorMessage] = useState('');
+  const [sameAddresses, setSameAddresses] = useState(false);
   const showError = (message: string): void => {
     setClassName(classes.visible);
     setErrorMessage(message);
@@ -84,6 +85,19 @@ export const SubmitForm: React.FC = () => {
       navigate('/');
       hideError();
     }
+
+    if (sameAddresses) {
+      const firstAddress = JSON.stringify(userData.addresses[0]);
+
+      if (firstAddress) {
+        const secondAddress: IAddress = JSON.parse(firstAddress) as IAddress;
+        userData.addresses[1] = secondAddress;
+      }
+    }
+  };
+
+  const makeSameAddresses = (): void => {
+    setSameAddresses(!sameAddresses);
   };
 
   return (
@@ -166,7 +180,7 @@ export const SubmitForm: React.FC = () => {
             ]}
           />
         </Box>
-        <SameAddressCheckbox />
+        <SameAddressCheckbox changeHandle={makeSameAddresses} />
         <SignupButton />
       </Box>
     </FormControl>
