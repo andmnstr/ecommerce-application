@@ -9,7 +9,7 @@ export const handleRequest = async (
 ): Promise<unknown> => {
   try {
     await customer;
-    return createClientWithAccessToken(email, password);
+    return await createClientWithAccessToken(email, password);
   } catch (error) {
     if (error instanceof Error && 'status' in error) {
       return error.status;
