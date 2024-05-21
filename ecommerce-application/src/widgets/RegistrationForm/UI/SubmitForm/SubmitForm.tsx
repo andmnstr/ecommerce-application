@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { registerCustomer } from '../../api/createCustomer';
 import { billingAddressInputNames, countries, shippingAddressInputNames } from '../../consts/RegistrationForm.consts';
-import type { ICustomerDraft } from '../../lib/types/customerDraft';
+import type { IAddress, ICustomerDraft } from '../../lib/types/customerDraft';
 import { ErrorMessages } from '../../lib/types/errorMessagesEnum';
 import type { IRegistrationFields } from '../../lib/types/RegistrationFields';
 import { schema } from '../../lib/ValidationSchema';
@@ -23,6 +23,8 @@ export const SubmitForm: React.FC = () => {
   const {
     handleSubmit,
     getValues,
+    setValue,
+    register,
     control,
     formState: { errors },
   } = useForm<IRegistrationFields>({
@@ -32,6 +34,9 @@ export const SubmitForm: React.FC = () => {
 
   const [className, setClassName] = useState(classes.invisible);
   const [errorMessage, setErrorMessage] = useState('');
+  const [sameAddresses, setSameAddresses] = useState(false);
+  const [defaultShipAddress, setDefaultShipAddress] = useState(false);
+  const [defaultBillAddress, setDefaultBillAddress] = useState(false);
   const showError = (message: string): void => {
     setClassName(classes.visible);
     setErrorMessage(message);
@@ -43,6 +48,11 @@ export const SubmitForm: React.FC = () => {
   const navigate = useNavigate();
 
   const submitForm: SubmitHandler<IRegistrationFields> = async () => {
+    register('billingStreet');
+    register('billingCity');
+    register('billingPostalCode');
+    register('billingCountry');
+
     const dateOfBirth = new Date(getValues('dateOfBirth'));
 
     const userData: ICustomerDraft = {
@@ -71,9 +81,26 @@ export const SubmitForm: React.FC = () => {
       ],
       shippingAddresses: [0],
       billingAddresses: [1],
-      defaultShippingAddress: 0,
-      defaultBillingAddress: 0,
+      defaultShippingAddress: undefined,
+      defaultBillingAddress: undefined,
     };
+
+    if (sameAddresses) {
+      const firstAddress = JSON.stringify(userData.addresses[0]);
+
+      if (firstAddress) {
+        const secondAddress: IAddress = JSON.parse(firstAddress) as IAddress;
+        userData.addresses[1] = secondAddress;
+      }
+    }
+
+    if (defaultShipAddress) {
+      userData.defaultShippingAddress = 0;
+    }
+
+    if (defaultBillAddress) {
+      userData.defaultBillingAddress = 1;
+    }
 
     const registrationResponse = await registerCustomer(userData);
 
@@ -84,6 +111,25 @@ export const SubmitForm: React.FC = () => {
       navigate('/');
       hideError();
     }
+  };
+
+  const makeSameAddresses = (): void => {
+    setSameAddresses(!sameAddresses);
+
+    if (!sameAddresses) {
+      setValue('billingStreet', getValues('shippingStreet'));
+      setValue('billingCity', getValues('shippingCity'));
+      setValue('billingPostalCode', getValues('shippingPostalCode'));
+      setValue('billingCountry', getValues('shippingCountry'));
+    }
+  };
+
+  const makeDefaultShipAddress = (): void => {
+    setDefaultShipAddress(!defaultShipAddress);
+  };
+
+  const makeDefaultBillAddress = (): void => {
+    setDefaultBillAddress(!defaultBillAddress);
   };
 
   return (
@@ -152,6 +198,7 @@ export const SubmitForm: React.FC = () => {
               errors.shippingPostalCode?.message,
               errors.shippingCountry?.message,
             ]}
+            defaultFlag={makeDefaultShipAddress}
           />
           <AddressBox
             title="Billing Address"
@@ -164,9 +211,10 @@ export const SubmitForm: React.FC = () => {
               errors.billingPostalCode?.message,
               errors.billingCountry?.message,
             ]}
+            defaultFlag={makeDefaultBillAddress}
           />
         </Box>
-        <SameAddressCheckbox />
+        <SameAddressCheckbox changeHandle={makeSameAddresses} />
         <SignupButton />
       </Box>
     </FormControl>

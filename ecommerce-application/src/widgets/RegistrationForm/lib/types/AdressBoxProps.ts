@@ -9,4 +9,5 @@ export interface IAddressBoxProps {
   control: Control<IRegistrationFields>;
   names: InputNames[];
   helperTexts: (string | undefined)[];
+  defaultFlag: () => void;
 }
