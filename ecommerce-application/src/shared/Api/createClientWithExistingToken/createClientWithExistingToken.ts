@@ -17,7 +17,7 @@ export const createClientWithExistingToken = (): ByProjectKeyRequestBuilder => {
     if (isTokenStore(tokenStore)) {
       token = tokenStore.token;
     }
-    if (typeof tokenStore === 'string') {
+    if (typeof token === 'string') {
       authorization = `Bearer ${token}`;
     }
   }
