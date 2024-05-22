@@ -1,0 +1,80 @@
+.container {
+  text-align: center;
+}
+
+.title {
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.subTitle {
+  color: #a4a1aa;
+  margin: 10px 0 20px;
+  font-size: 18px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.stack {
+  gap: 20px;
+}
+
+.address {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.addressBox {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 50%;
+}
+
+.button {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.errorMessage {
+  margin-left: 5px;
+  margin-bottom: 0px;
+  color: #ff0000;
+  font-size: 12px;
+}
+
+.invisible {
+  display: none;
+}
+
+.visible {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+@media screen and (width < 1200px) {
+  .container,
+  .form div,
+  .form label,
+  .form input {
+    color: #fff;
+    text-shadow: 1px 1px 2px #000;
+  }
+}
+
+@media screen and (width < 560px) {
+  .form > div {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .addressBox {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}

@@ -1,0 +1,67 @@
+.SignupPage__container {
+  display: flex;
+  position: relative;
+  justify-content: flex-end;
+  align-items: center;
+  width: -webkit-fill-available;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: 0;
+  transition: all ease-in-out 0.5s;
+}
+
+.SignupPage__inputs {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  height: calc(100dvh - 100px);
+  margin-top: 100px;
+}
+
+.SignupPage__form {
+  width: 90%;
+}
+
+.SignupPage__image {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100vh;
+  background-image: url('../../../../public/images/SignupPage_image.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: -2;
+  transition: all ease-in-out 0.5s;
+}
+
+@media screen and (width < 1200px) {
+  .SignupPage__container {
+    justify-content: center;
+  }
+  .SignupPage__image {
+    width: 100%;
+    background-position: top;
+  }
+
+  .SignupPage__inputs {
+    backdrop-filter: grayscale(0.7) blur(10px);
+    width: 80%;
+    height: auto;
+  }
+}
+
+@media screen and (width < 760px) {
+  .SignupPage__inputs {
+    width: 95%;
+  }
+}
+
+@media screen and (width < 560px) {
+  .SignupPage__image {
+    position: fixed;
+  }
+}
