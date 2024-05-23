@@ -1,3 +1,4 @@
+import { ByProjectKeyRequestBuilder } from '@commercetools/platform-sdk';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Alert, Box, Typography } from '@mui/material';
 import type React from 'react';
@@ -6,7 +7,7 @@ import type { SubmitHandler } from 'react-hook-form';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
-import { authorizeCustomer } from '../../../shared';
+import { authorizeCustomer, setApiRoot } from '../../../shared';
 import { CustomButton } from '../../../shared/UI/button/CustomButton';
 import CustomInputText from '../../../shared/UI/CustomInputText/CustomInputText';
 import { ErrorMessages } from '../Lib/errorMessages';
@@ -46,9 +47,11 @@ export const LoginForm: React.FC = () => {
       const message =
         authorizationResponse === 400 ? ErrorMessages.WrongLoginOrPasswordError : ErrorMessages.OtherError;
       showError(message);
-    } else {
+    } else if (authorizationResponse instanceof ByProjectKeyRequestBuilder) {
+      console.log(true);
       navigate('/');
       hideError();
+      setApiRoot(authorizationResponse);
     }
   };
 
