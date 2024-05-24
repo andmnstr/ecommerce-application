@@ -22,7 +22,7 @@ export const ProductGrid: React.FC = () => {
       className={classes.grid}
     >
       {products.map(product => {
-        const productVariants = product.variants[0];
+        const productVariants = product.masterVariant;
         const centsPerEuro = 100;
         let key = '';
         let name = '';
