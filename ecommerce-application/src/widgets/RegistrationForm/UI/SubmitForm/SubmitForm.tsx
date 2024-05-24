@@ -1,3 +1,4 @@
+import { ByProjectKeyRequestBuilder } from '@commercetools/platform-sdk';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Alert, Box, FormControl, Stack } from '@mui/material';
 import type React from 'react';
@@ -6,6 +7,7 @@ import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
+import { setApiRoot } from '../../../../shared';
 import { registerCustomer } from '../../api/createCustomer';
 import { billingAddressInputNames, countries, shippingAddressInputNames } from '../../consts/RegistrationForm.consts';
 import type { IAddress, ICustomerDraft } from '../../lib/types/customerDraft';
@@ -107,9 +109,10 @@ export const SubmitForm: React.FC = () => {
     if (typeof registrationResponse === 'number') {
       const message = registrationResponse === 400 ? ErrorMessages.WrongLoginOrPasswordError : ErrorMessages.OtherError;
       showError(message);
-    } else {
+    } else if (registrationResponse instanceof ByProjectKeyRequestBuilder) {
       navigate('/');
       hideError();
+      setApiRoot(registrationResponse);
     }
   };
 
