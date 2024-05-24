@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { ProductCard } from '../../../entities';
 import { getApiRoot } from '../../../shared/Api/apiRoot';
 import { fetchProducts } from '../Api/fetchProducts';
-import classes from './ProductionGrid.module.scss';
+import classes from './ProductGrid.module.scss';
 
 export const ProductGrid: React.FC = () => {
   const [products, setProducts] = useState<ProductProjection[]>([]);
