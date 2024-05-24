@@ -1,0 +1,32 @@
+.Title {
+  font-size: 30px;
+  font-weight: 700;
+  margin: 20px 0;
+}
+
+.Container {
+  margin: 40px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 50%;
+}
+
+.AddressContainer {
+  display: flex;
+  gap: 10px;
+}
+
+.Tab {
+  font-weight: 700;
+}
+
+.Input {
+  -webkit-text-fill-color: #000;
+  color: #000;
+}
+
+.Button {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
