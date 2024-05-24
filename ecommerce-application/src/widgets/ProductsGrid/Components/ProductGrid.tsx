@@ -23,6 +23,7 @@ export const ProductGrid: React.FC = () => {
     >
       {products.map(product => {
         const productVariants = product.variants[0];
+        const centsPerEuro = 100;
         let key = '';
         let name = '';
         let description = '';
@@ -37,7 +38,10 @@ export const ProductGrid: React.FC = () => {
           description = product.description['ru-RU'];
         }
         if (productVariants.prices && productVariants.prices.length) {
-          price = `€${productVariants.prices[0].value.centAmount}`;
+          price = (productVariants.prices[0].value.centAmount / centsPerEuro).toLocaleString('en-US', {
+            style: 'currency',
+            currency: 'EUR',
+          });
         }
         return (
           <Grid
