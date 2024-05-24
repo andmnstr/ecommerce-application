@@ -48,7 +48,6 @@ export const LoginForm: React.FC = () => {
         authorizationResponse === 400 ? ErrorMessages.WrongLoginOrPasswordError : ErrorMessages.OtherError;
       showError(message);
     } else if (authorizationResponse instanceof ByProjectKeyRequestBuilder) {
-      console.log(true);
       navigate('/');
       hideError();
       setApiRoot(authorizationResponse);
