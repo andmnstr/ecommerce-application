@@ -1,7 +1,10 @@
+import type { Customer } from '@commercetools/platform-sdk';
 import { Box, Tab, Tabs, Typography } from '@mui/material';
 import type React from 'react';
 import { useState } from 'react';
 
+import { getApiRoot } from '../../../shared/Api/apiRoot';
+import { isTokenStore } from '../../../shared/Api/Lib/isTokenStore';
 import { CustomButton } from '../../../shared/UI/button/CustomButton';
 import CustomInputText from '../../../shared/UI/CustomInputText/CustomInputText';
 import classes from './UserProfile.module.scss';
@@ -12,6 +15,32 @@ export const UserProfile: React.FC = () => {
   const handleTabChange = (e: React.SyntheticEvent, tabIndex: number): void => {
     setCurrentTabIndex(tabIndex);
   };
+
+  const TOKEN_NAME = 'hardcoders_access_token';
+  const storageItem: string | null = localStorage.getItem(TOKEN_NAME);
+
+  const getUserInfo = async (accessToken: string): Promise<Customer> => {
+    const userInfo = await getApiRoot()
+      .me()
+      .get({
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .execute();
+    // console.log(userInfo.body);
+    return userInfo.body;
+  };
+
+  let accessToken = '';
+
+  if (storageItem) {
+    const tokenStore: unknown = JSON.parse(storageItem);
+    if (isTokenStore(tokenStore)) {
+      accessToken = tokenStore.token;
+      getUserInfo(accessToken);
+    }
+  }
 
   return (
     <>
