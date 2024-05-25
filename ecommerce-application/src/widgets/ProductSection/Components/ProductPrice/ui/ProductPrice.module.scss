@@ -1,0 +1,37 @@
+.price_section {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  margin: 0 0 30px 0;
+}
+
+.default_price,
+.discount_price {
+  min-width: 100px;
+  min-height: 60px;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 1.8rem;
+  user-select: none;
+}
+
+.default_price {
+  color: #2196f3;
+  font-weight: 600;
+}
+
+.default_price::before,
+.discount_price::before {
+  content: '€';
+}
+
+.discount_price {
+  color: rgb(141 155 172);
+  font-weight: 400;
+  text-decoration: line-through;
+}
+
+.default_price,
+.discount_price {
+  transform: none;
+  -webkit-transform: none;
+}
