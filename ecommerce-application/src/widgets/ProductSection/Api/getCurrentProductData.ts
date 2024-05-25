@@ -4,6 +4,6 @@ export const getCurrentProductData = async (
   apiRoot: ByProjectKeyRequestBuilder,
   id: string
 ): Promise<ProductProjection> => {
-  const products = await apiRoot.productProjections().withKey({ key: id }).get().execute();
+  const products = await apiRoot.productProjections().withId({ ID: id }).get().execute();
   return products.body;
 };
