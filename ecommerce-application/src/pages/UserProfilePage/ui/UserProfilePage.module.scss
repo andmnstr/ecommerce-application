@@ -1,0 +1,35 @@
+.ProfilePage__container {
+  display: flex;
+  position: relative;
+  justify-content: flex-end;
+  align-items: center;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: 0;
+  transition: all ease-in-out 0.5s;
+}
+
+.ProfilePage__image {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100vh;
+  background-image: url('../../../../public/images/UserProfile_Image.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: -2;
+  transition: all ease-in-out 0.5s;
+}
+
+.ProfilePage__content {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  width: 50%;
+  height: calc(100dvh - 100px);
+  margin-top: 100px;
+}
