@@ -5,7 +5,7 @@ import type { IProductCard } from '../Lib/type';
 import classes from './ProductCard.module.scss';
 
 export const ProductCard: React.FC<IProductCard> = props => {
-  const { image, name, description, price } = props;
+  const { image, name, description, price, oldPrice } = props;
   return (
     <Card className={classes.card}>
       <CardMedia
@@ -19,7 +19,10 @@ export const ProductCard: React.FC<IProductCard> = props => {
         <Box className={classes.container}>
           <Typography className={classes.name}>{name}</Typography>
           <Typography className={classes.description}>{description}</Typography>
-          <Typography className={classes.actualPrice}>{price}</Typography>
+          <Box className={classes.priceContainer}>
+            <Typography className={classes.actualPrice}>{price}</Typography>
+            <Typography className={classes.oldPrice}>{oldPrice}</Typography>
+          </Box>
         </Box>
       </CardContent>
     </Card>
