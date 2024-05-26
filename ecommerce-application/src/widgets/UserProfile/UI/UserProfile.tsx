@@ -1,12 +1,12 @@
 import type { Customer } from '@commercetools/platform-sdk';
 import { Box, Tab, Tabs, Typography } from '@mui/material';
 import type React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { getApiRoot } from '../../../shared/Api/apiRoot';
-import { isTokenStore } from '../../../shared/Api/Lib/isTokenStore';
 import { CustomButton } from '../../../shared/UI/button/CustomButton';
 import CustomInputText from '../../../shared/UI/CustomInputText/CustomInputText';
+import { getUserInfo } from '../api/getUserInfo';
+import { PersonalInformationForm } from './PersonalInformationForm.tsx/PersonalInformationForm';
 import classes from './UserProfile.module.scss';
 
 export const UserProfile: React.FC = () => {
@@ -16,31 +16,15 @@ export const UserProfile: React.FC = () => {
     setCurrentTabIndex(tabIndex);
   };
 
-  const TOKEN_NAME = 'hardcoders_access_token';
-  const storageItem: string | null = localStorage.getItem(TOKEN_NAME);
+  const [userInfo, setUserInfo] = useState<Customer>();
 
-  const getUserInfo = async (accessToken: string): Promise<Customer> => {
-    const userInfo = await getApiRoot()
-      .me()
-      .get({
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-      .execute();
-    // console.log(userInfo.body);
-    return userInfo.body;
-  };
-
-  let accessToken = '';
-
-  if (storageItem) {
-    const tokenStore: unknown = JSON.parse(storageItem);
-    if (isTokenStore(tokenStore)) {
-      accessToken = tokenStore.token;
-      getUserInfo(accessToken);
-    }
-  }
+  useEffect(() => {
+    const fetchUserInfo = async (): Promise<void> => {
+      const userData = await getUserInfo();
+      setUserInfo(userData);
+    };
+    fetchUserInfo();
+  }, []);
 
   return (
     <>
@@ -68,45 +52,7 @@ export const UserProfile: React.FC = () => {
         />
       </Tabs>
 
-      {currentTabIndex === 0 && (
-        <Box
-          component="form"
-          className={classes.Container}
-        >
-          <CustomInputText
-            name="firstName"
-            label="First Name"
-            className={classes.Input}
-            disabled
-          />
-          <CustomInputText
-            name="lastName"
-            label="Last Name"
-            className={classes.Input}
-            disabled
-          />
-          <CustomInputText
-            name="dateOfBirth"
-            label="Date of Birth"
-            className={classes.Input}
-            disabled
-          />
-          <CustomInputText
-            name="email"
-            label="Email"
-            className={classes.Input}
-            disabled
-          />
-          <CustomButton
-            variant="contained"
-            size="large"
-            type="button"
-            className={classes.Button}
-          >
-            Edit
-          </CustomButton>
-        </Box>
-      )}
+      {currentTabIndex === 0 && userInfo && <PersonalInformationForm userInfo={userInfo} />}
 
       {currentTabIndex === 1 && (
         <Box className={classes.Container}>
