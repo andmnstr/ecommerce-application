@@ -11,7 +11,7 @@ interface IAddressBoxProps {
   address: Address;
 }
 
-const AddressBox: React.FC<IAddressBoxProps> = ({ address }) => {
+export const AddressBox: React.FC<IAddressBoxProps> = ({ address }) => {
   const { streetName, postalCode, city, country } = address;
   const fullCountry = countries.filter((item: string[]) => {
     return item[1] === country;
@@ -55,5 +55,3 @@ const AddressBox: React.FC<IAddressBoxProps> = ({ address }) => {
     </Box>
   );
 };
-
-export default AddressBox;
