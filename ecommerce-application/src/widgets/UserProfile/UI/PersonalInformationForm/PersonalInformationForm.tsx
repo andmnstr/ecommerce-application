@@ -6,11 +6,11 @@ import { CustomButton } from '../../../../shared/UI/button/CustomButton';
 import CustomInputText from '../../../../shared/UI/CustomInputText/CustomInputText';
 import classes from '../UserProfile.module.scss';
 
-interface PersonalInformationFormProps {
+interface IPersonalInformationFormProps {
   userInfo: Customer;
 }
 
-export const PersonalInformationForm: React.FC<PersonalInformationFormProps> = ({ userInfo }) => {
+export const PersonalInformationForm: React.FC<IPersonalInformationFormProps> = ({ userInfo }) => {
   const { firstName, lastName, dateOfBirth, email } = userInfo;
   return (
     <Box
@@ -22,6 +22,7 @@ export const PersonalInformationForm: React.FC<PersonalInformationFormProps> = (
         label="First Name"
         value={firstName}
         className={classes.Input}
+        fullWidth
         disabled
       />
       <CustomInputText
@@ -29,6 +30,7 @@ export const PersonalInformationForm: React.FC<PersonalInformationFormProps> = (
         label="Last Name"
         value={lastName}
         className={classes.Input}
+        fullWidth
         disabled
       />
       <CustomInputText
@@ -36,6 +38,7 @@ export const PersonalInformationForm: React.FC<PersonalInformationFormProps> = (
         label="Date of Birth"
         value={dateOfBirth}
         className={classes.Input}
+        fullWidth
         disabled
       />
       <CustomInputText
@@ -43,6 +46,7 @@ export const PersonalInformationForm: React.FC<PersonalInformationFormProps> = (
         label="Email"
         value={email}
         className={classes.Input}
+        fullWidth
         disabled
       />
       <CustomButton
