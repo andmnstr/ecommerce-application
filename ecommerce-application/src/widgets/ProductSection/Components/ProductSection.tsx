@@ -8,6 +8,7 @@ import { getCurrentProductData } from '../Api/getCurrentProductData';
 import { BreadCrumbs } from './BreadCrumbs';
 import { ImagesSection } from './ImagesSection';
 import { ProductInfo } from './ProductInfo';
+import { ProductModalWindow } from './ProductModalWindow';
 import styles from './ProductSection.module.scss';
 
 interface IProductAttributeValue {
@@ -24,9 +25,22 @@ interface ISpecAttributeValue {
   value: string;
 }
 
-export const ProductSection: React.FC<string> = id => {
+interface IProductSectionProps {
+  id: string;
+}
+
+export const ProductSection: React.FC<IProductSectionProps> = ({ id }) => {
   const [product, setProduct] = useState<ProductProjection>();
   const [errorDisplay, setErrorDisplay] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = (): void => {
+    setOpen(true);
+  };
+
+  const handleClose = (): void => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     getCurrentProductData(getApiRoot(), id)
@@ -96,6 +110,7 @@ export const ProductSection: React.FC<string> = id => {
           images={productImages}
           productProperties={productProperties}
           additionInfo={productSpec}
+          modalOpen={handleClickOpen}
         />
         <ProductInfo
           name={productName}
@@ -106,6 +121,11 @@ export const ProductSection: React.FC<string> = id => {
           sizes={productSizes}
         />
       </article>
+      <ProductModalWindow
+        images={productImages}
+        open={open}
+        close={handleClose}
+      />
     </section>
   );
 };

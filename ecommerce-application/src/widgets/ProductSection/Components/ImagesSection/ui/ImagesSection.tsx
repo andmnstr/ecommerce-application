@@ -10,10 +10,11 @@ interface IImagesSectionProps {
   images: Image[] | undefined;
   productProperties: string[] | undefined;
   additionInfo: string | undefined;
+  modalOpen: () => void;
 }
 
 export const ImagesSection: React.FC<IImagesSectionProps> = props => {
-  const { images, productProperties, additionInfo } = props;
+  const { images, productProperties, additionInfo, modalOpen } = props;
   const productImage = images !== undefined ? images[0]?.url : undefined;
   const [propertiesVisisble, setPropertiesVisible] = useState(false);
 
@@ -27,6 +28,8 @@ export const ImagesSection: React.FC<IImagesSectionProps> = props => {
                 className={styles.image}
                 key={image.url}
                 style={{ backgroundImage: `url(${image.url})` }}
+                onClick={modalOpen}
+                onTouchEnd={modalOpen}
               />
             );
           })}
