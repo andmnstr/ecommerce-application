@@ -6,7 +6,8 @@ import { useEffect, useState } from 'react';
 import { CustomButton } from '../../../shared/UI/button/CustomButton';
 import CustomInputText from '../../../shared/UI/CustomInputText/CustomInputText';
 import { getUserInfo } from '../api/getUserInfo';
-import { PersonalInformationForm } from './PersonalInformationForm.tsx/PersonalInformationForm';
+import AddressBox from './Addresses/AddressBox';
+import { PersonalInformationForm } from './PersonalInformationForm/PersonalInformationForm';
 import classes from './UserProfile.module.scss';
 
 export const UserProfile: React.FC = () => {
@@ -54,60 +55,21 @@ export const UserProfile: React.FC = () => {
 
       {currentTabIndex === 0 && userInfo && <PersonalInformationForm userInfo={userInfo} />}
 
-      {currentTabIndex === 1 && (
+      {currentTabIndex === 1 && userInfo && (
         <Box className={classes.Container}>
-          <Typography component="h2">Default shipping address</Typography>
-          <Box className={classes.AddressContainer}>
-            <CustomInputText label="Street" />
-            <CustomInputText label="City" />
-            <CustomInputText label="Postal Code" />
-            <CustomInputText label="Country" />
-            <CustomButton
-              variant="contained"
-              size="large"
-              type="button"
-              className={classes.Button}
-            >
-              Edit
-            </CustomButton>
-            <CustomButton
-              variant="contained"
-              size="large"
-              type="button"
-              className={classes.Button}
-            >
-              Delete
-            </CustomButton>
-          </Box>
-          <Typography component="h2">Default billing address</Typography>
-          <Box className={classes.AddressContainer}>
-            <CustomInputText label="Street" />
-            <CustomInputText label="City" />
-            <CustomInputText label="Postal Code" />
-            <CustomInputText label="Country" />
-            <CustomButton
-              variant="contained"
-              size="large"
-              type="button"
-              className={classes.Button}
-            >
-              Edit
-            </CustomButton>
-            <CustomButton
-              variant="contained"
-              size="large"
-              type="button"
-              className={classes.Button}
-            >
-              Delete
-            </CustomButton>
-          </Box>
+          {userInfo.addresses.map(address => {
+            return (
+              <AddressBox
+                key={address.id}
+                address={address}
+              />
+            );
+          })}
           <CustomButton
             variant="contained"
             size="large"
             type="button"
             className={classes.Button}
-            style={{ width: 300, alignSelf: 'center', marginTop: 20 }}
           >
             Add new address
           </CustomButton>

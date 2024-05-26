@@ -8,13 +8,19 @@
   margin: 40px 0;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 20px;
   width: 50%;
 }
 
 .AddressContainer {
   display: flex;
+  justify-content: center;
+  padding: 20px;
   gap: 10px;
+  border: 1px solid #6e6d6d;
+  border-radius: 10px;
+  width: 170%;
 }
 
 .Tab {
@@ -29,4 +35,5 @@
 .Button {
   padding-top: 15px;
   padding-bottom: 15px;
+  width: 200px;
 }
