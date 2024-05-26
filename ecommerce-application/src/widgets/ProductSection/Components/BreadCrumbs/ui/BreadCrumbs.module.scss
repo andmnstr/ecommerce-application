@@ -8,3 +8,9 @@
   transform: none;
   -webkit-transform: none;
 }
+
+@media screen and (width <= 500px) {
+  .section__breadcrumbs {
+    min-width: 200px;
+  }
+}

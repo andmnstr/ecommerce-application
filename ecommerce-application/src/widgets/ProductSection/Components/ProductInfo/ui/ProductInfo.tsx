@@ -1,22 +1,25 @@
-import { Skeleton } from '@mui/material';
+import { Divider, Skeleton } from '@mui/material';
 import type React from 'react';
 
 import { AttributeSelector } from '../../AttributeSelector';
 import { CartManagement } from '../../CartManagement';
 import { ProductPrice } from '../../ProductPrice';
-import styles from './InfoSection.module.scss';
+import styles from './ProductInfo.module.scss';
 
 interface IProductInfoProps {
-  name: string;
-  description: string;
-  price: number;
-  discountPrice: number;
+  name: string | undefined;
+  description: string | undefined;
+  price: number | undefined;
+  discountPrice: number | undefined;
   colors: string[];
   sizes: string[];
 }
 
 export const ProductInfo: React.FC<IProductInfoProps> = props => {
   const { name, description, price, discountPrice, colors, sizes } = props;
+
+  const productPrice = price ? price / 100 : undefined;
+  const productPriceDiscounted = discountPrice ? discountPrice / 115 : undefined;
 
   return (
     <aside className={styles.info_section}>
@@ -30,8 +33,8 @@ export const ProductInfo: React.FC<IProductInfoProps> = props => {
         />
       )}
       <ProductPrice
-        price={price / 100}
-        discounted={discountPrice / 100}
+        price={Number(productPrice?.toFixed(2))}
+        discounted={Number(productPriceDiscounted?.toFixed(2))}
       />
       <AttributeSelector
         type="colors"
@@ -50,6 +53,7 @@ export const ProductInfo: React.FC<IProductInfoProps> = props => {
           className={styles.product_description}
         />
       )}
+      <Divider aria-hidden="true" />
       <CartManagement />
     </aside>
   );

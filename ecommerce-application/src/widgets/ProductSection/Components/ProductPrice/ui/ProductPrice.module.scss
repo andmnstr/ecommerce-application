@@ -15,8 +15,9 @@
 }
 
 .default_price {
-  color: #2196f3;
-  font-weight: 600;
+  color: rgb(141 155 172);
+  font-weight: 400;
+  text-decoration: line-through;
 }
 
 .default_price::before,
@@ -25,9 +26,8 @@
 }
 
 .discount_price {
-  color: rgb(141 155 172);
-  font-weight: 400;
-  text-decoration: line-through;
+  color: #2196f3;
+  font-weight: 600;
 }
 
 .default_price,
