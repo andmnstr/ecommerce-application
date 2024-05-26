@@ -3,10 +3,10 @@ import { Box, Tab, Tabs, Typography } from '@mui/material';
 import type React from 'react';
 import { useEffect, useState } from 'react';
 
-import { CustomButton } from '../../../shared/UI/button/CustomButton';
-import CustomInputText from '../../../shared/UI/CustomInputText/CustomInputText';
 import { getUserInfo } from '../api/getUserInfo';
-import AddressBox from './Addresses/AddressBox';
+import { AddressBox } from './Addresses/AddressBox';
+import { UserProfileButton } from './Button/UserProfileButton';
+import { PasswordManager } from './PasswordManager/PasswordManager';
 import { PersonalInformationForm } from './PersonalInformationForm/PersonalInformationForm';
 import classes from './UserProfile.module.scss';
 
@@ -65,45 +65,11 @@ export const UserProfile: React.FC = () => {
               />
             );
           })}
-          <CustomButton
-            variant="contained"
-            size="large"
-            type="button"
-            className={classes.Button}
-          >
-            Add new address
-          </CustomButton>
+          <UserProfileButton>Add new address</UserProfileButton>
         </Box>
       )}
 
-      {currentTabIndex === 2 && (
-        <Box className={classes.Container}>
-          <CustomInputText
-            label="Current password"
-            fullWidth
-          />
-          <CustomInputText
-            label="New password"
-            fullWidth
-          />
-          <CustomButton
-            variant="contained"
-            size="large"
-            type="submit"
-            className={classes.Button}
-          >
-            Save
-          </CustomButton>
-          <CustomButton
-            variant="contained"
-            size="large"
-            type="button"
-            className={classes.Button}
-          >
-            Cancel
-          </CustomButton>
-        </Box>
-      )}
+      {currentTabIndex === 2 && <PasswordManager />}
     </>
   );
 };

@@ -2,8 +2,8 @@ import type { Customer } from '@commercetools/platform-sdk';
 import { Box } from '@mui/material';
 import type React from 'react';
 
-import { CustomButton } from '../../../../shared/UI/button/CustomButton';
 import CustomInputText from '../../../../shared/UI/CustomInputText/CustomInputText';
+import { UserProfileButton } from '../Button/UserProfileButton';
 import classes from '../UserProfile.module.scss';
 
 interface IPersonalInformationFormProps {
@@ -49,14 +49,7 @@ export const PersonalInformationForm: React.FC<IPersonalInformationFormProps> = 
         fullWidth
         disabled
       />
-      <CustomButton
-        variant="contained"
-        size="large"
-        type="button"
-        className={classes.Button}
-      >
-        Edit
-      </CustomButton>
+      <UserProfileButton>Edit</UserProfileButton>
     </Box>
   );
 };
