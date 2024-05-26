@@ -1,4 +1,5 @@
 import type { ProductProjection } from '@commercetools/platform-sdk';
+import { Alert } from '@mui/material';
 import type React from 'react';
 import { useEffect, useState } from 'react';
 
@@ -25,12 +26,20 @@ interface ISpecAttributeValue {
 
 export const ProductSection: React.FC<string> = id => {
   const [product, setProduct] = useState<ProductProjection>();
+  const [errorDisplay, setErrorDisplay] = useState(false);
 
   useEffect(() => {
-    getCurrentProductData(getApiRoot(), id).then(response => {
-      setProduct(response);
-    });
-  }, [id]);
+    getCurrentProductData(getApiRoot(), id)
+      .then(response => {
+        setProduct(response);
+      })
+      .catch(error => {
+        if (error instanceof Error) {
+          setErrorDisplay(true);
+          throw new Error(error.message);
+        }
+      });
+  }, [id, errorDisplay]);
 
   const productColors: string[] = [];
   const productSizes: string[] = [];
@@ -43,6 +52,7 @@ export const ProductSection: React.FC<string> = id => {
   const productPriceDiscounted = priceAttribute !== undefined ? priceAttribute[0].value.centAmount : undefined;
   const productImages = product?.masterVariant.images;
   let productSpec: string | undefined;
+  const errorMessage = 'Requested product item was not found! Please, return back and try to choose another item.';
 
   if (productAttributes !== undefined) {
     const specAttribute: ISpecAttributeValue = productAttributes[1];
@@ -70,11 +80,17 @@ export const ProductSection: React.FC<string> = id => {
     productProperties.push(seasonAttrubute.value.label);
   }
 
-  console.log(product);
-
   return (
     <section className={styles.section}>
       <BreadCrumbs />
+      <Alert
+        className={styles.product_data_error}
+        severity="error"
+        variant="filled"
+        style={errorDisplay ? { display: 'flex' } : { display: 'none' }}
+      >
+        {errorMessage}
+      </Alert>
       <article className={styles.section__product_wrapper}>
         <ImagesSection
           images={productImages}
