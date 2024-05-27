@@ -1,5 +1,6 @@
 import type { Customer } from '@commercetools/platform-sdk';
 import { Box, Tab, Tabs, Typography } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import type React from 'react';
 import { useEffect, useState } from 'react';
 
@@ -27,6 +28,8 @@ export const UserProfile: React.FC = () => {
     fetchUserInfo();
   }, []);
 
+  const smallScreen = useMediaQuery('(max-width: 640px)');
+
   return (
     <>
       <Typography
@@ -37,7 +40,13 @@ export const UserProfile: React.FC = () => {
       </Typography>
       <Tabs
         value={currentTabIndex}
+        orientation={smallScreen ? 'vertical' : 'horizontal'}
         onChange={handleTabChange}
+        TabIndicatorProps={{
+          style: {
+            backgroundColor: '#000',
+          },
+        }}
       >
         <Tab
           label="Personal informaton"

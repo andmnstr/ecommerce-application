@@ -32,10 +32,7 @@ export const AddressBox: React.FC<IAddressBoxProps> = ({ address, userInfo }) =>
       {defaultBillingAddressId && id && defaultBillingAddressId === id && (
         <Typography className={classes.AddressName}>Default billing address</Typography>
       )}
-      <Stack
-        direction="row"
-        spacing={2}
-      >
+      <Stack className={classes.AddressStack}>
         <CustomInputText
           variant="standard"
           label="Street"
