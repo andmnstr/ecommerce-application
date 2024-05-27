@@ -29,6 +29,8 @@ export const ProductGrid: React.FC = () => {
         let description = '';
         let image = '';
         let price = '';
+        let category = '';
+        let productLink = '';
         let oldPrice = '';
         if (productVariants.images && productVariants.images.length) {
           image = productVariants.images[0].url;
@@ -37,6 +39,12 @@ export const ProductGrid: React.FC = () => {
         name = product.name['ru-RU'];
         if (product.description) {
           description = product.description['ru-RU'];
+        }
+        if (product.key) {
+          productLink = product.key;
+        }
+        if (product.categories[0]) {
+          category = product.categories[0].id;
         }
         if (productVariants.prices && productVariants.prices.length) {
           if (productVariants.prices[0].discounted) {
@@ -67,6 +75,9 @@ export const ProductGrid: React.FC = () => {
               image={image}
               description={description}
               price={price}
+              product={key}
+              category={category}
+              productLink={productLink}
               oldPrice={oldPrice}
             />
           </Grid>

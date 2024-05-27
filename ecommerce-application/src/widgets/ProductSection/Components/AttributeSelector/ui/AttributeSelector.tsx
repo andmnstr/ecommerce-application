@@ -12,7 +12,7 @@ export const AttributeSelector: React.FC<IAttributeSelectorProps> = ({ type, val
   const blockVisible = values !== undefined && values.length > 0;
   const attributes: Set<string> = new Set(values);
   const labelName = type?.toUpperCase();
-  console.log(values);
+
   return (
     <div
       className={styles.attribute_selector}
