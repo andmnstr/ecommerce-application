@@ -1,6 +1,8 @@
 import { Box, Card, CardContent, CardMedia, Typography } from '@mui/material';
 import type React from 'react';
 
+import { getApiRoot } from '../../../shared';
+import { getProductCardData } from '../Api/getProductICardData';
 import type { IProductCard } from '../Lib/type';
 import classes from './ProductCard.module.scss';
 
@@ -12,6 +14,9 @@ export const ProductCard: React.FC<IProductCard> = props => {
       data-product={product}
       data-category={category}
       data-product-link={productLink}
+      onClick={() => {
+        getProductCardData(getApiRoot(), product, category, productLink);
+      }}
     >
       <CardMedia
         className={classes.cardMedia}

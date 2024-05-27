@@ -8,3 +8,10 @@ export interface IProductCard {
   category: string;
   productLink: string;
 }
+
+export interface IProductCardData {
+  category: string;
+  subcategory: string;
+  product: string;
+  id: string;
+}
