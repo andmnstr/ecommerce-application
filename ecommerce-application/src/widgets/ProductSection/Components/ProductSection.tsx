@@ -12,7 +12,6 @@ import { ProductModalWindow } from './ProductModalWindow';
 import styles from './ProductSection.module.scss';
 
 interface IProductAttributeValue {
-  name: string;
   value: {
     'ru-RU': string;
     key: string;
@@ -57,7 +56,6 @@ export const ProductSection: React.FC<IProductSectionProps> = ({ id }) => {
 
   const productColors: string[] = [];
   const productSizes: string[] = [];
-  const productProperties: string[] = [];
   const priceAttribute = product?.masterVariant.prices;
   const productAttributes = product?.masterVariant.attributes;
   const productName = product?.name['ru-RU'];
@@ -67,6 +65,7 @@ export const ProductSection: React.FC<IProductSectionProps> = ({ id }) => {
   const productImages = product?.masterVariant.images;
   let productSpec: string | undefined;
   const errorMessage = 'Requested product item was not found! Please, return back and try to choose another item.';
+  const productAdditionInfo = { color: '', size: '', season: '' };
 
   if (productAttributes !== undefined) {
     const specAttribute: ISpecAttributeValue = productAttributes[1];
@@ -75,23 +74,40 @@ export const ProductSection: React.FC<IProductSectionProps> = ({ id }) => {
 
   product?.variants.forEach(variant => {
     if (variant.attributes !== undefined) {
-      const size: IProductAttributeValue = variant.attributes[1];
-      const color: IProductAttributeValue = variant.attributes[2];
+      variant.attributes.map(attribute => {
+        if (attribute.name === 'color') {
+          const colorAttribute: IProductAttributeValue = attribute;
+          productColors.push(colorAttribute.value['ru-RU']);
+        }
 
-      productSizes.push(size.value['ru-RU']);
-      productColors.push(color.value['ru-RU']);
+        if (attribute.name === 'size') {
+          const colorAttribute: IProductAttributeValue = attribute;
+          productSizes.push(colorAttribute.value['ru-RU']);
+        }
+        return null;
+      });
     }
+    return null;
   });
 
   if (product?.masterVariant.attributes !== undefined) {
     const prodAttributes = product.masterVariant.attributes;
-    const seasonAttrubute: IProductAttributeValue = prodAttributes[2];
-    const sizeAttrubute: IProductAttributeValue = prodAttributes[3];
-    const colorAttrubute: IProductAttributeValue = prodAttributes[4];
 
-    productProperties.push(colorAttrubute.value['ru-RU']);
-    productProperties.push(sizeAttrubute.value['ru-RU']);
-    productProperties.push(seasonAttrubute.value.label);
+    prodAttributes.map(attribute => {
+      if (attribute.name === 'color') {
+        const colorAttribute: IProductAttributeValue = attribute;
+        productAdditionInfo.color = colorAttribute.value['ru-RU'];
+      }
+      if (attribute.name === 'size') {
+        const sizeAttribute: IProductAttributeValue = attribute;
+        productAdditionInfo.size = sizeAttribute.value['ru-RU'];
+      }
+      if (attribute.name === 'season') {
+        const seasonAttribute: IProductAttributeValue = attribute;
+        productAdditionInfo.season = seasonAttribute.value.label;
+      }
+      return null;
+    });
   }
 
   return (
@@ -108,7 +124,7 @@ export const ProductSection: React.FC<IProductSectionProps> = ({ id }) => {
       <article className={styles.section__product_wrapper}>
         <ImagesSection
           images={productImages}
-          productProperties={productProperties}
+          productProperties={productAdditionInfo}
           additionInfo={productSpec}
           modalOpen={handleClickOpen}
         />

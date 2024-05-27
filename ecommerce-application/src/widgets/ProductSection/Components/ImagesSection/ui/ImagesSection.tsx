@@ -8,7 +8,11 @@ import styles from './ImagesSection.module.scss';
 
 interface IImagesSectionProps {
   images: Image[] | undefined;
-  productProperties: string[] | undefined;
+  productProperties: {
+    color: string;
+    size: string;
+    season: string;
+  };
   additionInfo: string | undefined;
   modalOpen: () => void;
 }
@@ -41,7 +45,7 @@ export const ImagesSection: React.FC<IImagesSectionProps> = props => {
           className={styles.pseudo_image}
         />
       )}
-      {productProperties !== undefined && additionInfo ? (
+      {additionInfo ? (
         <div className={styles.image_text}>
           <div className={styles.properties_selector}>
             <Typography
@@ -67,9 +71,9 @@ export const ImagesSection: React.FC<IImagesSectionProps> = props => {
             <Typography className={styles.image_description}>{additionInfo}</Typography>
           </article>
           <article hidden={!propertiesVisisble}>
-            <Typography className={styles.image_description}>Product color: {productProperties[0]}</Typography>
-            <Typography className={styles.image_description}>Product size: {productProperties[1]}</Typography>
-            <Typography className={styles.image_description}>Season: {productProperties[2]}</Typography>
+            <Typography className={styles.image_description}>Product color: {productProperties.color}</Typography>
+            <Typography className={styles.image_description}>Product size: {productProperties.size}</Typography>
+            <Typography className={styles.image_description}>Season: {productProperties.season}</Typography>
           </article>
         </div>
       ) : (
