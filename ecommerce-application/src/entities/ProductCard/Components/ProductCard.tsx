@@ -5,9 +5,14 @@ import type { IProductCard } from '../Lib/type';
 import classes from './ProductCard.module.scss';
 
 export const ProductCard: React.FC<IProductCard> = props => {
-  const { image, name, description, price } = props;
+  const { image, name, description, price, product, category, productLink } = props;
   return (
-    <Card className={classes.card}>
+    <Card
+      className={classes.card}
+      data-product={product}
+      data-category={category}
+      data-product-link={productLink}
+    >
       <CardMedia
         className={classes.cardMedia}
         src={image}

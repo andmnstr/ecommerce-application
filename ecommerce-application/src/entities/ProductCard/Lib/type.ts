@@ -4,4 +4,7 @@ export interface IProductCard {
   name: string;
   description: string;
   price: string;
+  product: string;
+  category: string;
+  productLink: string;
 }
