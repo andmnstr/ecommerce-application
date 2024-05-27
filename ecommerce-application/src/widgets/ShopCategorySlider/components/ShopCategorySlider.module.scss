@@ -1,0 +1,43 @@
+.category_section {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  max-width: 1440px;
+  width: calc(100% - 20px);
+  padding: 0 10px;
+  margin: 100px auto 50px auto;
+}
+
+.category_slider {
+  width: 100%;
+  padding: 5px 0;
+}
+
+.category_card {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  min-width: 260px;
+  min-height: 440px;
+  max-width: 260px;
+  max-height: 320px;
+  margin: auto;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border: 1px solid #eee;
+  transition: all ease-in-out 0.5s;
+}
+
+.category_carousel_item {
+  max-width: 360px;
+}
+
+.category_button {
+  font-size: 1rem;
+  margin: 20px auto;
+  min-width: 140px;
+}
