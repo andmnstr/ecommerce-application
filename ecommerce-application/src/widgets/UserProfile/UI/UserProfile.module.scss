@@ -15,6 +15,7 @@
 
 .AddressContainer {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   padding: 20px;
   gap: 10px;
@@ -36,4 +37,10 @@
   padding-top: 15px;
   padding-bottom: 15px;
   width: 200px;
+}
+
+.AddressName {
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: underline;
 }

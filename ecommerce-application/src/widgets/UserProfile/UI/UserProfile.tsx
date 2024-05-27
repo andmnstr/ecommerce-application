@@ -62,6 +62,7 @@ export const UserProfile: React.FC = () => {
               <AddressBox
                 key={address.id}
                 address={address}
+                userInfo={userInfo}
               />
             );
           })}
