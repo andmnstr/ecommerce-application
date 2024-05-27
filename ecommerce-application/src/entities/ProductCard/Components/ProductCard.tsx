@@ -2,7 +2,7 @@ import { Box, Card, CardContent, CardMedia, Typography } from '@mui/material';
 import type React from 'react';
 
 import { getApiRoot } from '../../../shared';
-import { getProductCardData } from '../Api/getProductICardData';
+import { getProductCardData } from '../Api';
 import type { IProductCard } from '../Lib/type';
 import classes from './ProductCard.module.scss';
 

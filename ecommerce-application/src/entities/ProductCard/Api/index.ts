@@ -1,0 +1,1 @@
+export { getProductCardData } from './getProductICardData';
