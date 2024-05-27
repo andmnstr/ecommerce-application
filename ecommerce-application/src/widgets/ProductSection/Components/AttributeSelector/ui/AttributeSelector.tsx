@@ -30,23 +30,27 @@ export const AttributeSelector: React.FC<IAttributeSelectorProps> = ({ type, val
       {type ? (
         <div className={styles.attribute_options}>
           {[...attributes].map(value => {
-            if (type === 'colors') {
+            const key = (Math.random() * 10000).toFixed(0);
+            if (type === 'colors' && value) {
               return (
                 <div
                   className={styles.attribute_option}
                   style={{ backgroundColor: value }}
-                  key={value}
+                  key={key}
                 />
               );
             }
-            return (
-              <div
-                className={styles.attribute_option}
-                key={value}
-              >
-                {value}
-              </div>
-            );
+            if (type !== 'colors' && value) {
+              return (
+                <div
+                  className={styles.attribute_option}
+                  key={key}
+                >
+                  {value}
+                </div>
+              );
+            }
+            return <div />;
           })}
         </div>
       ) : (

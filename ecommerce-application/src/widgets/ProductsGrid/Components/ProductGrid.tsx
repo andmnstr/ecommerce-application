@@ -31,6 +31,7 @@ export const ProductGrid: React.FC = () => {
         let price = '';
         let category = '';
         let productLink = '';
+        let oldPrice = '';
         if (productVariants.images && productVariants.images.length) {
           image = productVariants.images[0].url;
         }
@@ -46,10 +47,21 @@ export const ProductGrid: React.FC = () => {
           category = product.categories[0].id;
         }
         if (productVariants.prices && productVariants.prices.length) {
-          price = (productVariants.prices[0].value.centAmount / centsPerEuro).toLocaleString('en-US', {
-            style: 'currency',
-            currency: 'EUR',
-          });
+          if (productVariants.prices[0].discounted) {
+            oldPrice = (productVariants.prices[0].value.centAmount / centsPerEuro).toLocaleString('en-US', {
+              style: 'currency',
+              currency: 'EUR',
+            });
+            price = (productVariants.prices[0].discounted.value.centAmount / centsPerEuro).toLocaleString('en-US', {
+              style: 'currency',
+              currency: 'EUR',
+            });
+          } else {
+            price = (productVariants.prices[0].value.centAmount / centsPerEuro).toLocaleString('en-US', {
+              style: 'currency',
+              currency: 'EUR',
+            });
+          }
         }
         return (
           <Grid
@@ -66,6 +78,7 @@ export const ProductGrid: React.FC = () => {
               product={key}
               category={category}
               productLink={productLink}
+              oldPrice={oldPrice}
             />
           </Grid>
         );
