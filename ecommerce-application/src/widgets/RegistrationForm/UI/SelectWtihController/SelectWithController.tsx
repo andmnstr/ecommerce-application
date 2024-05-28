@@ -2,8 +2,8 @@ import MenuItem from '@mui/material/MenuItem';
 import type React from 'react';
 import { Controller } from 'react-hook-form';
 
+import { countries } from '../../../../shared/consts/countries';
 import CustomInputText from '../../../../shared/UI/CustomInputText/CustomInputText';
-import { countries } from '../../consts/RegistrationForm.consts';
 import type { IInputProps } from '../../lib/types/InputProps';
 
 export const SelectWithController: React.FC<IInputProps> = props => {

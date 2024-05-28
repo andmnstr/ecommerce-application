@@ -6,3 +6,4 @@ export { Page404 } from './Page404';
 export { ProductPage } from './ProductPage';
 export { ShopPage } from './ShopPage';
 export { SignupPage } from './SignupPage';
+export { UserProfilePage } from './UserProfilePage';
