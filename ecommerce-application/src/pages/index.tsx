@@ -1,8 +1,12 @@
 export { AboutPage } from './AboutPage';
+export { AccessoriesCategoryPage } from './AccessoriesCategoryPage';
 export { ContactsPage } from './ContactsPage';
+export { FootwearCategoryPage } from './FootwearCategoryPage';
 export { LoginPage } from './LoginPage';
 export { MainPage } from './MainPage';
+export { MenCategoryPage } from './MenCategoryPage';
 export { Page404 } from './Page404';
 export { ProductPage } from './ProductPage';
 export { ShopPage } from './ShopPage';
 export { SignupPage } from './SignupPage';
+export { WomenCategoryPage } from './WomenCategoryPage';

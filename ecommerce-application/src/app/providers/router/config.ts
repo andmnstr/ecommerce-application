@@ -1,4 +1,16 @@
-import { AboutPage, ContactsPage, LoginPage, MainPage, Page404, ShopPage, SignupPage } from '../../../pages';
+import {
+  AboutPage,
+  AccessoriesCategoryPage,
+  ContactsPage,
+  FootwearCategoryPage,
+  LoginPage,
+  MainPage,
+  MenCategoryPage,
+  Page404,
+  ShopPage,
+  SignupPage,
+  WomenCategoryPage,
+} from '../../../pages';
 
 export const pages = [
   { id: 1, page: MainPage, path: '/' },
@@ -7,5 +19,9 @@ export const pages = [
   { id: 4, page: LoginPage, path: '/login' },
   { id: 5, page: ShopPage, path: '/shop' },
   { id: 6, page: SignupPage, path: '/signup' },
-  { id: 7, page: Page404, path: '*' },
+  { id: 7, page: WomenCategoryPage, path: '/shop/women' },
+  { id: 8, page: MenCategoryPage, path: '/shop/men' },
+  { id: 9, page: FootwearCategoryPage, path: '/shop/footwear' },
+  { id: 10, page: AccessoriesCategoryPage, path: '/shop/accessories' },
+  { id: 11, page: Page404, path: '*' },
 ];
