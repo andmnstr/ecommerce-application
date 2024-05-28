@@ -46,6 +46,7 @@
 }
 
 .Button {
+  display: block;
   padding-top: 15px;
   padding-bottom: 15px;
   width: 200px;
@@ -55,6 +56,10 @@
   font-size: 12px;
   font-weight: 700;
   text-decoration: underline;
+}
+
+.Invisible {
+  display: none;
 }
 
 @media screen and (width < 1200px) {

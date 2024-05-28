@@ -1,6 +1,7 @@
 import type { Customer } from '@commercetools/platform-sdk';
 import { Box } from '@mui/material';
 import type React from 'react';
+import { useState } from 'react';
 
 import CustomInputText from '../../../../shared/UI/CustomInputText/CustomInputText';
 import { UserProfileButton } from '../Button/UserProfileButton';
@@ -12,6 +13,23 @@ interface IPersonalInformationFormProps {
 
 export const PersonalInformationForm: React.FC<IPersonalInformationFormProps> = ({ userInfo }) => {
   const { firstName, lastName, dateOfBirth, email } = userInfo;
+  const [isDisabled, setIsDisabled] = useState(true);
+  const [editButton, setEditButtonClass] = useState(classes.Button);
+  const [saveButton, setSavetButtonClass] = useState(classes.Invisible);
+
+  const enableEditMode = (): void => {
+    setIsDisabled(false);
+    setEditButtonClass(classes.Invisible);
+    setSavetButtonClass(classes.Button);
+  };
+
+  const saveData = (): void => {
+    // нужно вернуть все велью инпутов на место, если их изменяли
+    setIsDisabled(true);
+    setEditButtonClass(classes.Button);
+    setSavetButtonClass(classes.Invisible);
+  };
+
   return (
     <Box
       component="form"
@@ -23,7 +41,7 @@ export const PersonalInformationForm: React.FC<IPersonalInformationFormProps> = 
         value={firstName}
         className={classes.Input}
         fullWidth
-        disabled
+        disabled={isDisabled}
       />
       <CustomInputText
         name="lastName"
@@ -31,7 +49,7 @@ export const PersonalInformationForm: React.FC<IPersonalInformationFormProps> = 
         value={lastName}
         className={classes.Input}
         fullWidth
-        disabled
+        disabled={isDisabled}
       />
       <CustomInputText
         name="dateOfBirth"
@@ -39,7 +57,7 @@ export const PersonalInformationForm: React.FC<IPersonalInformationFormProps> = 
         value={dateOfBirth}
         className={classes.Input}
         fullWidth
-        disabled
+        disabled={isDisabled}
       />
       <CustomInputText
         name="email"
@@ -47,9 +65,20 @@ export const PersonalInformationForm: React.FC<IPersonalInformationFormProps> = 
         value={email}
         className={classes.Input}
         fullWidth
-        disabled
+        disabled={isDisabled}
       />
-      <UserProfileButton>Edit</UserProfileButton>
+      <UserProfileButton
+        className={editButton}
+        onClick={enableEditMode}
+      >
+        Edit
+      </UserProfileButton>
+      <UserProfileButton
+        className={saveButton}
+        onClick={saveData}
+      >
+        Save
+      </UserProfileButton>
     </Box>
   );
 };
