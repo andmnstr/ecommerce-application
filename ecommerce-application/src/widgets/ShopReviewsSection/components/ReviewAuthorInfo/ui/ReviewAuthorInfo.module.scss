@@ -1,0 +1,24 @@
+.review_author_info {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  max-width: 250px;
+}
+
+.review_author_name {
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.review_author_text {
+  font-size: 1rem;
+  font-weight: 300;
+  color: #777;
+}
+
+.review_author_name,
+.review_author_text {
+  text-align: justify;
+  user-select: none;
+}
