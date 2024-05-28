@@ -1,6 +1,6 @@
 import 'react-multi-carousel/lib/styles.css';
 
-import { Card } from '@mui/material';
+import { Card, Typography } from '@mui/material';
 import type React from 'react';
 import Carousel from 'react-multi-carousel';
 import { useNavigate } from 'react-router-dom';
@@ -18,6 +18,7 @@ export const ShopCategorySlider: React.FC = () => {
 
   return (
     <section className={styles.category_section}>
+      <Typography className={styles.category_heading}>Shopping By Category</Typography>
       <Carousel
         className={styles.category_slider}
         swipeable={false}
