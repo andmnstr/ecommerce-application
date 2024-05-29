@@ -12,16 +12,21 @@ export interface ICategory {
   id: string;
 }
 
+export interface IPrice {
+  from: number;
+  to: number;
+}
+
 export interface IFilterProps {
   onColorChange: (selectedColors: string[]) => void;
   onCategoryChange: (selectedCategories: ICategory[]) => void;
-  onPriceChange: (selectedPrices: number[]) => void;
+  onPriceChange: (selectedPrices: IPrice[]) => void;
 }
 
 export interface IFilters {
   colors: string[];
   categories: ICategory[];
-  prices: number[];
+  prices: IPrice[];
 }
 
 export interface IDrawerOptions {

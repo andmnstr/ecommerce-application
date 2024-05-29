@@ -1,7 +1,10 @@
 import type { ByProjectKeyRequestBuilder } from '@commercetools/platform-sdk';
 
-import { isValue } from '../Lib/predicate';
-import type { ICategory } from '../Lib/types';
+import type { ICategory, IValue } from '../Lib/types';
+
+const isValue = (value: unknown): value is IValue => {
+  return true;
+};
 
 export const fetchFilterColors = async (apiRoot: ByProjectKeyRequestBuilder): Promise<string[]> => {
   const filterColors: string[] = [];

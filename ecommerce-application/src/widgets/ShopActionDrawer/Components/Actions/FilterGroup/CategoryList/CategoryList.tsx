@@ -59,7 +59,10 @@ export const CategoryList: React.FC<IFilterProps> = ({ onChange }) => {
       >
         {categories.map(category => {
           return (
-            <ListItem key={category.id}>
+            <ListItem
+              key={category.id}
+              sx={{ pl: 4 }}
+            >
               <Box>
                 <FormControlLabel
                   control={

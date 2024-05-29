@@ -20,7 +20,7 @@ export const fetchProducts = async (apiRoot: ByProjectKeyRequestBuilder, filter:
   ) {
     let colorFilter = '';
     let categoriesFilter = '';
-    // const priceFilter = [];
+    let priceFilter = '';
     if (filter.colors.length) {
       const colors = filter.colors
         .map(color => {
@@ -37,13 +37,18 @@ export const fetchProducts = async (apiRoot: ByProjectKeyRequestBuilder, filter:
         .join(',');
       categoriesFilter = `categories.id:${categories}`;
     }
+    if (filter.prices.length) {
+      const [priceRange] = filter.prices;
+      const { from, to } = priceRange;
+      priceFilter = `variants.prices.value.centAmount:range (${from} to ${to})`;
+    }
     products = (
       await apiRoot
         .productProjections()
         .search()
         .get({
           queryArgs: {
-            filter: [colorFilter, categoriesFilter],
+            filter: [colorFilter, categoriesFilter, priceFilter],
             markMatchingVariants: true,
           },
         })

@@ -31,14 +31,14 @@ export const ShopActionDrawer: React.FC<IDrawerOptions> = ({ open, onClose, onCl
     });
   }, []);
 
-  const handlePriceChange = (selectedPrices: number[]): void => {
+  const handlePriceChange = useCallback((selectedPrices: number[]): void => {
     setFilterValues(currentFilters => {
       return {
         ...currentFilters,
         prices: selectedPrices,
       };
     });
-  };
+  }, []);
 
   return (
     <Drawer

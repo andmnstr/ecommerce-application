@@ -55,7 +55,10 @@ export const ColorList: React.FC<IFilterProps> = ({ onChange }) => {
       >
         {colors.map(color => {
           return (
-            <ListItem key={color}>
+            <ListItem
+              key={color}
+              sx={{ pl: 4 }}
+            >
               <Box>
                 <FormControlLabel
                   control={
