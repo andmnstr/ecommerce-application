@@ -8,31 +8,17 @@ import type React from 'react';
 import { useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { Controller, useForm } from 'react-hook-form';
-import * as yup from 'yup';
 
 import { getApiRoot } from '../../../../shared';
-import { validationRules } from '../../../../shared/consts/ValidationRules';
 import { CustomButton } from '../../../../shared/UI/button/CustomButton';
 import { dateView } from '../../../RegistrationForm/consts/RegistrationForm.consts';
+import { personalInformationSchema } from '../../lib/personalInformationSchema';
+import type { IPersonalInformationFields } from '../../lib/types/personalInformation.types';
 import classes from '../UserProfile.module.scss';
 
 interface IPersonalInformationFormProps {
   userInfo: Customer;
 }
-
-export interface IPersonalInformationFields {
-  firstName: string;
-  lastName: string;
-  email: string;
-  dateOfBirth: Date;
-}
-
-export const schema = yup.object().shape({
-  firstName: validationRules.namesAndCity,
-  lastName: validationRules.namesAndCity,
-  email: validationRules.email,
-  dateOfBirth: validationRules.dateOfBirth,
-});
 
 export const PersonalInformationForm: React.FC<IPersonalInformationFormProps> = ({ userInfo }) => {
   const { firstName, lastName, dateOfBirth, email, version } = userInfo;
@@ -42,7 +28,7 @@ export const PersonalInformationForm: React.FC<IPersonalInformationFormProps> = 
     control,
     formState: { errors },
   } = useForm<IPersonalInformationFields>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(personalInformationSchema),
     mode: 'onChange',
     defaultValues: {
       firstName,
