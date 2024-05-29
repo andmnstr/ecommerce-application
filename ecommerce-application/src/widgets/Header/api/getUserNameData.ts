@@ -24,8 +24,8 @@ export const getUserNameData = async (): Promise<string> => {
           const name = response.body.firstName;
           const surname = response.body.lastName;
 
-          const firstLetter = name !== undefined ? name : '';
-          const lastLetter = surname !== undefined ? surname : '';
+          const firstLetter = name !== undefined ? name.substring(0, 1) : '';
+          const lastLetter = surname !== undefined ? surname.substring(0, 1) : '';
 
           userName = firstLetter + lastLetter;
         })
