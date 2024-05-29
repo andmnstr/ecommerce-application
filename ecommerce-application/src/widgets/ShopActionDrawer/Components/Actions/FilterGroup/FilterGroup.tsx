@@ -12,7 +12,6 @@ export const FilterGroup: React.FC<IFilterProps> = ({ onColorChange, onCategoryC
   const [open, setOpen] = useState(false);
   const handleClick = (): void => {
     setOpen(!open);
-    console.log(onPriceChange);
   };
   return (
     <List component="nav">

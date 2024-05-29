@@ -34,7 +34,6 @@ export const ShopPage: React.FC = () => {
       setProducts(response.products);
       setAction(response.action);
     });
-    console.log('FILTER', filter);
   }, [filter]);
   return (
     <div>
