@@ -4,9 +4,9 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import type React from 'react';
 import { useEffect, useState } from 'react';
 
+import { CustomButton } from '../../../shared/UI/button/CustomButton';
 import { getUserInfo } from '../api/getUserInfo';
 import { AddressBox } from './Addresses/AddressBox';
-import { UserProfileButton } from './Button/UserProfileButton';
 import { PasswordManager } from './PasswordManager/PasswordManager';
 import { PersonalInformationForm } from './PersonalInformationForm/PersonalInformationForm';
 import classes from './UserProfile.module.scss';
@@ -75,7 +75,14 @@ export const UserProfile: React.FC = () => {
               />
             );
           })}
-          <UserProfileButton>Add new address</UserProfileButton>
+          <CustomButton
+            variant="contained"
+            size="large"
+            className={classes.Button}
+            type="submit"
+          >
+            Add new address
+          </CustomButton>
         </Box>
       )}
 

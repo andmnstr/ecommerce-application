@@ -1,10 +1,18 @@
 import type { Customer } from '@commercetools/platform-sdk';
-import { Box } from '@mui/material';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Box, TextField } from '@mui/material';
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
 import type React from 'react';
 import { useState } from 'react';
+import type { SubmitHandler } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 
-import CustomInputText from '../../../../shared/UI/CustomInputText/CustomInputText';
-import { UserProfileButton } from '../Button/UserProfileButton';
+import { CustomButton } from '../../../../shared/UI/button/CustomButton';
+import { dateView } from '../../../RegistrationForm/consts/RegistrationForm.consts';
+import type { IRegistrationFields } from '../../../RegistrationForm/lib/types/RegistrationFields';
+import { schema } from '../../../RegistrationForm/lib/ValidationSchema';
 import classes from '../UserProfile.module.scss';
 
 interface IPersonalInformationFormProps {
@@ -13,6 +21,22 @@ interface IPersonalInformationFormProps {
 
 export const PersonalInformationForm: React.FC<IPersonalInformationFormProps> = ({ userInfo }) => {
   const { firstName, lastName, dateOfBirth, email } = userInfo;
+
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<IRegistrationFields>({
+    resolver: yupResolver(schema),
+    mode: 'onChange',
+    defaultValues: {
+      firstName,
+      lastName,
+      email,
+      dateOfBirth: dateOfBirth ? new Date(Date.parse(dateOfBirth)) : undefined,
+    },
+  });
+
   const [isDisabled, setIsDisabled] = useState(true);
   const [editButton, setEditButtonClass] = useState(classes.Button);
   const [saveButton, setSavetButtonClass] = useState(classes.Invisible);
@@ -23,8 +47,8 @@ export const PersonalInformationForm: React.FC<IPersonalInformationFormProps> = 
     setSavetButtonClass(classes.Button);
   };
 
-  const saveData = (): void => {
-    // нужно вернуть все велью инпутов на место, если их изменяли
+  const submitForm: SubmitHandler<IRegistrationFields> = () => {
+    console.log('meow');
     setIsDisabled(true);
     setEditButtonClass(classes.Button);
     setSavetButtonClass(classes.Invisible);
@@ -34,51 +58,106 @@ export const PersonalInformationForm: React.FC<IPersonalInformationFormProps> = 
     <Box
       component="form"
       className={classes.Container}
+      onSubmit={handleSubmit(submitForm)}
     >
-      <CustomInputText
+      <Controller
         name="firstName"
-        label="First Name"
-        value={firstName}
-        className={classes.Input}
-        fullWidth
-        disabled={isDisabled}
+        control={control}
+        render={({ field }) => {
+          return (
+            <TextField
+              {...field}
+              label="First Name"
+              error={!!errors.firstName}
+              helperText={errors.firstName?.message ?? ' '}
+              className={classes.Input}
+              fullWidth
+              disabled={isDisabled}
+            />
+          );
+        }}
       />
-      <CustomInputText
+      <Controller
         name="lastName"
-        label="Last Name"
-        value={lastName}
-        className={classes.Input}
-        fullWidth
-        disabled={isDisabled}
+        control={control}
+        render={({ field }) => {
+          return (
+            <TextField
+              {...field}
+              label="Last Name"
+              error={!!errors.lastName}
+              helperText={errors.lastName?.message ?? ' '}
+              className={classes.Input}
+              fullWidth
+              disabled={isDisabled}
+            />
+          );
+        }}
       />
-      <CustomInputText
-        name="dateOfBirth"
-        label="Date of Birth"
-        value={dateOfBirth}
-        className={classes.Input}
-        fullWidth
-        disabled={isDisabled}
-      />
-      <CustomInputText
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <Controller
+          name="dateOfBirth"
+          control={control}
+          render={({ field }) => {
+            return (
+              <DatePicker
+                {...field}
+                label="Date of Birth"
+                views={dateView}
+                format="DD/MM/YYYY"
+                value={dayjs(field.value)}
+                disabled={isDisabled}
+                className={classes.Input}
+                slots={{
+                  textField: TextField,
+                }}
+                slotProps={{
+                  textField: {
+                    fullWidth: true,
+                    autoComplete: 'false',
+                    helperText: errors.dateOfBirth?.message ?? ' ',
+                    error: !!errors.dateOfBirth,
+                  },
+                }}
+              />
+            );
+          }}
+        />
+      </LocalizationProvider>
+      <Controller
         name="email"
-        label="Email"
-        value={email}
-        className={classes.Input}
-        fullWidth
-        disabled={isDisabled}
+        control={control}
+        render={({ field }) => {
+          return (
+            <TextField
+              {...field}
+              label="Email"
+              error={!!errors.email}
+              helperText={errors.email?.message ?? ' '}
+              className={classes.Input}
+              fullWidth
+              disabled={isDisabled}
+            />
+          );
+        }}
       />
-      <UserProfileButton
+      <CustomButton
+        variant="contained"
+        size="large"
         className={editButton}
+        type="button"
         onClick={enableEditMode}
       >
         Edit
-      </UserProfileButton>
-      <UserProfileButton
+      </CustomButton>
+      <CustomButton
+        variant="contained"
+        size="large"
         className={saveButton}
-        onClick={saveData}
+        type="submit"
       >
         Save
-      </UserProfileButton>
+      </CustomButton>
     </Box>
   );
 };
