@@ -8,8 +8,9 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { setApiRoot } from '../../../../shared';
+import { countries } from '../../../../shared/consts/countries';
 import { registerCustomer } from '../../api/createCustomer';
-import { billingAddressInputNames, countries, shippingAddressInputNames } from '../../consts/RegistrationForm.consts';
+import { billingAddressInputNames, shippingAddressInputNames } from '../../consts/RegistrationForm.consts';
 import type { IAddress, ICustomerDraft } from '../../lib/types/customerDraft';
 import { ErrorMessages } from '../../lib/types/errorMessagesEnum';
 import type { IRegistrationFields } from '../../lib/types/RegistrationFields';

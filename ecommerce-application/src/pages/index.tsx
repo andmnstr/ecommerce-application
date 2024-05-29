@@ -10,3 +10,4 @@ export { ProductPage } from './ProductPage';
 export { ShopPage } from './ShopPage';
 export { SignupPage } from './SignupPage';
 export { WomenCategoryPage } from './WomenCategoryPage';
+export { UserProfilePage } from './UserProfilePage';
