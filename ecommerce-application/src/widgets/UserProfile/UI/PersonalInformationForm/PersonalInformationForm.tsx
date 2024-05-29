@@ -11,18 +11,16 @@ import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 import { getApiRoot } from '../../../../shared';
+import { validationRules } from '../../../../shared/consts/ValidationRules';
 import { CustomButton } from '../../../../shared/UI/button/CustomButton';
 import { dateView } from '../../../RegistrationForm/consts/RegistrationForm.consts';
-import { validationRules } from '../../../RegistrationForm/lib/ValidationRules';
-// import type { IRegistrationFields } from '../../../RegistrationForm/lib/types/RegistrationFields';
-// import { schema } from '../../../RegistrationForm/lib/ValidationSchema';
 import classes from '../UserProfile.module.scss';
 
 interface IPersonalInformationFormProps {
   userInfo: Customer;
 }
 
-export interface IRegistrationFields {
+export interface IPersonalInformationFields {
   firstName: string;
   lastName: string;
   email: string;
@@ -43,7 +41,7 @@ export const PersonalInformationForm: React.FC<IPersonalInformationFormProps> = 
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<IRegistrationFields>({
+  } = useForm<IPersonalInformationFields>({
     resolver: yupResolver(schema),
     mode: 'onChange',
     defaultValues: {
@@ -64,11 +62,11 @@ export const PersonalInformationForm: React.FC<IPersonalInformationFormProps> = 
     setSavetButtonClass(classes.Button);
   };
 
-  const submitForm: SubmitHandler<IRegistrationFields> = async formData => {
+  const submitForm: SubmitHandler<IPersonalInformationFields> = async formData => {
     const date = new Date(formData.dateOfBirth);
     const correstDateOfBirth = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 
-    const response = await getApiRoot()
+    await getApiRoot()
       .me()
       .post({
         body: {
@@ -95,7 +93,6 @@ export const PersonalInformationForm: React.FC<IPersonalInformationFormProps> = 
       })
       .execute();
 
-    console.log('Customer updated:', response);
     setIsDisabled(true);
     setEditButtonClass(classes.Button);
     setSavetButtonClass(classes.Invisible);

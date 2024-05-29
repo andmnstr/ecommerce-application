@@ -3,7 +3,7 @@ import { DeleteForever, Edit } from '@mui/icons-material';
 import { Box, IconButton, Stack, Typography } from '@mui/material';
 import type React from 'react';
 
-import { countries } from '../../../../shared/consts/countries';
+import { countries } from '../../../../shared';
 import CustomInputText from '../../../../shared/UI/CustomInputText/CustomInputText';
 import classes from '../UserProfile.module.scss';
 
