@@ -1,35 +1,53 @@
 import type { ByProjectKeyRequestBuilder } from '@commercetools/platform-sdk';
 
-import { isColorValue } from '../Lib/predicate';
+import { isValue } from '../Lib/predicate';
+import type { ICategory } from '../Lib/types';
 
-interface IFilterVariants {
-  categories: string[];
-  colors: string[];
-}
-
-export const fetchFilterVariants = async (apiRoot: ByProjectKeyRequestBuilder): Promise<IFilterVariants> => {
-  const filterVariants: IFilterVariants = {
-    categories: [],
-    colors: [],
-  };
+export const fetchFilterColors = async (apiRoot: ByProjectKeyRequestBuilder): Promise<string[]> => {
+  const filterColors: string[] = [];
   const products = (await apiRoot.productProjections().search().get().execute()).body.results;
   products.map(product => {
-    const category = product.categories[0].typeId;
-    if (!filterVariants.categories.includes(category)) {
-      filterVariants.categories.push(category);
-    }
     product.variants.map(variant => {
       if (variant.attributes) {
         const color = variant.attributes.find(item => {
           return item.name === 'color';
         });
-        if (color && isColorValue(color.value) && !filterVariants.colors.includes(color.value['ru-RU'])) {
-          filterVariants.colors.push(color.value['ru-RU']);
+        if (color && isValue(color.value) && !filterColors.includes(color.value['ru-RU'])) {
+          filterColors.push(color.value['ru-RU']);
         }
       }
       return variant;
     });
     return product;
   });
-  return filterVariants;
+  return filterColors;
+};
+
+export const fetchFilterCategories = async (apiRoot: ByProjectKeyRequestBuilder): Promise<ICategory[]> => {
+  const filterCategories: ICategory[] = [];
+  const categories = (await apiRoot.categories().get().execute()).body.results;
+  categories.map(category => {
+    let name = '';
+    if (
+      isValue(category.name) &&
+      filterCategories.every(item => {
+        return item.name !== category.name['ru-RU'];
+      })
+    ) {
+      name = category.name['ru-RU'];
+    }
+    const { id } = category;
+    filterCategories.push({ name, id });
+    return category;
+  });
+  const productsId: string[] = [];
+  const products = (await apiRoot.productProjections().get().execute()).body.results;
+  products.map(product => {
+    productsId.push(product.categories[0].id);
+    return product;
+  });
+
+  return filterCategories.filter(item => {
+    return productsId.includes(item.id);
+  });
 };
