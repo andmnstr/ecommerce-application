@@ -9,5 +9,5 @@ export { Page404 } from './Page404';
 export { ProductPage } from './ProductPage';
 export { ShopPage } from './ShopPage';
 export { SignupPage } from './SignupPage';
-export { WomenCategoryPage } from './WomenCategoryPage';
 export { UserProfilePage } from './UserProfilePage';
+export { WomenCategoryPage } from './WomenCategoryPage';
