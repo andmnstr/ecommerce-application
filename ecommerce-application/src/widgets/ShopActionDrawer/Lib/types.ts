@@ -17,6 +17,8 @@ export interface IPrice {
   to: number;
 }
 
+export type Sort = 'ascending' | 'descending' | 'name' | undefined;
+
 export interface IFilterProps {
   onColorChange: (selectedColors: string[]) => void;
   onCategoryChange: (selectedCategories: ICategory[]) => void;
@@ -32,5 +34,9 @@ export interface IFilters {
 export interface IDrawerOptions {
   open: boolean;
   onClose: () => void;
-  onClick: (newFilter: IFilters) => void;
+  onClick: (newFilter: IFilters, newSort: Sort) => void;
+}
+
+export interface ISortProps {
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }

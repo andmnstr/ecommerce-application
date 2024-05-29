@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { getApiRoot } from '../../../shared';
 import { ProductGrid, ShopActionDrawer } from '../../../widgets';
 import { Header } from '../../../widgets/Header';
-import type { IFilters } from '../../../widgets/ShopActionDrawer/Lib/types';
+import type { IFilters, Sort } from '../../../widgets/ShopActionDrawer/Lib/types';
 import { fetchProducts } from '../Api/fetchProducts';
 import classes from './ShopPage.module.scss';
 
@@ -20,21 +20,23 @@ export const ShopPage: React.FC = () => {
     categories: [],
     prices: [],
   });
+  const [sort, setSort] = useState<Sort>();
   const toggleDrawer = (newOpen: boolean) => {
     return () => {
       setOpen(newOpen);
     };
   };
-  const setActionValues = (newFilter: IFilters): void => {
+  const setActionValues = (newFilter: IFilters, newSort: Sort): void => {
     setFilter(newFilter);
     setOpen(false);
+    setSort(newSort);
   };
   useEffect(() => {
-    fetchProducts(getApiRoot(), filter).then(response => {
+    fetchProducts(getApiRoot(), filter, sort).then(response => {
       setProducts(response.products);
       setAction(response.action);
     });
-  }, [filter]);
+  }, [filter, sort]);
   return (
     <div>
       <Header />
@@ -53,6 +55,7 @@ export const ShopPage: React.FC = () => {
         <ProductGrid
           products={products}
           action={action}
+          sort={sort}
         />
       </div>
     </div>
