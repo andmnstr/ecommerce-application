@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { getApiRoot } from '../../../shared';
 import { ProductGrid, ShopActionDrawer } from '../../../widgets';
 import { Header } from '../../../widgets/Header';
+import type { IFilters } from '../../../widgets/ShopActionDrawer/Lib/types';
 import { fetchProducts } from '../Api/fetchProducts';
 import classes from './ShopPage.module.scss';
 
@@ -14,13 +15,17 @@ export const ShopPage: React.FC = () => {
   const [products, setProducts] = useState<ProductProjection[]>([]);
   const [action, setAction] = useState<'none' | 'filter' | 'search'>('none');
   const [open, setOpen] = useState(false);
-  const [filter, setFilter] = useState('');
+  const [filter, setFilter] = useState<IFilters>({
+    colors: [],
+    categories: [],
+    prices: [],
+  });
   const toggleDrawer = (newOpen: boolean) => {
     return () => {
       setOpen(newOpen);
     };
   };
-  const setActionValues = (newFilter: string): void => {
+  const setActionValues = (newFilter: IFilters): void => {
     setFilter(newFilter);
     setOpen(false);
   };
@@ -29,6 +34,7 @@ export const ShopPage: React.FC = () => {
       setProducts(response.products);
       setAction(response.action);
     });
+    console.log('FILTER', filter);
   }, [filter]);
   return (
     <div>

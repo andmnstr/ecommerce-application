@@ -1,28 +1,45 @@
 import { Box, Drawer } from '@mui/material';
 import type React from 'react';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { CustomButton } from '../../../../shared/UI/button/CustomButton';
+import type { ICategory, IDrawerOptions, IFilters } from '../../Lib/types';
 import { FilterGroup } from '../Actions';
 import classes from './ShopActionDrawer.module.scss';
 
-interface IDrawerOptions {
-  open: boolean;
-  onClose: () => void;
-  onClick: (newFilter: string) => void;
-}
-
-const isInputElement = (value: unknown): value is HTMLInputElement => {
-  return true;
-};
-
 export const ShopActionDrawer: React.FC<IDrawerOptions> = ({ open, onClose, onClick }) => {
-  const [filterValue, setFilterValue] = useState('');
-  const filterOnChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    if (isInputElement(event.target)) {
-      setFilterValue(event.target.value);
-    }
+  const [filterValues, setFilterValues] = useState<IFilters>({
+    colors: [],
+    categories: [],
+    prices: [],
+  });
+  const handleColorChange = useCallback((selectedColors: string[]): void => {
+    setFilterValues(currentFilters => {
+      return {
+        ...currentFilters,
+        colors: selectedColors,
+      };
+    });
+  }, []);
+
+  const handleCategoryChange = useCallback((selectedCategories: ICategory[]): void => {
+    setFilterValues(currentFilters => {
+      return {
+        ...currentFilters,
+        categories: selectedCategories,
+      };
+    });
+  }, []);
+
+  const handlePriceChange = (selectedPrices: number[]): void => {
+    setFilterValues(currentFilters => {
+      return {
+        ...currentFilters,
+        prices: selectedPrices,
+      };
+    });
   };
+
   return (
     <Drawer
       open={open}
@@ -30,12 +47,16 @@ export const ShopActionDrawer: React.FC<IDrawerOptions> = ({ open, onClose, onCl
       className={classes.drawer}
     >
       <Box className={classes.container}>
-        <FilterGroup onChange={filterOnChange} />
+        <FilterGroup
+          onColorChange={handleColorChange}
+          onCategoryChange={handleCategoryChange}
+          onPriceChange={handlePriceChange}
+        />
         <CustomButton
           variant="contained"
           className={classes.button}
           onClick={() => {
-            onClick(filterValue);
+            onClick(filterValues);
           }}
         >
           Show

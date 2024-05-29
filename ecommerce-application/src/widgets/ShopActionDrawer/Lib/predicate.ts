@@ -1,5 +1,5 @@
-import type { IColorValue } from './types';
+import type { IValue } from './types';
 
-export const isColorValue = (value: unknown): value is IColorValue => {
+export const isValue = (value: unknown): value is IValue => {
   return true;
 };

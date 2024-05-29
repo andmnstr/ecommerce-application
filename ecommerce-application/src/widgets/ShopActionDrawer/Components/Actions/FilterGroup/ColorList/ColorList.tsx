@@ -1,29 +1,46 @@
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
-import { Box, Collapse, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
+import { Box, Checkbox, Collapse, FormControlLabel, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
 import type React from 'react';
 import { useEffect, useState } from 'react';
 
 import { getApiRoot } from '../../../../../../shared';
-import FormCheckbox from '../../../../../../shared/UI/FormCheckbox/FormCheckbox';
-import { fetchFilterVariants } from '../../../../Api/fetchFilterVariants';
+import { fetchFilterColors } from '../../../../Api/fetchFilterVariants';
 
 interface IFilterProps {
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (selectedColors: string[]) => void;
 }
 
 export const ColorList: React.FC<IFilterProps> = ({ onChange }) => {
   const [open, setOpen] = useState(false);
   const [colors, setColors] = useState<string[]>([]);
+  const [selectedColors, setSelectedColors] = useState<string[]>([]);
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const color = event.target.name;
+    const isChecked = event.target.checked;
+    setSelectedColors(currentSelectedColors => {
+      if (isChecked) {
+        return [...currentSelectedColors, color];
+      }
+      return currentSelectedColors.filter(selectedColor => {
+        return selectedColor !== color;
+      });
+    });
+  };
 
   const handleClick = (): void => {
     setOpen(!open);
   };
 
   useEffect(() => {
-    fetchFilterVariants(getApiRoot()).then(response => {
-      setColors(response.colors);
+    fetchFilterColors(getApiRoot()).then(response => {
+      setColors(response);
     });
   }, []);
+
+  useEffect(() => {
+    onChange(selectedColors);
+  }, [selectedColors, onChange]);
 
   return (
     <List component="nav">
@@ -38,12 +55,15 @@ export const ColorList: React.FC<IFilterProps> = ({ onChange }) => {
       >
         {colors.map(color => {
           return (
-            <ListItem>
+            <ListItem key={color}>
               <Box>
-                <FormCheckbox
-                  onChange={() => {
-                    return onChange;
-                  }}
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      onChange={handleCheckboxChange}
+                      name={color}
+                    />
+                  }
                   label={
                     <Box
                       sx={{
