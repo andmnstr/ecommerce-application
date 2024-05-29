@@ -22,3 +22,25 @@
   font-size: 1.5rem;
   color: rgb(94, 200, 241);
 }
+
+.productsContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.drawerButton {
+  width: 5%;
+  height: 100vh;
+  position: fixed;
+  cursor: pointer;
+  left: 0;
+  top: 0;
+}
+
+.drawerButton:hover {
+  background-color: #aaa;
+}
+
+.arrow {
+  color: black;
+}
