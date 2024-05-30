@@ -1,10 +1,12 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, TextField } from '@mui/material';
+import { Alert, Box, Modal, TextField, Typography } from '@mui/material';
 import type React from 'react';
+import { useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { Controller, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
-import { getApiRoot } from '../../../../shared';
+import { getApiRoot, TOKEN_NAME } from '../../../../shared';
 import { CustomButton } from '../../../../shared/UI/button/CustomButton';
 import { passwordManagerSchema } from '../../lib/passwordManagerSchema';
 import type { IPasswordManagerFields } from '../../lib/types/passwordManager.types';
@@ -30,6 +32,21 @@ export const PasswordManager: React.FC<IPasswordManagerProps> = ({ version }) =>
     },
   });
 
+  const [open, setOpen] = useState(false);
+  const handleOpen = (): void => {
+    setOpen(true);
+  };
+  const handleClose = (): void => {
+    setOpen(false);
+  };
+  const navigate = useNavigate();
+
+  const toLoginPage = (): void => {
+    localStorage.removeItem(TOKEN_NAME);
+    handleClose();
+    navigate('/login');
+  };
+
   const submitForm: SubmitHandler<IPasswordManagerFields> = async formData => {
     await getApiRoot()
       .me()
@@ -44,6 +61,7 @@ export const PasswordManager: React.FC<IPasswordManagerProps> = ({ version }) =>
       .execute();
 
     reset();
+    handleOpen();
   };
 
   return (
@@ -119,6 +137,33 @@ export const PasswordManager: React.FC<IPasswordManagerProps> = ({ version }) =>
       >
         Cancel
       </CustomButton>
+      <Modal
+        open={open}
+        className={classes.ModalBackdrop}
+        disableEscapeKeyDown
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box className={classes.Modal}>
+          <Alert
+            id="modal-modal-title"
+            severity="success"
+            variant="filled"
+          >
+            Your password has been succesfuly changed.
+          </Alert>
+          <Typography id="modal-modal-description">Please log in with your new password to continue.</Typography>
+          <CustomButton
+            variant="contained"
+            size="large"
+            className={classes.Button}
+            type="button"
+            onClick={toLoginPage}
+          >
+            Login
+          </CustomButton>
+        </Box>
+      </Modal>
     </Box>
   );
 };

@@ -63,6 +63,34 @@
   display: none;
 }
 
+.Modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  background-color: #fff;
+  border: 2px solid #000;
+  border-radius: 10px;
+  box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
+  padding: 50px;
+  z-index: 1150;
+}
+
+.ModalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1140;
+}
+
 @media screen and (width < 1200px) {
   .Title,
   .Container label,
@@ -92,6 +120,10 @@
 
   .Container {
     width: 60%;
+  }
+
+  .Modal {
+    padding: 30px;
   }
 }
 
