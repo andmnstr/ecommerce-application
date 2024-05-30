@@ -86,7 +86,7 @@ export const UserProfile: React.FC = () => {
         </Box>
       )}
 
-      {currentTabIndex === 2 && <PasswordManager />}
+      {currentTabIndex === 2 && userInfo && <PasswordManager version={userInfo.version} />}
     </>
   );
 };
