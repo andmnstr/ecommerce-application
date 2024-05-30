@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Alert, Box, Modal, TextField, Typography } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 import type React from 'react';
 import { useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
@@ -11,6 +11,7 @@ import { CustomButton } from '../../../../shared/UI/button/CustomButton';
 import { passwordManagerSchema } from '../../lib/passwordManagerSchema';
 import type { IPasswordManagerFields } from '../../lib/types/passwordManager.types';
 import classes from '../UserProfile.module.scss';
+import { SuccessUpdateModal } from './SuccessUpdateModal/SuccessUpdateModal';
 
 interface IPasswordManagerProps {
   version: number;
@@ -137,33 +138,10 @@ export const PasswordManager: React.FC<IPasswordManagerProps> = ({ version }) =>
       >
         Cancel
       </CustomButton>
-      <Modal
+      <SuccessUpdateModal
         open={open}
-        className={classes.ModalBackdrop}
-        disableEscapeKeyDown
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box className={classes.Modal}>
-          <Alert
-            id="modal-modal-title"
-            severity="success"
-            variant="filled"
-          >
-            Your password has been succesfuly changed.
-          </Alert>
-          <Typography id="modal-modal-description">Please log in with your new password to continue.</Typography>
-          <CustomButton
-            variant="contained"
-            size="large"
-            className={classes.Button}
-            type="button"
-            onClick={toLoginPage}
-          >
-            Login
-          </CustomButton>
-        </Box>
-      </Modal>
+        onClick={toLoginPage}
+      />
     </Box>
   );
 };
