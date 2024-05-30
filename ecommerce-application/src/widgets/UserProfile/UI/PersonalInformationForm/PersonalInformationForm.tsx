@@ -1,6 +1,6 @@
 import type { Customer } from '@commercetools/platform-sdk';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, TextField } from '@mui/material';
+import { Alert, Box, TextField } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
@@ -14,6 +14,7 @@ import { CustomButton } from '../../../../shared/UI/button/CustomButton';
 import { dateView } from '../../../RegistrationForm/consts/RegistrationForm.consts';
 import { personalInformationSchema } from '../../lib/personalInformationSchema';
 import type { IPersonalInformationFields } from '../../lib/types/personalInformation.types';
+import { FormSubmitMessages } from '../../lib/types/personalInformation.types';
 import classes from '../UserProfile.module.scss';
 
 interface IPersonalInformationFormProps {
@@ -41,47 +42,60 @@ export const PersonalInformationForm: React.FC<IPersonalInformationFormProps> = 
   const [isDisabled, setIsDisabled] = useState(true);
   const [editButton, setEditButtonClass] = useState(classes.Button);
   const [saveButton, setSavetButtonClass] = useState(classes.Invisible);
+  const [message, setMessage] = useState('');
 
   const enableEditMode = (): void => {
     setIsDisabled(false);
     setEditButtonClass(classes.Invisible);
     setSavetButtonClass(classes.Button);
+    setMessage('');
   };
 
   const submitForm: SubmitHandler<IPersonalInformationFields> = async formData => {
     const date = new Date(formData.dateOfBirth);
-    const correstDateOfBirth = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    const correctDateOfBirth = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 
-    await getApiRoot()
-      .me()
-      .post({
-        body: {
-          version,
-          actions: [
-            {
-              action: 'setFirstName',
-              firstName: formData.firstName,
-            },
-            {
-              action: 'setLastName',
-              lastName: formData.lastName,
-            },
-            {
-              action: 'setDateOfBirth',
-              dateOfBirth: correstDateOfBirth,
-            },
-            {
-              action: 'changeEmail',
-              email: formData.email,
-            },
-          ],
-        },
-      })
-      .execute();
+    try {
+      await getApiRoot()
+        .me()
+        .post({
+          body: {
+            version,
+            actions: [
+              {
+                action: 'setFirstName',
+                firstName: formData.firstName,
+              },
+              {
+                action: 'setLastName',
+                lastName: formData.lastName,
+              },
+              {
+                action: 'setDateOfBirth',
+                dateOfBirth: correctDateOfBirth,
+              },
+              {
+                action: 'changeEmail',
+                email: formData.email,
+              },
+            ],
+          },
+        })
+        .execute();
 
-    setIsDisabled(true);
-    setEditButtonClass(classes.Button);
-    setSavetButtonClass(classes.Invisible);
+      setIsDisabled(true);
+      setEditButtonClass(classes.Button);
+      setSavetButtonClass(classes.Invisible);
+      setMessage(FormSubmitMessages.Success);
+    } catch (error) {
+      if (error instanceof Error && 'status' in error) {
+        if (error.status === 400) {
+          setMessage(FormSubmitMessages.EmailError);
+        } else {
+          setMessage(FormSubmitMessages.OtherError);
+        }
+      }
+    }
   };
 
   return (
@@ -188,6 +202,14 @@ export const PersonalInformationForm: React.FC<IPersonalInformationFormProps> = 
       >
         Save
       </CustomButton>
+      {message && (
+        <Alert
+          severity={message === 'Your data has been succesfully updated.' ? 'success' : 'error'}
+          variant="filled"
+        >
+          {message}
+        </Alert>
+      )}
     </Box>
   );
 };
