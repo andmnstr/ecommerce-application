@@ -16,7 +16,15 @@ export const FilterGroup: React.FC<IFilterProps> = ({ onColorChange, onCategoryC
   return (
     <List component="nav">
       <ListItemButton onClick={handleClick}>
-        <ListItemText primary="Filter by" />
+        <ListItemText
+          primary="Filter by"
+          sx={{
+            '& .MuiListItemText-primary': {
+              fontWeight: 700,
+              fontSize: 18,
+            },
+          }}
+        />
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
       <Collapse
