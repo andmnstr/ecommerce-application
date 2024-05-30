@@ -26,13 +26,13 @@ export const PriceList: React.FC<IFilterProps> = ({ onChange }) => {
 
   const handleFromInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const price = +event.target.value;
-    if (price) {
+    if (typeof price === 'number') {
       setPriceFrom(price);
     }
   };
   const handleToInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const price = +event.target.value;
-    if (price) {
+    if (typeof price === 'number') {
       setPriceTo(price);
     }
   };
@@ -44,9 +44,9 @@ export const PriceList: React.FC<IFilterProps> = ({ onChange }) => {
   useEffect(() => {
     if (priceFrom && priceTo) {
       onChange([{ from: priceFrom * 100, to: priceTo * 100 }]);
-    } else if (priceFrom) {
+    } else if (typeof priceFrom === 'number') {
       onChange([{ from: priceFrom * 100, to: Number.MAX_SAFE_INTEGER }]);
-    } else if (priceTo) {
+    } else if (typeof priceTo === 'number') {
       onChange([{ from: 0, to: priceTo * 100 }]);
     }
   }, [priceFrom, priceTo, onChange]);
