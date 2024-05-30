@@ -114,7 +114,6 @@ export const PersonalInformationForm: React.FC<IPersonalInformationFormProps> = 
               label="First Name"
               error={!!errors.firstName}
               helperText={errors.firstName?.message ?? ' '}
-              className={classes.Input}
               fullWidth
               disabled={isDisabled}
             />
@@ -131,7 +130,6 @@ export const PersonalInformationForm: React.FC<IPersonalInformationFormProps> = 
               label="Last Name"
               error={!!errors.lastName}
               helperText={errors.lastName?.message ?? ' '}
-              className={classes.Input}
               fullWidth
               disabled={isDisabled}
             />
@@ -151,7 +149,6 @@ export const PersonalInformationForm: React.FC<IPersonalInformationFormProps> = 
                 format="DD/MM/YYYY"
                 value={dayjs(field.value)}
                 disabled={isDisabled}
-                className={classes.Input}
                 slots={{
                   textField: TextField,
                 }}
@@ -178,7 +175,6 @@ export const PersonalInformationForm: React.FC<IPersonalInformationFormProps> = 
               label="Email"
               error={!!errors.email}
               helperText={errors.email?.message ?? ' '}
-              className={classes.Input}
               fullWidth
               disabled={isDisabled}
             />
