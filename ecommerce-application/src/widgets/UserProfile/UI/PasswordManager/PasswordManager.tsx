@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, TextField } from '@mui/material';
+import { Alert, Box, TextField } from '@mui/material';
 import type React from 'react';
 import { useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
@@ -15,6 +15,11 @@ import { SuccessUpdateModal } from './SuccessUpdateModal/SuccessUpdateModal';
 
 interface IPasswordManagerProps {
   version: number;
+}
+
+export enum PasswordErrorMessages {
+  EmailError = 'There is already an existing customer with the provided email.',
+  OtherError = 'Something went wrong. Please try again later.',
 }
 
 export const PasswordManager: React.FC<IPasswordManagerProps> = ({ version }) => {
@@ -48,21 +53,34 @@ export const PasswordManager: React.FC<IPasswordManagerProps> = ({ version }) =>
     navigate('/login');
   };
 
-  const submitForm: SubmitHandler<IPasswordManagerFields> = async formData => {
-    await getApiRoot()
-      .me()
-      .password()
-      .post({
-        body: {
-          version,
-          currentPassword: formData.currentPassword,
-          newPassword: formData.newPassword,
-        },
-      })
-      .execute();
+  const [message, setMessage] = useState('');
 
-    reset();
-    handleOpen();
+  const submitForm: SubmitHandler<IPasswordManagerFields> = async formData => {
+    try {
+      await getApiRoot()
+        .me()
+        .password()
+        .post({
+          body: {
+            version,
+            currentPassword: formData.currentPassword,
+            newPassword: formData.newPassword,
+          },
+        })
+        .execute();
+
+      reset();
+      setMessage('');
+      handleOpen();
+    } catch (error) {
+      if (error instanceof Error && 'status' in error) {
+        if (error.message) {
+          setMessage(error.message);
+        } else {
+          setMessage('Something went wrong. Please try again later.');
+        }
+      }
+    }
   };
 
   return (
@@ -134,6 +152,7 @@ export const PasswordManager: React.FC<IPasswordManagerProps> = ({ version }) =>
         type="button"
         onClick={() => {
           reset();
+          setMessage('');
         }}
       >
         Cancel
@@ -142,6 +161,14 @@ export const PasswordManager: React.FC<IPasswordManagerProps> = ({ version }) =>
         open={open}
         onClick={toLoginPage}
       />
+      {message && (
+        <Alert
+          severity="error"
+          variant="filled"
+        >
+          {message}
+        </Alert>
+      )}
     </Box>
   );
 };
