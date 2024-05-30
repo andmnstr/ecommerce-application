@@ -1,5 +1,6 @@
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { Box, Checkbox, Collapse, FormControlLabel, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
+import { common } from '@mui/material/colors';
 import type React from 'react';
 import { useEffect, useState } from 'react';
 
@@ -65,6 +66,12 @@ export const ColorList: React.FC<IFilterProps> = ({ onChange }) => {
                     <Checkbox
                       onChange={handleCheckboxChange}
                       name={color}
+                      sx={{
+                        color: common.black,
+                        '&.Mui-checked': {
+                          color: common.black,
+                        },
+                      }}
                     />
                   }
                   label={
