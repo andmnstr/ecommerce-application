@@ -1,12 +1,45 @@
+.catalogContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+  height: 100vh;
+  position: relative;
+}
+
+.searchContainer {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  margin-top: 85px;
+  width: 100%;
+}
+
 .grid {
-  margin-top: 80px;
+  margin-top: 10px;
   justify-content: center;
-  padding: 0 20px;
-  width: 90%;
+  width: 100%;
 }
 
 .gridItem {
   justify-content: center;
   align-items: center;
   padding: 0;
+}
+
+.noMatchTextContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  padding: 0 15px;
+  text-align: center;
+}
+
+.noMatchText {
+  font-size: 48px;
+  margin-top: -135px;
+  font-family: 'Segoe UI', sans-serif;
+  color: #111;
 }
