@@ -31,3 +31,9 @@
     display: none;
   }
 }
+
+@media screen and (hover: hover) {
+  .UserProfileLink:hover {
+    background-color: #6b6b6b;
+  }
+}
