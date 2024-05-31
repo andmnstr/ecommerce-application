@@ -11,13 +11,18 @@ interface IFetchProducts {
 export const fetchProducts = async (
   apiRoot: ByProjectKeyRequestBuilder,
   filter: IFilters,
-  sort?: Sort
+  sort?: Sort,
+  search?: string
 ): Promise<IFetchProducts> => {
   let products: ProductProjection[];
   let action: 'none' | 'filter' | 'search';
   let sortParam = '';
+  let searchParam = '';
   if (sort === 'name') {
     sortParam = 'name.ru-Ru asc';
+  }
+  if (search) {
+    searchParam = search;
   }
   if (
     Object.values(filter).some(item => {
@@ -60,6 +65,7 @@ export const fetchProducts = async (
             filter: [colorFilter, categoriesFilter, priceFilter],
             markMatchingVariants: true,
             ...(sortParam && { sort: sortParam }),
+            ...(searchParam && { 'filter.query': [`name.ru-RU:"${searchParam}"`] }),
           },
         })
         .execute()
@@ -73,6 +79,7 @@ export const fetchProducts = async (
         .get({
           queryArgs: {
             ...(sortParam && { sort: sortParam }),
+            ...(searchParam && { 'filter.query': [`name.ru-RU:"${searchParam}"`] }),
           },
         })
         .execute()

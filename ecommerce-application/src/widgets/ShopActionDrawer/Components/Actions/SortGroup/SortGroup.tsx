@@ -14,7 +14,15 @@ export const SortGroup: React.FC<ISortProps> = ({ onChange }) => {
   return (
     <List component="nav">
       <ListItemButton onClick={handleClick}>
-        <ListItemText primary="Sort by" />
+        <ListItemText
+          primary="Sort by"
+          sx={{
+            '& .MuiListItemText-primary': {
+              fontWeight: 700,
+              fontSize: 18,
+            },
+          }}
+        />
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
       <Collapse
