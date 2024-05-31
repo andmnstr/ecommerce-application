@@ -1,6 +1,6 @@
 import type { ProductProjection } from '@commercetools/platform-sdk';
 import { ArrowForward } from '@mui/icons-material';
-import { Button } from '@mui/material';
+import { Button, Divider, Skeleton, Typography } from '@mui/material';
 import type React from 'react';
 import { useEffect, useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
@@ -46,6 +46,12 @@ export const ShopPage: React.FC = () => {
   return (
     <div>
       <Header />
+      <div className={classes.category_section}>
+        <Typography className={classes.category_heading}>Product Categories</Typography>
+        <Skeleton className={classes.category_skeleton} />
+      </div>
+      <Divider className={classes.category_divider} />
+      <Typography className={classes.category_heading}>All products</Typography>
       <div className={classes.productsContainer}>
         <Button
           className={classes.drawerButton}
