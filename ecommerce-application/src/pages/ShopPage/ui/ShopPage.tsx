@@ -43,12 +43,14 @@ export const ShopPage: React.FC = () => {
       setAction(response.action);
     });
   }, [filter, sort, search]);
+
   return (
     <div>
       <Header />
       <div className={classes.category_section}>
         <Typography className={classes.category_heading}>Product Categories</Typography>
         <Skeleton className={classes.category_skeleton} />
+        <section className={classes.category_cards} />
       </div>
       <Divider className={classes.category_divider} />
       <Typography className={classes.category_heading}>All products</Typography>

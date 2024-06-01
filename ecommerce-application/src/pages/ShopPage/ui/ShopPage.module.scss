@@ -79,3 +79,16 @@
   -webkit-transform: none;
   transform: none;
 }
+
+.category_cards {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  max-width: 1440px;
+  width: calc(100% - 20px);
+  padding: 0 10px;
+  margin: 20px auto;
+}
