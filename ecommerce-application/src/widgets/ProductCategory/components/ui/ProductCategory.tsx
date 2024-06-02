@@ -22,10 +22,9 @@ export const ProductCategory: React.FC<IProductCategoryProps> = props => {
 
   return (
     <Card className={styles.category}>
-      <img
+      <div
         className={styles.category_card}
-        src={imageURL}
-        alt="Category name"
+        style={{ backgroundImage: `url(${imageURL})` }}
       />
       <Link
         to={`/shop/${category}`}
