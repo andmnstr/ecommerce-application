@@ -4,7 +4,7 @@ import { Box, IconButton, Stack, Typography } from '@mui/material';
 import type React from 'react';
 import { useEffect, useState } from 'react';
 
-import { countries } from '../../../../shared';
+import { countries, getApiRoot } from '../../../../shared';
 import CustomInputText from '../../../../shared/UI/CustomInputText/CustomInputText';
 import classes from '../UserProfile.module.scss';
 
@@ -12,11 +12,13 @@ interface IAddressBoxProps {
   address: Address;
   userInfo: Customer;
   changeAddress: (isChangeAddress: boolean, newAddress: Address) => void;
+  handleDeleteAddress: (deletedAddressId: string) => void;
 }
 
-export const AddressBox: React.FC<IAddressBoxProps> = ({ address, userInfo, changeAddress }) => {
+export const AddressBox: React.FC<IAddressBoxProps> = ({ address, userInfo, changeAddress, handleDeleteAddress }) => {
   const { id, streetName, postalCode, city, country } = address;
-  const { shippingAddressIds, billingAddressIds, defaultShippingAddressId, defaultBillingAddressId } = userInfo;
+  const { shippingAddressIds, billingAddressIds, defaultShippingAddressId, defaultBillingAddressId, version } =
+    userInfo;
   const fullCountry = countries.filter((item: string[]) => {
     return item[1] === country;
   })[0][0];
@@ -25,6 +27,31 @@ export const AddressBox: React.FC<IAddressBoxProps> = ({ address, userInfo, chan
   const handleEditClick = (): void => {
     setIsChangeAddress(true);
   };
+
+  const deleteAddress = async (): Promise<void> => {
+    await getApiRoot()
+      .me()
+      .post({
+        body: {
+          version,
+          actions: [
+            {
+              action: 'removeAddress',
+              addressId: id,
+            },
+          ],
+        },
+      })
+      .execute();
+  };
+
+  const handleDeleteClick = (): void => {
+    deleteAddress();
+    if (id) {
+      handleDeleteAddress(id);
+    }
+  };
+
   useEffect(() => {
     changeAddress(isChangeAddress, address);
   }, [address, isChangeAddress, changeAddress]);
@@ -78,7 +105,10 @@ export const AddressBox: React.FC<IAddressBoxProps> = ({ address, userInfo, chan
         >
           <Edit />
         </IconButton>
-        <IconButton aria-label="Delete">
+        <IconButton
+          aria-label="Delete"
+          onClick={handleDeleteClick}
+        >
           <DeleteForever />
         </IconButton>
       </Stack>

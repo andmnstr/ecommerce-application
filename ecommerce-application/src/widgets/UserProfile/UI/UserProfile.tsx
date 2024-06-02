@@ -31,6 +31,7 @@ export const UserProfile: React.FC = () => {
   };
 
   const [userInfo, setUserInfo] = useState<Customer>();
+  const [addresses, setAddresses] = useState<Address[]>([]);
 
   const changeAddress = useCallback((shouldChangeAddress: boolean, newAddress: Address) => {
     setIsChangeAddress(shouldChangeAddress);
@@ -51,9 +52,18 @@ export const UserProfile: React.FC = () => {
     const fetchUserInfo = async (): Promise<void> => {
       const userData = await getUserInfo();
       setUserInfo(userData);
+      setAddresses(userData.addresses);
     };
     fetchUserInfo();
   }, [currentTabIndex, isChangeAddress, isNewAddress]);
+
+  const handleDeleteAddress = (deletedAddressId: string | undefined): void => {
+    setAddresses(currentAddresses =>
+      currentAddresses.filter(item => {
+        return item.id !== deletedAddressId;
+      })
+    );
+  };
 
   const smallScreen = useMediaQuery('(max-width: 640px)');
 
@@ -108,13 +118,14 @@ export const UserProfile: React.FC = () => {
           )}
           {!isChangeAddress && !isNewAddress && (
             <Box className={classes.Container}>
-              {userInfo.addresses.map(item => {
+              {addresses.map(item => {
                 return (
                   <AddressBox
                     key={item.id}
                     address={item}
                     userInfo={userInfo}
                     changeAddress={changeAddress}
+                    handleDeleteAddress={handleDeleteAddress}
                   />
                 );
               })}
