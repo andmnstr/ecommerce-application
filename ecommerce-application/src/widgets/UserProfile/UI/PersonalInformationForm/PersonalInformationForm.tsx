@@ -84,7 +84,6 @@ export const PersonalInformationForm: React.FC<IPersonalInformationFormProps> = 
         .execute();
 
       setIsDisabled(true);
-      setEditButtonClass(classes.Button);
       setSaveButtonClass(classes.Invisible);
       setMessage(FormSubmitMessages.Success);
     } catch (error) {
