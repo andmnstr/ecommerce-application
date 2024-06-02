@@ -17,11 +17,6 @@ interface IPasswordManagerProps {
   version: number;
 }
 
-export enum PasswordErrorMessages {
-  EmailError = 'There is already an existing customer with the provided email.',
-  OtherError = 'Something went wrong. Please try again later.',
-}
-
 export const PasswordManager: React.FC<IPasswordManagerProps> = ({ version }) => {
   const {
     handleSubmit,
