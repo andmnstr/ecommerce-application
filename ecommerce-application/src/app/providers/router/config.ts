@@ -11,6 +11,7 @@ import {
   SignupPage,
   UserProfilePage,
   WomenCategoryPage,
+  WomenDressesPage,
   WomenTrousersPage,
 } from '../../../pages';
 
@@ -26,6 +27,7 @@ export const pages = [
   { id: 9, page: FootwearCategoryPage, path: '/shop/footwear' },
   { id: 10, page: AccessoriesCategoryPage, path: '/shop/accessories' },
   { id: 11, page: WomenTrousersPage, path: '/shop/women/trousers' },
-  { id: 12, page: UserProfilePage, path: '/user' },
-  { id: 13, page: Page404, path: '*' },
+  { id: 12, page: WomenDressesPage, path: '/shop/women/dresses' },
+  { id: 13, page: UserProfilePage, path: '/user' },
+  { id: 14, page: Page404, path: '*' },
 ];

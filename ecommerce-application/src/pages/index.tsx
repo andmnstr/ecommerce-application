@@ -11,4 +11,5 @@ export { ShopPage } from './ShopPage';
 export { SignupPage } from './SignupPage';
 export { UserProfilePage } from './UserProfilePage';
 export { WomenCategoryPage } from './WomenCategoryPage';
+export { WomenDressesPage } from './WomenDressesPage';
 export { WomenTrousersPage } from './WomenTrousersPage';
