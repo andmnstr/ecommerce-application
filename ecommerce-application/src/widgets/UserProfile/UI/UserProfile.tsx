@@ -26,7 +26,7 @@ export const UserProfile: React.FC = () => {
       setUserInfo(userData);
     };
     fetchUserInfo();
-  }, []);
+  }, [currentTabIndex]);
 
   const smallScreen = useMediaQuery('(max-width: 640px)');
 
