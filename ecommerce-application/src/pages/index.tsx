@@ -5,6 +5,7 @@ export { FootwearCategoryPage } from './FootwearCategoryPage';
 export { LoginPage } from './LoginPage';
 export { MainPage } from './MainPage';
 export { MenCategoryPage } from './MenCategoryPage';
+export { MenTrousersPage } from './MenTrousersPage';
 export { Page404 } from './Page404';
 export { ProductPage } from './ProductPage';
 export { ShopPage } from './ShopPage';
