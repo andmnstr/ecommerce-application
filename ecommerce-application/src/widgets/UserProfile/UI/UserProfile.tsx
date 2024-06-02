@@ -1,4 +1,4 @@
-import type { Address, type Customer } from '@commercetools/platform-sdk';
+import type { Address, Customer } from '@commercetools/platform-sdk';
 import { Box, Tab, Tabs, Typography } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import type React from 'react';

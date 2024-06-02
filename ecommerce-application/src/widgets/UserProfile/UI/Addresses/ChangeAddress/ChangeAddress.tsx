@@ -149,10 +149,10 @@ export const ChangeAddress: React.FC<IUserAddressesProps> = ({ address, version,
       <CustomButton
         variant="contained"
         size="large"
-        className={saveButton}
+        className={classes.Button}
         onClick={onCancel}
       >
-        Cancel
+        Back
       </CustomButton>
       {message && (
         <Alert
