@@ -3,6 +3,7 @@ import {
   AccessoriesCategoryPage,
   ContactsPage,
   FootwearCategoryPage,
+  FootwearShoesPage,
   LoginPage,
   MainPage,
   MenCategoryPage,
@@ -32,6 +33,7 @@ export const pages = [
   { id: 12, page: WomenDressesPage, path: '/shop/women/dresses' },
   { id: 13, page: MenTrousersPage, path: '/shop/men/trousers' },
   { id: 14, page: MenSweatshirtsPage, path: '/shop/men/sweatshirts' },
+  { id: 14, page: FootwearShoesPage, path: '/shop/footwear/shoes' },
   { id: 15, page: UserProfilePage, path: '/user' },
   { id: 16, page: Page404, path: '*' },
 ];
