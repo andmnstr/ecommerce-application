@@ -1,7 +1,7 @@
 .Title {
   font-size: 30px;
   font-weight: 700;
-  margin: 30px 0;
+  margin: 20px 0;
 }
 
 .Container {
@@ -51,12 +51,17 @@
   padding-top: 15px;
   padding-bottom: 15px;
   width: 200px;
+  margin-bottom: 20px;
 }
 
 .AddressName {
   font-size: 12px;
   font-weight: 700;
   text-decoration: underline;
+}
+
+.Select {
+  text-align: start;
 }
 
 .Invisible {
@@ -95,6 +100,8 @@
   .Title,
   .Container label,
   .Container input,
+  .Select,
+  .Container h6,
   .AddressName,
   .Tab {
     color: #fff;

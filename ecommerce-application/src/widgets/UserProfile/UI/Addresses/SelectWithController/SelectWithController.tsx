@@ -5,6 +5,7 @@ import { Controller } from 'react-hook-form';
 
 import { countries } from '../../../../../shared/consts/countries';
 import type { IInputProps } from '../../../lib/types/userAddresses.types';
+import classes from '../../UserProfile.module.scss';
 
 export const SelectWithController: React.FC<IInputProps> = props => {
   const { name, control, label, helperText, error, value } = props;
@@ -25,7 +26,7 @@ export const SelectWithController: React.FC<IInputProps> = props => {
             id="select"
             select
             defaultValue={value}
-            style={{ textAlign: 'start' }}
+            className={classes.Select}
           >
             {countries.map((item: string[]) => {
               return (
