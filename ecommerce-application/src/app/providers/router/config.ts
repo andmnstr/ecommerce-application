@@ -1,5 +1,6 @@
 import {
   AboutPage,
+  AccessoriesBagsPage,
   AccessoriesCategoryPage,
   AccessoriesGlassesPage,
   ContactsPage,
@@ -38,6 +39,7 @@ export const pages = [
   { id: 14, page: FootwearShoesPage, path: '/shop/footwear/shoes' },
   { id: 15, page: FootwearSneakersPage, path: '/shop/footwear/sneakers' },
   { id: 16, page: AccessoriesGlassesPage, path: '/shop/accessories/glasses' },
-  { id: 17, page: UserProfilePage, path: '/user' },
-  { id: 18, page: Page404, path: '*' },
+  { id: 17, page: AccessoriesBagsPage, path: '/shop/accessories/bags' },
+  { id: 18, page: UserProfilePage, path: '/user' },
+  { id: 19, page: Page404, path: '*' },
 ];

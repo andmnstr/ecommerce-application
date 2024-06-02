@@ -1,4 +1,5 @@
 export { AboutPage } from './AboutPage';
+export { AccessoriesBagsPage } from './AccessoriesBagsPage';
 export { AccessoriesCategoryPage } from './AccessoriesCategoryPage';
 export { AccessoriesGlassesPage } from './AccessoriesGlassesPage';
 export { ContactsPage } from './ContactsPage';
