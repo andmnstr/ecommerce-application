@@ -1,6 +1,6 @@
 import type { ProductProjection } from '@commercetools/platform-sdk';
 import { ArrowForward } from '@mui/icons-material';
-import { Button, Divider } from '@mui/material';
+import { Breadcrumbs, Button, Divider, Link, Typography } from '@mui/material';
 import type React from 'react';
 import { useEffect, useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
@@ -47,6 +47,25 @@ export const MenCategoryPage: React.FC = () => {
   return (
     <>
       <Header />
+      <Breadcrumbs
+        aria-label="breadcrumb"
+        className={styles.breadcrumbs}
+      >
+        <Link
+          underline="hover"
+          color="inherit"
+          href="/shop"
+          className={styles.link}
+        >
+          Shop
+        </Link>
+        <Typography
+          color="text.primary"
+          className={styles.link}
+        >
+          Men
+        </Typography>
+      </Breadcrumbs>
       <Divider className={styles.divider} />
       <div className={styles.productsContainer}>
         <Button
