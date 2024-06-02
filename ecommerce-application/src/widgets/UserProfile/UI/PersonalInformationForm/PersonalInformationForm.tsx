@@ -41,13 +41,13 @@ export const PersonalInformationForm: React.FC<IPersonalInformationFormProps> = 
 
   const [isDisabled, setIsDisabled] = useState(true);
   const [editButton, setEditButtonClass] = useState(classes.Button);
-  const [saveButton, setSavetButtonClass] = useState(classes.Invisible);
+  const [saveButton, setSaveButtonClass] = useState(classes.Invisible);
   const [message, setMessage] = useState('');
 
   const enableEditMode = (): void => {
     setIsDisabled(false);
     setEditButtonClass(classes.Invisible);
-    setSavetButtonClass(classes.Button);
+    setSaveButtonClass(classes.Button);
     setMessage('');
   };
 
@@ -85,7 +85,7 @@ export const PersonalInformationForm: React.FC<IPersonalInformationFormProps> = 
 
       setIsDisabled(true);
       setEditButtonClass(classes.Button);
-      setSavetButtonClass(classes.Invisible);
+      setSaveButtonClass(classes.Invisible);
       setMessage(FormSubmitMessages.Success);
     } catch (error) {
       if (error instanceof Error && 'status' in error) {
