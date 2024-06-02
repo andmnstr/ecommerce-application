@@ -1,5 +1,6 @@
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import LogoutIcon from '@mui/icons-material/Logout';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import MenuIcon from '@mui/icons-material/Menu';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
@@ -7,16 +8,17 @@ import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
-import React from 'react';
+import type React from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { type AuthSectionProps } from '../../lib/types/Header.types';
 import styles from './Burger.module.scss';
-import { appPages, authPages } from './config';
+import { appPages, authPages, userProfilePath } from './config';
 import { DrawerStyle } from './style';
 
 export const BurgerMenu: React.FC<AuthSectionProps> = (props): JSX.Element => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const currentPage = window.location.pathname;
   const { userLoggedOn, logoutFn } = props;
 
@@ -105,6 +107,20 @@ export const BurgerMenu: React.FC<AuthSectionProps> = (props): JSX.Element => {
               >
                 <LogoutIcon />
                 Logout
+              </Link>
+            </ListItemButton>
+          </ListItem>
+          <ListItem style={{ display: !userLoggedOn ? 'none' : undefined }}>
+            <ListItemButton>
+              <Link
+                to={userProfilePath}
+                className={styles.AuthLink}
+                onClick={() => {
+                  handleDrawerClose();
+                }}
+              >
+                <ManageAccountsIcon />
+                User profile
               </Link>
             </ListItemButton>
           </ListItem>
