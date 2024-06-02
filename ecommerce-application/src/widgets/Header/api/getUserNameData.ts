@@ -35,6 +35,7 @@ export const getUserNameData = async (): Promise<string> => {
           } else {
             console.error('Error while user information getting', error);
           }
+          userName = 'UU';
         });
     }
   }
