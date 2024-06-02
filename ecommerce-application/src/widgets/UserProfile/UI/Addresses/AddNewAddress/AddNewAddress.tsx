@@ -8,20 +8,17 @@ import { Controller, useForm } from 'react-hook-form';
 import { countries, getApiRoot } from '../../../../../shared';
 import { CustomButton } from '../../../../../shared/UI/button/CustomButton';
 import { FormSubmitMessages } from '../../../lib/types/personalInformation.types';
-import type { IUserAddressesFields, IUserAddressesProps } from '../../../lib/types/userAddresses.types';
+import type { IUserAddressesFields } from '../../../lib/types/userAddresses.types';
 import { userAddressesSchema } from '../../../lib/userAddressesSchema';
 import classes from '../../UserProfile.module.scss';
 import { SelectWithController } from '../SelectWithController/SelectWithController';
 
-export const ChangeAddress: React.FC<IUserAddressesProps> = ({ address, version, onCancel }) => {
-  const { id, streetName, postalCode, city, country } = address;
-  const fullCountry = countries.filter((item: string[]) => {
-    return item[1] === country;
-  })[0][0];
+interface IAddNewAddressProps {
+  version: number;
+  onCancel: () => void;
+}
 
-  const [saveButton, setSaveButtonClass] = useState(classes.Button);
-  const [message, setMessage] = useState('');
-
+export const AddNewAddress: React.FC<IAddNewAddressProps> = ({ version, onCancel }) => {
   const {
     handleSubmit,
     control,
@@ -30,18 +27,16 @@ export const ChangeAddress: React.FC<IUserAddressesProps> = ({ address, version,
     resolver: yupResolver(userAddressesSchema),
     mode: 'onChange',
     defaultValues: {
-      streetName,
-      city,
-      postalCode,
-      fullCountry,
+      streetName: '',
+      city: '',
+      postalCode: '',
+      fullCountry: '',
     },
   });
-  /*
-  const enableEditMode = (): void => {
-    setSaveButtonClass(classes.Button);
-    setMessage('');
-  };
-  */
+
+  const [saveButton, setSaveButtonClass] = useState(classes.Button);
+  const [message, setMessage] = useState('');
+
   const submitForm: SubmitHandler<IUserAddressesFields> = async formData => {
     try {
       await getApiRoot()
@@ -51,8 +46,7 @@ export const ChangeAddress: React.FC<IUserAddressesProps> = ({ address, version,
             version,
             actions: [
               {
-                action: 'changeAddress',
-                addressId: id,
+                action: 'addAddress',
                 address: {
                   streetName: formData.streetName,
                   postalCode: formData.postalCode,
@@ -71,21 +65,18 @@ export const ChangeAddress: React.FC<IUserAddressesProps> = ({ address, version,
       setMessage(FormSubmitMessages.Success);
     } catch (error) {
       if (error instanceof Error && 'status' in error) {
-        if (error.status === 400) {
-          setMessage(FormSubmitMessages.EmailError);
-        } else {
-          setMessage(FormSubmitMessages.OtherError);
-        }
+        setMessage(FormSubmitMessages.OtherError);
       }
     }
   };
+
   return (
     <Box
       component="form"
       className={classes.Container}
       onSubmit={handleSubmit(submitForm)}
     >
-      <Typography variant="h6">Edit address</Typography>
+      <Typography variant="h6">Add new address</Typography>
       <Controller
         name="streetName"
         control={control}
@@ -137,7 +128,7 @@ export const ChangeAddress: React.FC<IUserAddressesProps> = ({ address, version,
         label="Country"
         error={!!errors.fullCountry}
         helperText={errors.fullCountry?.message}
-        value={fullCountry}
+        value=""
       />
       <CustomButton
         variant="contained"

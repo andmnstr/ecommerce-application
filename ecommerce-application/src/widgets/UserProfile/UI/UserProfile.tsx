@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { CustomButton } from '../../../shared/UI/button/CustomButton';
 import { getUserInfo } from '../api/getUserInfo';
+import { AddNewAddress } from './Addresses/AddNewAddress/AddNewAddress';
 import { AddressBox } from './Addresses/AddressBox';
 import { ChangeAddress } from './Addresses/ChangeAddress/ChangeAddress';
 import { PasswordManager } from './PasswordManager/PasswordManager';
@@ -15,6 +16,7 @@ import classes from './UserProfile.module.scss';
 export const UserProfile: React.FC = () => {
   const [currentTabIndex, setCurrentTabIndex] = useState(0);
   const [isChangeAddress, setIsChangeAddress] = useState(false);
+  const [isNewAddress, setIsNewAddress] = useState(false);
   const [address, setAddress] = useState<Address>({
     id: '',
     streetName: '',
@@ -29,6 +31,7 @@ export const UserProfile: React.FC = () => {
   };
 
   const [userInfo, setUserInfo] = useState<Customer>();
+
   const changeAddress = useCallback((shouldChangeAddress: boolean, newAddress: Address) => {
     setIsChangeAddress(shouldChangeAddress);
     setAddress(newAddress);
@@ -37,13 +40,20 @@ export const UserProfile: React.FC = () => {
     setIsChangeAddress(false);
   };
 
+  const addNewAddress = (): void => {
+    setIsNewAddress(true);
+  };
+  const cancelNewAddress = (): void => {
+    setIsNewAddress(false);
+  };
+
   useEffect(() => {
     const fetchUserInfo = async (): Promise<void> => {
       const userData = await getUserInfo();
       setUserInfo(userData);
     };
     fetchUserInfo();
-  }, [currentTabIndex, isChangeAddress]);
+  }, [currentTabIndex, isChangeAddress, isNewAddress]);
 
   const smallScreen = useMediaQuery('(max-width: 640px)');
 
@@ -81,36 +91,46 @@ export const UserProfile: React.FC = () => {
 
       {currentTabIndex === 0 && userInfo && <PersonalInformationForm userInfo={userInfo} />}
 
-      {currentTabIndex === 1 &&
-        userInfo &&
-        (isChangeAddress ? (
-          <ChangeAddress
-            address={address}
-            version={userInfo.version}
-            onCancel={cancelChangeAddress}
-          />
-        ) : (
-          <Box className={classes.Container}>
-            {userInfo.addresses.map(item => {
-              return (
-                <AddressBox
-                  key={item.id}
-                  address={item}
-                  userInfo={userInfo}
-                  changeAddress={changeAddress}
-                />
-              );
-            })}
-            <CustomButton
-              variant="contained"
-              size="large"
-              className={classes.Button}
-              type="submit"
-            >
-              Add new address
-            </CustomButton>
-          </Box>
-        ))}
+      {currentTabIndex === 1 && userInfo && (
+        <>
+          {isChangeAddress && (
+            <ChangeAddress
+              address={address}
+              version={userInfo.version}
+              onCancel={cancelChangeAddress}
+            />
+          )}
+          {isNewAddress && (
+            <AddNewAddress
+              version={userInfo.version}
+              onCancel={cancelNewAddress}
+            />
+          )}
+          {!isChangeAddress && !isNewAddress && (
+            <Box className={classes.Container}>
+              {userInfo.addresses.map(item => {
+                return (
+                  <AddressBox
+                    key={item.id}
+                    address={item}
+                    userInfo={userInfo}
+                    changeAddress={changeAddress}
+                  />
+                );
+              })}
+              <CustomButton
+                variant="contained"
+                size="large"
+                className={classes.Button}
+                type="button"
+                onClick={addNewAddress}
+              >
+                Add new address
+              </CustomButton>
+            </Box>
+          )}
+        </>
+      )}
 
       {currentTabIndex === 2 && userInfo && <PasswordManager version={userInfo.version} />}
     </>
