@@ -4,6 +4,7 @@ import {
   ContactsPage,
   FootwearCategoryPage,
   FootwearShoesPage,
+  FootwearSneakersPage,
   LoginPage,
   MainPage,
   MenCategoryPage,
@@ -34,6 +35,7 @@ export const pages = [
   { id: 13, page: MenTrousersPage, path: '/shop/men/trousers' },
   { id: 14, page: MenSweatshirtsPage, path: '/shop/men/sweatshirts' },
   { id: 14, page: FootwearShoesPage, path: '/shop/footwear/shoes' },
-  { id: 15, page: UserProfilePage, path: '/user' },
-  { id: 16, page: Page404, path: '*' },
+  { id: 15, page: FootwearSneakersPage, path: '/shop/footwear/sneakers' },
+  { id: 16, page: UserProfilePage, path: '/user' },
+  { id: 17, page: Page404, path: '*' },
 ];

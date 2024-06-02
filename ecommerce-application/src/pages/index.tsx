@@ -3,6 +3,7 @@ export { AccessoriesCategoryPage } from './AccessoriesCategoryPage';
 export { ContactsPage } from './ContactsPage';
 export { FootwearCategoryPage } from './FootwearCategoryPage';
 export { FootwearShoesPage } from './FootwearShoesPage';
+export { FootwearSneakersPage } from './FootwearSneakersPage';
 export { LoginPage } from './LoginPage';
 export { MainPage } from './MainPage';
 export { MenCategoryPage } from './MenCategoryPage';
