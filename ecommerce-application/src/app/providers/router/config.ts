@@ -11,6 +11,7 @@ import {
   SignupPage,
   UserProfilePage,
   WomenCategoryPage,
+  WomenTrousersPage,
 } from '../../../pages';
 
 export const pages = [
@@ -24,6 +25,7 @@ export const pages = [
   { id: 8, page: MenCategoryPage, path: '/shop/men' },
   { id: 9, page: FootwearCategoryPage, path: '/shop/footwear' },
   { id: 10, page: AccessoriesCategoryPage, path: '/shop/accessories' },
-  { id: 11, page: UserProfilePage, path: '/user' },
-  { id: 12, page: Page404, path: '*' },
+  { id: 11, page: WomenTrousersPage, path: '/shop/women/trousers' },
+  { id: 12, page: UserProfilePage, path: '/user' },
+  { id: 13, page: Page404, path: '*' },
 ];
