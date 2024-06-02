@@ -1,5 +1,6 @@
 export { AboutPage } from './AboutPage';
 export { AccessoriesCategoryPage } from './AccessoriesCategoryPage';
+export { AccessoriesGlassesPage } from './AccessoriesGlassesPage';
 export { ContactsPage } from './ContactsPage';
 export { FootwearCategoryPage } from './FootwearCategoryPage';
 export { FootwearShoesPage } from './FootwearShoesPage';
