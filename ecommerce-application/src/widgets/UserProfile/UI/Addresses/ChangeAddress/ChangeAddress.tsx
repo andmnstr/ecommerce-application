@@ -36,12 +36,7 @@ export const ChangeAddress: React.FC<IUserAddressesProps> = ({ address, version,
       fullCountry,
     },
   });
-  /*
-  const enableEditMode = (): void => {
-    setSaveButtonClass(classes.Button);
-    setMessage('');
-  };
-  */
+
   const submitForm: SubmitHandler<IUserAddressesFields> = async formData => {
     try {
       await getApiRoot()
@@ -71,11 +66,7 @@ export const ChangeAddress: React.FC<IUserAddressesProps> = ({ address, version,
       setMessage(FormSubmitMessages.Success);
     } catch (error) {
       if (error instanceof Error && 'status' in error) {
-        if (error.status === 400) {
-          setMessage(FormSubmitMessages.EmailError);
-        } else {
-          setMessage(FormSubmitMessages.OtherError);
-        }
+        setMessage(FormSubmitMessages.OtherError);
       }
     }
   };
