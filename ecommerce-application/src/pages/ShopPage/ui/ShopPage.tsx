@@ -82,6 +82,7 @@ export const ShopPage: React.FC = () => {
                 category={rootCategories[index]}
                 subcategory={category.subcategory}
                 imageURL={categoryImages[index]}
+                key={category.category}
               />
             );
           })}

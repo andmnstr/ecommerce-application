@@ -10,10 +10,10 @@ import { ProductGrid, ShopActionDrawer } from '../../../widgets';
 import { Header } from '../../../widgets/Header';
 import type { ISearchField } from '../../../widgets/ProductsGrid/Lib/types';
 import type { IFilters, Sort } from '../../../widgets/ShopActionDrawer/Lib/types';
-import { fetchMenProducts } from '../Api';
-import styles from './MenCategoryPage.module.scss';
+import { fetchWomenTrousers } from '../Api';
+import styles from './WomenTrousersPage.module.scss';
 
-export const MenCategoryPage: React.FC = () => {
+export const WomenTrousersPage: React.FC = () => {
   const [products, setProducts] = useState<ProductProjection[]>([]);
   const [action, setAction] = useState<'none' | 'filter' | 'search'>('none');
   const [open, setOpen] = useState(false);
@@ -38,7 +38,7 @@ export const MenCategoryPage: React.FC = () => {
     setSort(newSort);
   };
   useEffect(() => {
-    fetchMenProducts(getApiRoot(), filter, sort, search).then(response => {
+    fetchWomenTrousers(getApiRoot(), filter, sort, search).then(response => {
       setProducts(response.products);
       setAction(response.action);
     });
@@ -59,11 +59,19 @@ export const MenCategoryPage: React.FC = () => {
         >
           Shop
         </Link>
+        <Link
+          underline="hover"
+          color="inherit"
+          href="/shop/women"
+          className={styles.link}
+        >
+          Women
+        </Link>
         <Typography
           color="text.primary"
           className={styles.link}
         >
-          Men
+          Trousers
         </Typography>
       </Breadcrumbs>
       <Divider className={styles.divider} />

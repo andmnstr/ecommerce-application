@@ -20,6 +20,8 @@ export const ProductCategory: React.FC<IProductCategoryProps> = props => {
     });
   }
 
+  const randomNum = (Math.random() * 10000).toFixed(0);
+
   return (
     <Card className={styles.category}>
       <div
@@ -36,10 +38,11 @@ export const ProductCategory: React.FC<IProductCategoryProps> = props => {
       <List>
         {subcatArr.map(item => {
           return (
-            <ListItem>
+            <ListItem key={item + randomNum}>
               <Link
                 to={`/shop/${category}/${item}`}
                 className={styles.subcategory_name}
+                key={item + randomNum}
               >
                 {item}
               </Link>
