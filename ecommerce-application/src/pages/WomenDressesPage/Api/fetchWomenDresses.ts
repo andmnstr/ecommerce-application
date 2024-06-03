@@ -69,7 +69,7 @@ export const fetchWomenDresses = async (
         .search()
         .get({
           queryArgs: {
-            filter: [colorFilter, categoriesFilter, priceFilter],
+            filter: [colorFilter, categoriesFilter, priceFilter, `categories.id:"${parentId}"`],
             markMatchingVariants: true,
             ...(sortParam && { sort: sortParam }),
             ...(searchParam && { 'filter.query': [`name.ru-RU:"${searchParam}"`] }),
