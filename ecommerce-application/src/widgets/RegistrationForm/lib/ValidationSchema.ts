@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-import { validationRules } from './ValidationRules';
+import { validationRules } from '../../../shared';
 
 export const schema = yup.object().shape({
   firstName: validationRules.namesAndCity,

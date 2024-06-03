@@ -1,9 +1,8 @@
 import type { Customer } from '@commercetools/platform-sdk';
 
-import { getApiRoot } from '../../../shared/Api/apiRoot';
+import { getApiRoot, TOKEN_NAME } from '../../../shared';
 import { isTokenStore } from '../../../shared/Api/Lib/isTokenStore';
 
-const TOKEN_NAME = 'hardcoders_access_token';
 const storageItem: string | null = localStorage.getItem(TOKEN_NAME);
 
 export const getUserInfo = async (): Promise<Customer> => {

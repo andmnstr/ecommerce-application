@@ -2,22 +2,60 @@ import type { Address, Customer } from '@commercetools/platform-sdk';
 import { DeleteForever, Edit } from '@mui/icons-material';
 import { Box, IconButton, Stack, Typography } from '@mui/material';
 import type React from 'react';
+import { useEffect, useState } from 'react';
 
-import { countries } from '../../../../shared/consts/countries';
+import { countries, getApiRoot } from '../../../../shared';
 import CustomInputText from '../../../../shared/UI/CustomInputText/CustomInputText';
 import classes from '../UserProfile.module.scss';
 
 interface IAddressBoxProps {
   address: Address;
   userInfo: Customer;
+  changeAddress: (isChangeAddress: boolean, newAddress: Address) => void;
+  handleDeleteAddress: (deletedAddressId: string) => void;
 }
 
-export const AddressBox: React.FC<IAddressBoxProps> = ({ address, userInfo }) => {
+export const AddressBox: React.FC<IAddressBoxProps> = ({ address, userInfo, changeAddress, handleDeleteAddress }) => {
   const { id, streetName, postalCode, city, country } = address;
-  const { shippingAddressIds, billingAddressIds, defaultShippingAddressId, defaultBillingAddressId } = userInfo;
+  const { shippingAddressIds, billingAddressIds, defaultShippingAddressId, defaultBillingAddressId, version } =
+    userInfo;
   const fullCountry = countries.filter((item: string[]) => {
     return item[1] === country;
   })[0][0];
+  const [isChangeAddress, setIsChangeAddress] = useState(false);
+
+  const handleEditClick = (): void => {
+    setIsChangeAddress(true);
+  };
+
+  const deleteAddress = async (): Promise<void> => {
+    await getApiRoot()
+      .me()
+      .post({
+        body: {
+          version,
+          actions: [
+            {
+              action: 'removeAddress',
+              addressId: id,
+            },
+          ],
+        },
+      })
+      .execute();
+  };
+
+  const handleDeleteClick = (): void => {
+    deleteAddress();
+    if (id) {
+      handleDeleteAddress(id);
+    }
+  };
+
+  useEffect(() => {
+    changeAddress(isChangeAddress, address);
+  }, [address, isChangeAddress, changeAddress]);
+
   return (
     <Box className={classes.AddressContainer}>
       {shippingAddressIds && id && shippingAddressIds.includes(id) && defaultShippingAddressId !== id && (
@@ -61,10 +99,16 @@ export const AddressBox: React.FC<IAddressBoxProps> = ({ address, userInfo }) =>
           className={classes.Input}
           disabled
         />
-        <IconButton aria-label="Edit">
+        <IconButton
+          aria-label="Edit"
+          onClick={handleEditClick}
+        >
           <Edit />
         </IconButton>
-        <IconButton aria-label="Delete">
+        <IconButton
+          aria-label="Delete"
+          onClick={handleDeleteClick}
+        >
           <DeleteForever />
         </IconButton>
       </Stack>

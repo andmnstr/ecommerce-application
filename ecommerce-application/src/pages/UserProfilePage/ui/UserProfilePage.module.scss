@@ -11,7 +11,7 @@
 
 .ProfilePage__image {
   display: block;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 50%;
@@ -59,10 +59,6 @@
 @media screen and (width < 640px) {
   .ProfilePage__container {
     align-items: start;
-  }
-
-  .ProfilePage__image {
-    position: fixed;
   }
 
   .ProfilePage__content {
