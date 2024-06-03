@@ -1,5 +1,6 @@
+import type { MyCustomerUpdateAction } from '@commercetools/platform-sdk';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Alert, Box, TextField, Typography } from '@mui/material';
+import { Alert, Box, Checkbox, FormControlLabel, TextField, Typography } from '@mui/material';
 import type React from 'react';
 import { useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
@@ -37,9 +38,12 @@ export const AddNewAddress: React.FC<IAddNewAddressProps> = ({ version, onCancel
   const [saveButton, setSaveButtonClass] = useState(classes.Button);
   const [message, setMessage] = useState('');
 
+  const [defaultBilling, setDefaultBilling] = useState(false);
+  const [defaultShipping, setDefaultShipping] = useState(false);
+
   const submitForm: SubmitHandler<IUserAddressesFields> = async formData => {
     try {
-      await getApiRoot()
+      const response = await getApiRoot()
         .me()
         .post({
           body: {
@@ -60,6 +64,29 @@ export const AddNewAddress: React.FC<IAddNewAddressProps> = ({ version, onCancel
           },
         })
         .execute();
+
+      const { addresses } = response.body;
+      const newAddressId = addresses[addresses.length - 1].id;
+
+      const setDefaultActions: MyCustomerUpdateAction[] = [];
+      if (defaultBilling) {
+        setDefaultActions.push({ action: 'setDefaultBillingAddress', addressId: newAddressId });
+      }
+      if (defaultShipping) {
+        setDefaultActions.push({ action: 'setDefaultShippingAddress', addressId: newAddressId });
+      }
+
+      if (setDefaultActions.length > 0) {
+        await getApiRoot()
+          .me()
+          .post({
+            body: {
+              version: response.body.version,
+              actions: setDefaultActions,
+            },
+          })
+          .execute();
+      }
 
       setSaveButtonClass(classes.Invisible);
       setMessage(FormSubmitMessages.Success);
@@ -129,6 +156,28 @@ export const AddNewAddress: React.FC<IAddNewAddressProps> = ({ version, onCancel
         error={!!errors.fullCountry}
         helperText={errors.fullCountry?.message}
         value=""
+      />
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={defaultShipping}
+            onChange={event => {
+              setDefaultShipping(event.target.checked);
+            }}
+          />
+        }
+        label="Set as default shipping address"
+      />
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={defaultBilling}
+            onChange={event => {
+              setDefaultBilling(event.target.checked);
+            }}
+          />
+        }
+        label="Set as default billing address"
       />
       <CustomButton
         variant="contained"
