@@ -19,7 +19,7 @@ export const fetchWomenTrousers = async (
   let sortParam = '';
   let searchParam = '';
 
-  const parentCategory = await apiRoot.categories().withKey({ key: 'women-trousers' }).get().execute();
+  const parentCategory = await apiRoot.categories().withKey({ key: 'trousers' }).get().execute();
   const parentId = parentCategory.body.id || '';
 
   if (sort === 'name') {

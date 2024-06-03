@@ -24,13 +24,21 @@ interface ISpecAttributeValue {
   value: string;
 }
 
-export const ProductSection: React.FC = () => {
+interface IProductSectionProps {
+  category: string;
+  subcategory: string;
+  id: string;
+}
+
+export const ProductSection: React.FC<IProductSectionProps> = props => {
+  const { category, subcategory, id } = props;
+
   const [product, setProduct] = useState<ProductProjection>();
   const [errorDisplay, setErrorDisplay] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const location = window.location.pathname;
-  const id = location.substring(location.indexOf(':') + 1, location.length);
+  // const location = window.location.pathname;
+  // const id = location.substring(location.indexOf(':') + 1, location.length);
 
   const handleClickOpen = (): void => {
     setOpen(true);
@@ -115,7 +123,11 @@ export const ProductSection: React.FC = () => {
 
   return (
     <section className={styles.section}>
-      <BreadCrumbs />
+      <BreadCrumbs
+        category={category}
+        subcategory={subcategory}
+        product={productName}
+      />
       <Alert
         className={styles.product_data_error}
         severity="error"
