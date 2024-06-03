@@ -8,6 +8,7 @@ import classes from './ProductGrid.module.scss';
 import { ProductSearch } from './ProductSearch/ProductSearch';
 
 export const ProductGrid: React.FC<IProducts> = ({ products, action, sort, onSearch }) => {
+  const discountPercent = 20;
   const centsPerEuro = 100;
   const colors: string[] = [];
   let variants = products.reduce((acc: IVariants[], product) => {
@@ -89,20 +90,18 @@ export const ProductGrid: React.FC<IProducts> = ({ products, action, sort, onSea
                   category = productCategories[0].id;
                 }
                 if (variant.prices && variant.prices.length) {
+                  oldPrice = (variant.prices[0].value.centAmount / centsPerEuro).toLocaleString('en-US', {
+                    style: 'currency',
+                    currency: 'EUR',
+                  });
                   if (variant.prices[0].discounted) {
-                    oldPrice = (variant.prices[0].value.centAmount / centsPerEuro).toLocaleString('en-US', {
-                      style: 'currency',
-                      currency: 'EUR',
-                    });
                     price = (variant.prices[0].discounted.value.centAmount / centsPerEuro).toLocaleString('en-US', {
                       style: 'currency',
                       currency: 'EUR',
                     });
                   } else {
-                    price = (variant.prices[0].value.centAmount / centsPerEuro).toLocaleString('en-US', {
-                      style: 'currency',
-                      currency: 'EUR',
-                    });
+                    const oldPriceNumber = +oldPrice.slice(1);
+                    price = `€${(oldPriceNumber - oldPriceNumber * (discountPercent / 100)).toFixed(2)}`;
                   }
                 }
                 return (
