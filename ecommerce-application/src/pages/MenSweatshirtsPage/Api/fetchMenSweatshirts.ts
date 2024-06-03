@@ -19,7 +19,7 @@ export const fetchMenSweatshirts = async (
   let sortParam = '';
   let searchParam = '';
 
-  const parentCategory = await apiRoot.categories().withKey({ key: 'men-hood-sweatshirts' }).get().execute();
+  const parentCategory = await apiRoot.categories().withKey({ key: 'sweatshirts' }).get().execute();
   const parentId = parentCategory.body.id || '';
 
   if (sort === 'name') {

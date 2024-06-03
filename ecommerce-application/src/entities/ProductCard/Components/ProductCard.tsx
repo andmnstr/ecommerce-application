@@ -24,7 +24,7 @@ export const ProductCard: React.FC<IProductCard> = props => {
           category,
           productLink
         );
-        navigate(`/shop/${categoryName}/${subcategoryName}/:${id}`);
+        navigate(`/shop/${categoryName}/${subcategoryName}/${id}`);
       }}
     >
       <CardMedia
