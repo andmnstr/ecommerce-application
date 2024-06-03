@@ -28,6 +28,7 @@ export const UserProfile: React.FC = () => {
   const handleTabChange = (e: React.SyntheticEvent, tabIndex: number): void => {
     setCurrentTabIndex(tabIndex);
     setIsChangeAddress(false);
+    setIsNewAddress(false);
   };
 
   const [userInfo, setUserInfo] = useState<Customer>();

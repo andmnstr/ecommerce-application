@@ -113,7 +113,7 @@ export const ChangeAddress: React.FC<IUserAddressesProps> = ({
       className={classes.Container}
       onSubmit={handleSubmit(submitForm)}
     >
-      <Typography variant="h6">Edit address</Typography>
+      <Typography variant="body1">Edit address</Typography>
       <Controller
         name="streetName"
         control={control}
@@ -167,44 +167,46 @@ export const ChangeAddress: React.FC<IUserAddressesProps> = ({
         helperText={errors.fullCountry?.message}
         value={fullCountry}
       />
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={defaultShipping}
-            onChange={event => {
-              setDefaultShipping(event.target.checked);
-            }}
-          />
-        }
-        label="Set as default shipping address"
-      />
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={defaultBilling}
-            onChange={event => {
-              setDefaultBilling(event.target.checked);
-            }}
-          />
-        }
-        label="Set as default billing address"
-      />
-      <CustomButton
-        variant="contained"
-        size="large"
-        className={saveButton}
-        type="submit"
-      >
-        Save
-      </CustomButton>
-      <CustomButton
-        variant="contained"
-        size="large"
-        className={classes.Button}
-        onClick={onCancel}
-      >
-        Back
-      </CustomButton>
+      <Box className={classes.ControlBox}>
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={defaultShipping}
+              onChange={event => {
+                setDefaultShipping(event.target.checked);
+              }}
+            />
+          }
+          label="Set as default shipping address"
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={defaultBilling}
+              onChange={event => {
+                setDefaultBilling(event.target.checked);
+              }}
+            />
+          }
+          label="Set as default billing address"
+        />
+        <CustomButton
+          variant="contained"
+          size="large"
+          className={saveButton}
+          type="submit"
+        >
+          Save
+        </CustomButton>
+        <CustomButton
+          variant="contained"
+          size="large"
+          className={classes.Button}
+          onClick={onCancel}
+        >
+          Back
+        </CustomButton>
+      </Box>
       {message && (
         <Alert
           severity={message === 'Your data has been succesfully updated.' ? 'success' : 'error'}
