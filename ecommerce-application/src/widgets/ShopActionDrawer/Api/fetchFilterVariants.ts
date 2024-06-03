@@ -30,21 +30,22 @@ export const fetchFilterCategories = async (apiRoot: ByProjectKeyRequestBuilder)
   const filterCategories: ICategory[] = [];
   const categories = (await apiRoot.categories().get().execute()).body.results;
   categories.map(category => {
-    let name = '';
-    if (
-      isValue(category.name) &&
-      filterCategories.every(item => {
-        return item.name !== category.name['ru-RU'];
-      })
-    ) {
-      name = category.name['ru-RU'];
-    }
+    const name = category.name['ru-RU'];
     const { id } = category;
     filterCategories.push({ name, id });
     return category;
   });
   const productsId: string[] = [];
-  const products = (await apiRoot.productProjections().get().execute()).body.results;
+  const products = (
+    await apiRoot
+      .productProjections()
+      .get({
+        queryArgs: {
+          limit: 200,
+        },
+      })
+      .execute()
+  ).body.results;
   products.map(product => {
     productsId.push(product.categories[0].id);
     return product;
