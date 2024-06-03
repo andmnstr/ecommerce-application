@@ -45,7 +45,7 @@ export const ImagesSection: React.FC<IImagesSectionProps> = props => {
           className={styles.pseudo_image}
         />
       )}
-      {additionInfo ? (
+      {typeof additionInfo === 'string' ? (
         <div className={styles.image_text}>
           <div className={styles.properties_selector}>
             <Typography

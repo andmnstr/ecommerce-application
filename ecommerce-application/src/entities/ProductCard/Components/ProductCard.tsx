@@ -1,5 +1,6 @@
 import { Box, Card, CardContent, CardMedia, Typography } from '@mui/material';
 import type React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { getApiRoot } from '../../../shared';
 import { getProductCardData } from '../Api';
@@ -7,15 +8,23 @@ import type { IProductCard } from '../Lib/type';
 import classes from './ProductCard.module.scss';
 
 export const ProductCard: React.FC<IProductCard> = props => {
-  const { image, name, description, price, oldPrice, product, category, productLink } = props;
+  const { id, image, name, description, price, oldPrice, product, category, productLink } = props;
+  const navigate = useNavigate();
+
   return (
     <Card
       className={classes.card}
       data-product={product}
       data-category={category}
       data-product-link={productLink}
-      onClick={() => {
-        getProductCardData(getApiRoot(), product, category, productLink);
+      onClick={async () => {
+        const { categoryName, subcategoryName } = await getProductCardData(
+          getApiRoot(),
+          product,
+          category,
+          productLink
+        );
+        navigate(`/shop/${categoryName}/${subcategoryName}/:${id}`);
       }}
     >
       <CardMedia

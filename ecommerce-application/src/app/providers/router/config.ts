@@ -13,6 +13,7 @@ import {
   MenSweatshirtsPage,
   MenTrousersPage,
   Page404,
+  ProductPage,
   ShopPage,
   SignupPage,
   UserProfilePage,
@@ -40,6 +41,7 @@ export const pages = [
   { id: 15, page: FootwearSneakersPage, path: '/shop/footwear/sneakers' },
   { id: 16, page: AccessoriesGlassesPage, path: '/shop/accessories/glasses' },
   { id: 17, page: AccessoriesBagsPage, path: '/shop/accessories/bags' },
-  { id: 18, page: UserProfilePage, path: '/user' },
-  { id: 19, page: Page404, path: '*' },
+  { id: 18, page: ProductPage, path: '/shop/:category/:subcategory/:id' },
+  { id: 19, page: UserProfilePage, path: '/user' },
+  { id: 20, page: Page404, path: '*' },
 ];
