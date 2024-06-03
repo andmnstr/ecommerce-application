@@ -23,6 +23,7 @@ export interface IFilterProps {
   onColorChange: (selectedColors: string[]) => void;
   onCategoryChange: (selectedCategories: ICategory[]) => void;
   onPriceChange: (selectedPrices: IPrice[]) => void;
+  hasCategoryGroup: boolean;
 }
 
 export interface IFilters {
