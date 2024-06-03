@@ -1,6 +1,7 @@
 import { Box, Drawer } from '@mui/material';
 import type React from 'react';
 import { useCallback, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import { CustomButton } from '../../../../shared/UI/button/CustomButton';
 import type { ICategory, IDrawerOptions, IFilters, IPrice, Sort } from '../../Lib/types';
@@ -31,6 +32,21 @@ export const ShopActionDrawer: React.FC<IDrawerOptions> = ({ open, onClose, onCl
       };
     });
   }, []);
+
+  const location = useLocation();
+
+  const subCategoryPaths = ['Trousers', 'Dresses', 'Sweatshirts', 'Shoes', 'Sneakers', 'Bags', 'Glasses'];
+
+  const hasCategoryGroup = (pathname: string): boolean => {
+    if (
+      subCategoryPaths.some(path => {
+        return pathname.includes(path);
+      })
+    ) {
+      return false;
+    }
+    return true;
+  };
 
   const handleCategoryChange = useCallback((selectedCategories: ICategory[]): void => {
     setFilterValues(currentFilters => {
@@ -66,6 +82,7 @@ export const ShopActionDrawer: React.FC<IDrawerOptions> = ({ open, onClose, onCl
           onColorChange={handleColorChange}
           onCategoryChange={handleCategoryChange}
           onPriceChange={handlePriceChange}
+          hasCategoryGroup={hasCategoryGroup(location.pathname)}
         />
         <SortGroup onChange={sortOnChange} />
         <CustomButton

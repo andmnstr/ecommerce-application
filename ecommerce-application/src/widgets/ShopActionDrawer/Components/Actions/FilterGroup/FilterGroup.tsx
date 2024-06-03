@@ -8,7 +8,12 @@ import { CategoryList } from './CategoryList/CategoryList';
 import { ColorList } from './ColorList/ColorList';
 import { PriceList } from './PriceList/PriceList';
 
-export const FilterGroup: React.FC<IFilterProps> = ({ onColorChange, onCategoryChange, onPriceChange }) => {
+export const FilterGroup: React.FC<IFilterProps> = ({
+  onColorChange,
+  onCategoryChange,
+  onPriceChange,
+  hasCategoryGroup,
+}) => {
   const [open, setOpen] = useState(false);
   const handleClick = (): void => {
     setOpen(!open);
@@ -35,9 +40,11 @@ export const FilterGroup: React.FC<IFilterProps> = ({ onColorChange, onCategoryC
         <ListItem sx={{ pl: 2 }}>
           <ColorList onChange={onColorChange} />
         </ListItem>
-        <ListItem sx={{ pl: 2 }}>
-          <CategoryList onChange={onCategoryChange} />
-        </ListItem>
+        {hasCategoryGroup && (
+          <ListItem sx={{ pl: 2 }}>
+            <CategoryList onChange={onCategoryChange} />
+          </ListItem>
+        )}
         <ListItem sx={{ pl: 2 }}>
           <PriceList onChange={onPriceChange} />
         </ListItem>
