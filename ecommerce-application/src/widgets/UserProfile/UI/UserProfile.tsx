@@ -107,6 +107,8 @@ export const UserProfile: React.FC = () => {
             <ChangeAddress
               address={address}
               version={userInfo.version}
+              isDefaultBillingAddress={address.id === userInfo.defaultBillingAddressId}
+              isDefaultShippingAddress={address.id === userInfo.defaultShippingAddressId}
               onCancel={cancelChangeAddress}
             />
           )}

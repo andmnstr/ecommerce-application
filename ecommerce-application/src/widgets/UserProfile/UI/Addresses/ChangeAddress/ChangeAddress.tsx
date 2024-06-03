@@ -1,5 +1,6 @@
+import type { MyCustomerUpdateAction } from '@commercetools/platform-sdk';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Alert, Box, TextField, Typography } from '@mui/material';
+import { Alert, Box, Checkbox, FormControlLabel, TextField, Typography } from '@mui/material';
 import type React from 'react';
 import { useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
@@ -13,7 +14,13 @@ import { userAddressesSchema } from '../../../lib/userAddressesSchema';
 import classes from '../../UserProfile.module.scss';
 import { SelectWithController } from '../SelectWithController/SelectWithController';
 
-export const ChangeAddress: React.FC<IUserAddressesProps> = ({ address, version, onCancel }) => {
+export const ChangeAddress: React.FC<IUserAddressesProps> = ({
+  address,
+  version,
+  isDefaultBillingAddress,
+  isDefaultShippingAddress,
+  onCancel,
+}) => {
   const { id, streetName, postalCode, city, country } = address;
   const fullCountry = countries.filter((item: string[]) => {
     return item[1] === country;
@@ -21,6 +28,8 @@ export const ChangeAddress: React.FC<IUserAddressesProps> = ({ address, version,
 
   const [saveButton, setSaveButtonClass] = useState(classes.Button);
   const [message, setMessage] = useState('');
+  const [defaultBilling, setDefaultBilling] = useState(isDefaultBillingAddress);
+  const [defaultShipping, setDefaultShipping] = useState(isDefaultShippingAddress);
 
   const {
     handleSubmit,
@@ -39,7 +48,7 @@ export const ChangeAddress: React.FC<IUserAddressesProps> = ({ address, version,
 
   const submitForm: SubmitHandler<IUserAddressesFields> = async formData => {
     try {
-      await getApiRoot()
+      const response = await getApiRoot()
         .me()
         .post({
           body: {
@@ -61,6 +70,34 @@ export const ChangeAddress: React.FC<IUserAddressesProps> = ({ address, version,
           },
         })
         .execute();
+
+      const setDefaultActions: MyCustomerUpdateAction[] = [];
+      if (defaultBilling && !isDefaultBillingAddress) {
+        setDefaultActions.push({ action: 'setDefaultBillingAddress', addressId: id });
+      }
+      if (!defaultBilling && isDefaultBillingAddress) {
+        setDefaultActions.push({ action: 'setDefaultBillingAddress' });
+      }
+
+      if (defaultShipping && !isDefaultShippingAddress) {
+        setDefaultActions.push({ action: 'setDefaultShippingAddress', addressId: id });
+      }
+
+      if (!defaultShipping && isDefaultShippingAddress) {
+        setDefaultActions.push({ action: 'setDefaultShippingAddress' });
+      }
+
+      if (setDefaultActions.length > 0) {
+        await getApiRoot()
+          .me()
+          .post({
+            body: {
+              version: response.body.version,
+              actions: setDefaultActions,
+            },
+          })
+          .execute();
+      }
 
       setSaveButtonClass(classes.Invisible);
       setMessage(FormSubmitMessages.Success);
@@ -129,6 +166,28 @@ export const ChangeAddress: React.FC<IUserAddressesProps> = ({ address, version,
         error={!!errors.fullCountry}
         helperText={errors.fullCountry?.message}
         value={fullCountry}
+      />
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={defaultShipping}
+            onChange={event => {
+              setDefaultShipping(event.target.checked);
+            }}
+          />
+        }
+        label="Set as default shipping address"
+      />
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={defaultBilling}
+            onChange={event => {
+              setDefaultBilling(event.target.checked);
+            }}
+          />
+        }
+        label="Set as default billing address"
       />
       <CustomButton
         variant="contained"

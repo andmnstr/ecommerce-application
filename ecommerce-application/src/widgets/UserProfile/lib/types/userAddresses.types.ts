@@ -22,5 +22,7 @@ export interface IInputProps {
 export interface IUserAddressesProps {
   address: Address;
   version: number;
+  isDefaultBillingAddress: boolean;
+  isDefaultShippingAddress: boolean;
   onCancel: () => void;
 }
