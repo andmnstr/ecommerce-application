@@ -12,8 +12,8 @@ export interface IProductCard {
 }
 
 export interface IProductCardData {
-  category: string;
-  subcategory: string;
-  product: string;
+  categoryName: string;
+  subcategoryName: string;
+  productName: string;
   id: string;
 }

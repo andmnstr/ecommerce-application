@@ -24,14 +24,13 @@ interface ISpecAttributeValue {
   value: string;
 }
 
-interface IProductSectionProps {
-  id: string;
-}
-
-export const ProductSection: React.FC<IProductSectionProps> = ({ id }) => {
+export const ProductSection: React.FC = () => {
   const [product, setProduct] = useState<ProductProjection>();
   const [errorDisplay, setErrorDisplay] = useState(false);
   const [open, setOpen] = useState(false);
+
+  const location = window.location.pathname;
+  const id = location.substring(location.indexOf(':') + 1, location.length);
 
   const handleClickOpen = (): void => {
     setOpen(true);
@@ -56,13 +55,15 @@ export const ProductSection: React.FC<IProductSectionProps> = ({ id }) => {
 
   const productColors: string[] = [];
   const productSizes: string[] = [];
-  const priceAttribute = product?.masterVariant.prices;
-  const productAttributes = product?.masterVariant.attributes;
-  const productName = product?.name['ru-RU'];
+  const master = product?.masterVariant;
+  const priceAttribute = master?.prices;
+  const productAttributes = master?.attributes;
+  const productNameData = product?.name;
+  const productName = productNameData ? productNameData['ru-RU'] : '';
   const productDescription = product?.description !== undefined ? product.description['ru-RU'] : undefined;
-  const productPrice = priceAttribute !== undefined ? priceAttribute[0].value.centAmount : undefined;
-  const productPriceDiscounted = priceAttribute !== undefined ? priceAttribute[0].value.centAmount : undefined;
-  const productImages = product?.masterVariant.images;
+  const productPrice = priceAttribute !== undefined ? priceAttribute[0]?.value?.centAmount : undefined;
+  const productPriceDiscounted = priceAttribute !== undefined ? priceAttribute[0]?.value?.centAmount : undefined;
+  const productImages = master?.images;
   let productSpec: string | undefined;
   const errorMessage = 'Requested product item was not found! Please, return back and try to choose another item.';
   const productAdditionInfo = { color: '', size: '', season: '' };
@@ -72,26 +73,28 @@ export const ProductSection: React.FC<IProductSectionProps> = ({ id }) => {
     productSpec = specAttribute.value;
   }
 
-  product?.variants.forEach(variant => {
-    if (variant.attributes !== undefined) {
-      variant.attributes.map(attribute => {
-        if (attribute.name === 'color') {
-          const colorAttribute: IProductAttributeValue = attribute;
-          productColors.push(colorAttribute.value['ru-RU']);
-        }
+  if (product?.variants !== undefined && product.variants.length > 0) {
+    product.variants.forEach(variant => {
+      if (variant.attributes !== undefined) {
+        variant.attributes.map(attribute => {
+          if (attribute.name === 'color') {
+            const colorAttribute: IProductAttributeValue = attribute;
+            productColors.push(colorAttribute.value['ru-RU']);
+          }
 
-        if (attribute.name === 'size') {
-          const colorAttribute: IProductAttributeValue = attribute;
-          productSizes.push(colorAttribute.value['ru-RU']);
-        }
-        return null;
-      });
-    }
-    return null;
-  });
+          if (attribute.name === 'size') {
+            const colorAttribute: IProductAttributeValue = attribute;
+            productSizes.push(colorAttribute.value['ru-RU']);
+          }
+          return null;
+        });
+      }
+      return null;
+    });
+  }
 
-  if (product?.masterVariant.attributes !== undefined) {
-    const prodAttributes = product.masterVariant.attributes;
+  if (master?.attributes !== undefined) {
+    const prodAttributes = master.attributes;
 
     prodAttributes.map(attribute => {
       if (attribute.name === 'color') {
@@ -117,7 +120,7 @@ export const ProductSection: React.FC<IProductSectionProps> = ({ id }) => {
         className={styles.product_data_error}
         severity="error"
         variant="filled"
-        style={errorDisplay ? { display: 'flex' } : { display: 'none' }}
+        style={errorDisplay && !productNameData ? { display: 'flex' } : { display: 'none' }}
       >
         {errorMessage}
       </Alert>
