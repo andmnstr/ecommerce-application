@@ -52,8 +52,10 @@ export const UserProfile: React.FC = () => {
   useEffect(() => {
     const fetchUserInfo = async (): Promise<void> => {
       const userData = await getUserInfo();
-      setUserInfo(userData);
-      setAddresses(userData.addresses);
+      if (userData) {
+        setUserInfo(userData);
+        setAddresses(userData.addresses);
+      }
     };
     fetchUserInfo();
   }, [currentTabIndex, isChangeAddress, isNewAddress]);
