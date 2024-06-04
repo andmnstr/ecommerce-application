@@ -5,8 +5,8 @@ import type React from 'react';
 import styles from './ProductPrice.module.scss';
 
 interface IProductPriceProps {
-  price: number | undefined;
-  discounted: number | undefined;
+  price: string | undefined;
+  discounted: string | undefined;
 }
 
 export const ProductPrice: React.FC<IProductPriceProps> = props => {
