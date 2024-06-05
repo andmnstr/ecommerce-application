@@ -34,7 +34,7 @@ export const fetchProducts = async (
   ) {
     let colorFilter = '';
     let categoriesFilter = '';
-    let priceFilter = '';
+    let discountedPriceFilter = '';
     if (filter.colors.length) {
       const colors = filter.colors
         .map(color => {
@@ -54,7 +54,7 @@ export const fetchProducts = async (
     if (filter.prices.length) {
       const [priceRange] = filter.prices;
       const { from, to } = priceRange;
-      priceFilter = `variants.prices.value.centAmount:range (${from} to ${to})`;
+      discountedPriceFilter = `variants.prices.discounted.value.centAmount:range (${from} to ${to})`;
     }
     products = (
       await apiRoot
@@ -62,7 +62,7 @@ export const fetchProducts = async (
         .search()
         .get({
           queryArgs: {
-            filter: [colorFilter, categoriesFilter, priceFilter],
+            filter: [colorFilter, categoriesFilter, discountedPriceFilter],
             markMatchingVariants: true,
             ...(sortParam && { sort: sortParam }),
             ...(searchParam && { 'filter.query': [`name.ru-RU:"${searchParam}"`] }),
