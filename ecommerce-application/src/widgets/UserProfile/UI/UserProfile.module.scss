@@ -1,0 +1,148 @@
+.Title {
+  font-size: 30px;
+  font-weight: 700;
+  margin: 20px 0 15px;
+}
+
+.Container {
+  margin: 30px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  width: 50%;
+}
+
+.AddressContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+  gap: 10px;
+  border: 1px solid #6e6d6d;
+  border-radius: 10px;
+  width: 170%;
+}
+
+.AddressStack {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.Tab {
+  font-weight: 700;
+  -webkit-text-fill-color: #000;
+  color: #000;
+}
+
+.Tab > span {
+  color: #000;
+}
+
+.Container label,
+.Container input {
+  -webkit-text-fill-color: #000;
+  color: #000;
+}
+
+.Button {
+  display: block;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  width: 200px;
+  margin-bottom: 15px;
+}
+
+.AddressName {
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.Select {
+  text-align: start;
+}
+
+.Invisible {
+  display: none;
+}
+
+.Modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  background-color: #fff;
+  border: 2px solid #000;
+  border-radius: 10px;
+  box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
+  padding: 50px;
+  z-index: 1150;
+}
+
+.ModalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1140;
+}
+
+.ControlBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+@media screen and (width < 1200px) {
+  .Title,
+  .Container label,
+  .Container input,
+  .Select label,
+  .Container h6,
+  .AddressName,
+  .Tab {
+    color: #fff;
+    text-shadow: 1px 1px 2px #000;
+    -webkit-text-fill-color: #fff;
+  }
+
+  .Container input:disabled {
+    text-shadow: 1px 1px 2px #000;
+    -webkit-text-fill-color: #c8cbd3;
+  }
+}
+
+@media screen and (width < 640px) {
+  .AddressContainer {
+    width: 100%;
+  }
+
+  .AddressStack {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .Container {
+    width: 60%;
+  }
+
+  .Modal {
+    padding: 30px;
+  }
+}
+
+@media screen and (width < 420px) {
+  .Container {
+    width: 70%;
+  }
+}

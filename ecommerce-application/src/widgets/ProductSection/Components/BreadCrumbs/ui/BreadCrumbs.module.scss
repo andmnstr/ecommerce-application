@@ -1,0 +1,16 @@
+.section__breadcrumbs {
+  display: flex;
+  min-width: 300px;
+  min-height: 50px;
+  margin: 20px 0;
+}
+.section__breadcrumbs {
+  transform: none;
+  -webkit-transform: none;
+}
+
+@media screen and (width <= 500px) {
+  .section__breadcrumbs {
+    min-width: 200px;
+  }
+}

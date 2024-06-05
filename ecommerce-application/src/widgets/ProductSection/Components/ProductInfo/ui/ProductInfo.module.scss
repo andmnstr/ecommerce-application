@@ -1,0 +1,40 @@
+.info_section {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 10px;
+  width: calc(50% - 15px);
+  height: 100%;
+  margin: 0 0 auto 0;
+}
+
+.product_name {
+  min-width: 260px;
+  line-height: 60px;
+  margin: auto 0;
+  font-family: 'Segoe UI', sans-serif;
+  font-weight: 600;
+  font-size: 2rem;
+}
+
+.product_description {
+  min-width: 300px;
+  min-height: 100px;
+  font-family: 'Segoe UI', sans-serif;
+  font-weight: 300;
+  font-size: 1rem;
+  text-align: justify;
+}
+
+.product_name,
+.product_description {
+  transform: none;
+  -webkit-transform: none;
+}
+
+@media screen and (width <= 1030px) {
+  .info_section {
+    width: auto;
+    width: 100%;
+  }
+}

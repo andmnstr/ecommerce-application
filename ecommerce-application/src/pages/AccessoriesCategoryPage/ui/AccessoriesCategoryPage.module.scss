@@ -1,0 +1,68 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 200px auto;
+  text-align: center;
+}
+
+.text,
+.text_heading {
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.text_heading {
+  font-size: 5rem;
+  color: rgb(58, 128, 160);
+}
+
+.text {
+  font-size: 1.5rem;
+  color: rgb(94, 200, 241);
+}
+
+.productsContainer {
+  display: flex;
+  justify-content: center;
+  margin: 100px auto auto auto;
+}
+
+.drawerButton {
+  width: 5%;
+  height: 100vh;
+  position: fixed;
+  cursor: pointer;
+  left: 0;
+  top: 0;
+}
+
+.drawerButton:hover {
+  background-color: #aaa;
+}
+
+.arrow {
+  color: #111;
+  width: 30px;
+  height: 30px;
+}
+
+.breadcrumbs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(100% - 80px);
+  max-width: 1440px;
+  padding: 0 40px;
+  margin: 100px auto auto auto;
+}
+
+.link {
+  font-size: 1.2rem;
+}
+
+.divider {
+  width: 80%;
+  margin: auto;
+}
