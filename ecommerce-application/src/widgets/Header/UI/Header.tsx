@@ -3,7 +3,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { AuthSection } from './AuthSection';
-import { authPages } from './AuthSection/config';
+import { authPages, userProfilePath } from './AuthSection/config';
 import { BurgerMenu } from './Burger';
 import styles from './Header.module.scss';
 import { Logo } from './Logo';
@@ -28,10 +28,9 @@ export const Header: React.FC = (): JSX.Element => {
   React.useEffect(() => {
     if (token) {
       setLogoutEnable(true);
-
-      if (currentPage === loginPage.href || currentPage === signupPage.href) {
-        navigate('/');
-      }
+    }
+    if (currentPage === loginPage.href || currentPage === signupPage.href || currentPage === userProfilePath) {
+      navigate('/');
     }
   }, [navigate, token, logoutEnable, currentPage, loginPage.href, signupPage.href]);
 
