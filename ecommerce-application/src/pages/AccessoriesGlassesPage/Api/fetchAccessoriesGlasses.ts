@@ -26,7 +26,7 @@ export const fetchAccessoriesGlasses = async (
     sortParam = 'name.ru-Ru asc';
   }
   if (search) {
-    searchParam = search;
+    searchParam = search.toLowerCase();
   }
   if (
     Object.values(filter).some(item => {
