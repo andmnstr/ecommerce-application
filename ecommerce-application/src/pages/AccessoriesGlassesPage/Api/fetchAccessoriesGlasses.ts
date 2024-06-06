@@ -60,7 +60,7 @@ export const fetchAccessoriesGlasses = async (
     if (filter.prices.length) {
       const [priceRange] = filter.prices;
       const { from, to } = priceRange;
-      priceFilter = `variants.prices.value.centAmount:range (${from} to ${to})`;
+      priceFilter = `variants.prices.discounted.value.centAmount:range (${from} to ${to})`;
     }
 
     products = (
