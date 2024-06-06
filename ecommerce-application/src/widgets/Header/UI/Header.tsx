@@ -32,6 +32,12 @@ export const Header: React.FC = (): JSX.Element => {
     if (currentPage === loginPage.href || currentPage === signupPage.href || currentPage === userProfilePath) {
       navigate('/');
     }
+
+    if (!token) {
+      if (currentPage === userProfilePath) {
+        navigate('/');
+      }
+    }
   }, [navigate, token, logoutEnable, currentPage, loginPage.href, signupPage.href]);
 
   return (
