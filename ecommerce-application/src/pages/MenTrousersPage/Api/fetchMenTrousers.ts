@@ -26,7 +26,7 @@ export const fetchMenTrousers = async (
     sortParam = 'name.ru-Ru asc';
   }
   if (search) {
-    searchParam = search;
+    searchParam = search.toLowerCase();
   }
   if (
     Object.values(filter).some(item => {
@@ -60,7 +60,7 @@ export const fetchMenTrousers = async (
     if (filter.prices.length) {
       const [priceRange] = filter.prices;
       const { from, to } = priceRange;
-      priceFilter = `variants.prices.value.centAmount:range (${from} to ${to})`;
+      priceFilter = `variants.prices.discounted.value.centAmount:range (${from} to ${to})`;
     }
 
     products = (
