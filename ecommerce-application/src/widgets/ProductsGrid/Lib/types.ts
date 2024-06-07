@@ -17,6 +17,7 @@ export interface IProducts {
   action: 'none' | 'filter' | 'search';
   sort: Sort;
   onSearch: SubmitHandler<ISearchField>;
+  toStartPage: boolean;
 }
 
 export interface IFormProps {
