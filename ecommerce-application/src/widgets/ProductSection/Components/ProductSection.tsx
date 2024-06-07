@@ -121,11 +121,14 @@ export const ProductSection: React.FC<IProductSectionProps> = props => {
     });
   }
 
+  const capitalCategory = category.charAt(0).toUpperCase() + category.slice(1);
+  const capitalSubCategory = subcategory.charAt(0).toUpperCase() + subcategory.slice(1);
+
   return (
     <section className={styles.section}>
       <BreadCrumbs
-        category={category}
-        subcategory={subcategory}
+        category={capitalCategory}
+        subcategory={capitalSubCategory}
         product={productName}
       />
       <Alert

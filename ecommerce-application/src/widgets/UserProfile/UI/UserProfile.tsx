@@ -17,6 +17,7 @@ export const UserProfile: React.FC = () => {
   const [currentTabIndex, setCurrentTabIndex] = useState(0);
   const [isChangeAddress, setIsChangeAddress] = useState(false);
   const [isNewAddress, setIsNewAddress] = useState(false);
+  const [isDeleteAddress, setIsDeleteAddress] = useState(false);
   const [address, setAddress] = useState<Address>({
     id: '',
     streetName: '',
@@ -49,6 +50,15 @@ export const UserProfile: React.FC = () => {
     setIsNewAddress(false);
   };
 
+  const handleDeleteAddress = (deletedAddressId: string | undefined): void => {
+    setAddresses(currentAddresses =>
+      currentAddresses.filter(item => {
+        setIsDeleteAddress(true);
+        return item.id !== deletedAddressId;
+      })
+    );
+  };
+
   useEffect(() => {
     const fetchUserInfo = async (): Promise<void> => {
       const userData = await getUserInfo();
@@ -58,15 +68,8 @@ export const UserProfile: React.FC = () => {
       }
     };
     fetchUserInfo();
-  }, [currentTabIndex, isChangeAddress, isNewAddress]);
-
-  const handleDeleteAddress = (deletedAddressId: string | undefined): void => {
-    setAddresses(currentAddresses =>
-      currentAddresses.filter(item => {
-        return item.id !== deletedAddressId;
-      })
-    );
-  };
+    setIsDeleteAddress(false);
+  }, [currentTabIndex, isChangeAddress, isNewAddress, isDeleteAddress]);
 
   const smallScreen = useMediaQuery('(max-width: 640px)');
 
