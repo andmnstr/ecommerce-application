@@ -43,3 +43,20 @@
   font-family: 'Segoe UI', sans-serif;
   color: #111;
 }
+
+.gridContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pagination {
+  margin-bottom: 20px;
+  margin-right: 20px;
+  align-self: end;
+}
+
+.paginationElement button {
+  background-color: #222;
+  color: white;
+}
