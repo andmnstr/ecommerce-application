@@ -172,15 +172,8 @@ export const ProductGrid: React.FC<IProducts> = ({ products, action, sort, onSea
               page={currentPage}
               onChange={handleChange}
               sx={{
-                '& .MuiButtonBase-root': {
-                  backgroundColor: '#222',
-                  color: 'white',
-                },
                 '& .Mui-selected': {
-                  backgroundColor: '#555',
-                },
-                '& .Mui-selected:hover': {
-                  backgroundColor: '#555',
+                  color: '#222',
                 },
               }}
             />
