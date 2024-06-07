@@ -25,16 +25,11 @@ export const Header: React.FC = (): JSX.Element => {
     }
   };
 
-  React.useEffect(() => {
+React.useEffect(() => {
     if (token) {
       setLogoutEnable(true);
-    }
-    if (currentPage === loginPage.href || currentPage === signupPage.href || currentPage === userProfilePath) {
-      navigate('/');
-    }
 
-    if (!token) {
-      if (currentPage === userProfilePath) {
+      if (currentPage === loginPage.href || currentPage === signupPage.href) {
         navigate('/');
       }
     }
