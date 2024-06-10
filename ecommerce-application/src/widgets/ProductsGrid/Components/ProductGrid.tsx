@@ -3,7 +3,7 @@ import type React from 'react';
 import { useEffect, useState } from 'react';
 
 import { ProductCard } from '../../../entities';
-import { isColorValue } from '../Lib/predicates';
+import { isColorValue, isLocalizedString } from '../Lib/predicates';
 import type { IProducts, IVariants } from '../Lib/types';
 import classes from './ProductGrid.module.scss';
 import { ProductSearch } from './ProductSearch/ProductSearch';
@@ -110,6 +110,7 @@ export const ProductGrid: React.FC<IProducts> = ({ products, action, sort, onSea
               let category = '';
               let productLink = '';
               let oldPrice = '';
+              let size = '';
               if (variant.images && variant.images.length) {
                 image = variant.images[0].url;
               }
@@ -138,6 +139,14 @@ export const ProductGrid: React.FC<IProducts> = ({ products, action, sort, onSea
                   price = `€${(oldPriceNumber - oldPriceNumber * (discountPercent / 100)).toFixed(2)}`;
                 }
               }
+              if (variant.attributes) {
+                const variantSize = variant.attributes.find(item => {
+                  return item.name === 'size';
+                });
+                if (variantSize && isLocalizedString(variantSize.value)) {
+                  size = `Size: ${variantSize.value['ru-RU']}`;
+                }
+              }
               return (
                 <Grid
                   item
@@ -155,6 +164,8 @@ export const ProductGrid: React.FC<IProducts> = ({ products, action, sort, onSea
                     category={category}
                     productLink={productLink}
                     oldPrice={oldPrice}
+                    isInCart={false}
+                    size={size}
                   />
                 </Grid>
               );

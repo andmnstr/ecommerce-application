@@ -9,6 +9,8 @@ export interface IProductCard {
   product: string;
   category: string;
   productLink: string;
+  isInCart: boolean;
+  size: string;
 }
 
 export interface IProductCardData {
