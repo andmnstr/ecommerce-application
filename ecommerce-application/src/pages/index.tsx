@@ -2,6 +2,7 @@ export { AboutPage } from './AboutPage';
 export { AccessoriesBagsPage } from './AccessoriesBagsPage';
 export { AccessoriesCategoryPage } from './AccessoriesCategoryPage';
 export { AccessoriesGlassesPage } from './AccessoriesGlassesPage';
+export { CartPage } from './CartPage';
 export { ContactsPage } from './ContactsPage';
 export { FootwearCategoryPage } from './FootwearCategoryPage';
 export { FootwearShoesPage } from './FootwearShoesPage';
