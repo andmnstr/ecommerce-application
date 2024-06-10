@@ -1,0 +1,115 @@
+.developerInfo__card {
+  min-height: 450px;
+  width: fit-content;
+  max-width: 300px;
+  margin: 0 auto auto auto;
+  transition: all ease-in-out 0.5s;
+  border-radius: 0;
+}
+
+.developerInfo__main_info {
+  max-width: 300px;
+  margin: auto;
+}
+
+.developerInfo__role {
+  font-size: 1.1rem;
+  font-weight: 300;
+}
+
+.developerInfo__name,
+.developerInfo__text {
+  margin: auto;
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  transition: all ease-in-out 0.5s;
+  user-select: none;
+}
+
+.developerInfo__name {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.developerInfo__role,
+.developerInfo__name {
+  margin: auto auto 10px auto;
+  min-height: 30px;
+  line-height: 30px;
+  letter-spacing: 2px;
+  color: #fff;
+  background-color: #131118;
+  text-align: center;
+  user-select: none;
+}
+
+.developerInfo__photo {
+  height: 350px;
+  min-height: 350px;
+  min-width: 300px;
+  margin: 0 auto auto auto;
+  background-position: top;
+  background-size: cover;
+  background-repeat: no-repeat;
+  transition: all ease-in-out 0.5s;
+  user-select: none;
+}
+
+.developerInfo__text {
+  font-size: 1rem;
+  font-weight: 200;
+  color: #131118;
+}
+
+.developerInfo__contacts {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 20px;
+  align-items: center;
+  margin: 30px auto auto auto;
+  box-shadow:
+    0px 2px 1px -1px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+  border-radius: 0;
+}
+
+.developerInfo__github_link,
+.developerInfo__discord_link,
+.developerInfo__telegram_link {
+  display: block;
+  width: 48px;
+  height: 48px;
+  margin: auto;
+  background-position: top;
+  background-size: contain;
+  background-repeat: no-repeat;
+  transition: all ease-in-out 1s;
+}
+
+.developerInfo__github_link {
+  background-image: url('../../../../public/images/github-mark.png');
+}
+
+.developerInfo__discord_link {
+  background-image: url('../../../../public/images/discord-svgrepo-com.svg');
+}
+
+.developerInfo__telegram_link {
+  background-image: url('../../../../public/images/icons8-telegram.svg');
+}
+
+@media screen and (hover: hover) {
+  .developerInfo__github_link:hover,
+  .developerInfo__discord_link:hover,
+  .developerInfo__telegram_link:hover {
+    transform: rotateY(360deg);
+    opacity: 0.5;
+  }
+
+  .developerInfo__photo:hover {
+    filter: brightness(60%);
+    cursor: pointer;
+  }
+}
