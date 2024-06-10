@@ -1,6 +1,7 @@
 import { AddShoppingCart } from '@mui/icons-material';
-import { Box, Button, Card, CardContent, CardMedia, Typography } from '@mui/material';
+import { Box, Button, Card, CardContent, CardMedia, CircularProgress, Typography } from '@mui/material';
 import type React from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { getApiRoot } from '../../../shared';
@@ -11,10 +12,21 @@ import classes from './ProductCard.module.scss';
 export const ProductCard: React.FC<IProductCard> = props => {
   const { id, image, name, description, price, oldPrice, product, category, productLink, size, isInCart } = props;
   const navigate = useNavigate();
-  const buttonText = isInCart ? 'In cart' : 'Add to cart';
+  const [isLoading, setIsLoading] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(isInCart);
+  const buttonText = isDisabled ? 'In cart' : 'Add to cart';
 
-  const onClick = (e: React.MouseEvent): void => {
+  const onClick = async (e: React.MouseEvent): Promise<void> => {
     e.stopPropagation();
+    try {
+      setIsLoading(true);
+      const cart = await getApiRoot().me().carts().get().execute();
+      console.log('CART', cart);
+      setIsLoading(false);
+      setIsDisabled(true);
+    } catch (error) {
+      console.log('ERROR', error);
+    }
   };
 
   return (
@@ -52,11 +64,17 @@ export const ProductCard: React.FC<IProductCard> = props => {
           <Button
             className={classes.button}
             variant="contained"
-            disabled={isInCart}
+            disabled={isDisabled}
             onClick={onClick}
           >
-            {buttonText}
-            {!isInCart && <AddShoppingCart fontSize="small" />}
+            {isLoading && (
+              <CircularProgress
+                size={24}
+                color="secondary"
+              />
+            )}
+            {!isLoading && <Typography>{buttonText}</Typography>}
+            {!isDisabled && !isLoading && <AddShoppingCart fontSize="small" />}
           </Button>
         </Box>
       </CardContent>
