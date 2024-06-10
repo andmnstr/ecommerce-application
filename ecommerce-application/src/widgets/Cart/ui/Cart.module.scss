@@ -1,0 +1,72 @@
+.CartContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 5%;
+  width: 100%;
+}
+
+.CartProductsTable {
+  width: 75%;
+}
+
+.CartItem {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.CartItemImage {
+  height: 48.5px;
+}
+
+.CartProductsTable p {
+  font-size: 0.875rem;
+}
+
+.ProductsCell {
+  display: flex;
+  gap: 10px;
+}
+
+.ItemQuantity {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #131118;
+  border-radius: 10px;
+  gap: 10px;
+  width: 90px;
+  padding: 6px;
+}
+
+.TotalPriceBox {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 20%;
+  border: 1px solid #e0e0e0;
+  padding: 20px;
+}
+
+.TotalPrice {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+@media screen and (width < 1120px) {
+  .CartContainer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 40px;
+  }
+
+  .CartProductsTable {
+    width: 100%;
+  }
+
+  .TotalPriceBox {
+    width: 40%;
+  }
+}
