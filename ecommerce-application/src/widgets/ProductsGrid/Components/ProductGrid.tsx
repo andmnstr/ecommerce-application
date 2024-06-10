@@ -3,7 +3,7 @@ import type React from 'react';
 import { useEffect, useState } from 'react';
 
 import { ProductCard } from '../../../entities';
-import { isColorValue, isLocalizedString } from '../Lib/predicates';
+import { isLocalizedString } from '../Lib/predicates';
 import type { IProducts, IVariants } from '../Lib/types';
 import classes from './ProductGrid.module.scss';
 import { ProductSearch } from './ProductSearch/ProductSearch';
@@ -15,7 +15,6 @@ export const ProductGrid: React.FC<IProducts> = ({ products, action, sort, onSea
   const productsQuantityPerPage = 30;
   const discountPercent = 20;
   const centsPerEuro = 100;
-  const colors: string[] = [];
   let variants = products.reduce((acc: IVariants[], product) => {
     product.variants.map(variant => {
       if (product.description && product.key) {
@@ -59,23 +58,6 @@ export const ProductGrid: React.FC<IProducts> = ({ products, action, sort, onSea
   const handleChange = (event: React.ChangeEvent<unknown>, value: number): void => {
     setCurrentPage(value);
   };
-  variants = variants.filter(item => {
-    const { variant } = item;
-    if (variant.attributes) {
-      const color = variant.attributes.find(attribute => {
-        return attribute.name === 'color';
-      });
-      if (
-        color &&
-        isColorValue(color.value) &&
-        !colors.includes(JSON.stringify({ id: item.productId, color: color.value['ru-RU'] }))
-      ) {
-        colors.push(JSON.stringify({ id: item.productId, color: color.value['ru-RU'] }));
-        return true;
-      }
-    }
-    return false;
-  });
   if (sort === 'ascending' || sort === 'descending') {
     variants.sort((a, b) => {
       if (a.variant.prices && b.variant.prices) {
