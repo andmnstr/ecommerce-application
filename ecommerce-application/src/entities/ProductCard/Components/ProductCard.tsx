@@ -51,12 +51,12 @@ export const ProductCard: React.FC<IProductCard> = props => {
           </Box>
           <Button
             className={classes.button}
-            variant="outlined"
+            variant="contained"
             disabled={isInCart}
             onClick={onClick}
           >
             {buttonText}
-            {!isInCart && <AddShoppingCart />}
+            {!isInCart && <AddShoppingCart fontSize="small" />}
           </Button>
         </Box>
       </CardContent>
