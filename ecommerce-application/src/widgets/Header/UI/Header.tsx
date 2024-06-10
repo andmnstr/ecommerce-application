@@ -25,7 +25,7 @@ export const Header: React.FC = (): JSX.Element => {
     }
   };
 
-React.useEffect(() => {
+  React.useEffect(() => {
     if (token) {
       setLogoutEnable(true);
 
