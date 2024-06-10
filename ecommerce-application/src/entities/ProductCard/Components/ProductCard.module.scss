@@ -67,3 +67,14 @@
   border-top: 1px solid #888;
   transform: rotate(17deg);
 }
+
+.size {
+  margin: 5px 0;
+  font-weight: 700;
+}
+
+.button {
+  display: flex;
+  justify-content: space-evenly;
+  border-radius: 7px;
+}

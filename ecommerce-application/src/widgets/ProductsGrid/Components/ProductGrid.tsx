@@ -3,7 +3,7 @@ import type React from 'react';
 import { useEffect, useState } from 'react';
 
 import { ProductCard } from '../../../entities';
-import { isColorValue } from '../Lib/predicates';
+import { isLocalizedString } from '../Lib/predicates';
 import type { IProducts, IVariants } from '../Lib/types';
 import classes from './ProductGrid.module.scss';
 import { ProductSearch } from './ProductSearch/ProductSearch';
@@ -15,7 +15,6 @@ export const ProductGrid: React.FC<IProducts> = ({ products, action, sort, onSea
   const productsQuantityPerPage = 30;
   const discountPercent = 20;
   const centsPerEuro = 100;
-  const colors: string[] = [];
   let variants = products.reduce((acc: IVariants[], product) => {
     product.variants.map(variant => {
       if (product.description && product.key) {
@@ -59,23 +58,6 @@ export const ProductGrid: React.FC<IProducts> = ({ products, action, sort, onSea
   const handleChange = (event: React.ChangeEvent<unknown>, value: number): void => {
     setCurrentPage(value);
   };
-  variants = variants.filter(item => {
-    const { variant } = item;
-    if (variant.attributes) {
-      const color = variant.attributes.find(attribute => {
-        return attribute.name === 'color';
-      });
-      if (
-        color &&
-        isColorValue(color.value) &&
-        !colors.includes(JSON.stringify({ id: item.productId, color: color.value['ru-RU'] }))
-      ) {
-        colors.push(JSON.stringify({ id: item.productId, color: color.value['ru-RU'] }));
-        return true;
-      }
-    }
-    return false;
-  });
   if (sort === 'ascending' || sort === 'descending') {
     variants.sort((a, b) => {
       if (a.variant.prices && b.variant.prices) {
@@ -110,6 +92,7 @@ export const ProductGrid: React.FC<IProducts> = ({ products, action, sort, onSea
               let category = '';
               let productLink = '';
               let oldPrice = '';
+              let size = '';
               if (variant.images && variant.images.length) {
                 image = variant.images[0].url;
               }
@@ -138,6 +121,14 @@ export const ProductGrid: React.FC<IProducts> = ({ products, action, sort, onSea
                   price = `€${(oldPriceNumber - oldPriceNumber * (discountPercent / 100)).toFixed(2)}`;
                 }
               }
+              if (variant.attributes) {
+                const variantSize = variant.attributes.find(item => {
+                  return item.name === 'size';
+                });
+                if (variantSize && isLocalizedString(variantSize.value)) {
+                  size = `Size: ${variantSize.value['ru-RU']}`;
+                }
+              }
               return (
                 <Grid
                   item
@@ -155,6 +146,8 @@ export const ProductGrid: React.FC<IProducts> = ({ products, action, sort, onSea
                     category={category}
                     productLink={productLink}
                     oldPrice={oldPrice}
+                    isInCart={false}
+                    size={size}
                   />
                 </Grid>
               );
