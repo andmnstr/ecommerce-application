@@ -1,3 +1,4 @@
+import type { LineItem, LocalizedString } from '@commercetools/platform-sdk';
 import { Add, DeleteForever, Remove } from '@mui/icons-material';
 import {
   Box,
@@ -15,16 +16,68 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import type React from 'react';
+import { useEffect, useState } from 'react';
 
-import KittenImage from '../../../../public/images/kitten.png';
+import { getApiRoot } from '../../../shared';
 import { CustomButton } from '../../../shared/UI/button/CustomButton';
 import classes from './Cart.module.scss';
 
+const isLocalizedString = (value: unknown): value is LocalizedString => {
+  return true;
+};
+
+interface ICartItemsData {
+  id: string;
+  image: string;
+  name: string;
+  size: string;
+  price: string;
+}
+
 export const Cart: React.FC = () => {
+  const [cartItems, setCartItems] = useState<LineItem[]>([]);
+  const cartItemsData = cartItems.reduce((acc: ICartItemsData[], item) => {
+    if (item.variant.images && item.variant.attributes && isLocalizedString(item.variant.attributes[1].value)) {
+      const itemData = {
+        id: item.id,
+        image: item.variant.images[0].url,
+        name: item.name['ru-RU'],
+        size: item.variant.attributes[1].value['ru-RU'],
+        price: (item.price.value.centAmount / 100).toFixed(2),
+      };
+      acc.push(itemData);
+    }
+    return acc;
+  }, []);
+
+  const getCartItems = async (): Promise<LineItem[] | undefined> => {
+    try {
+      const response = await getApiRoot().me().activeCart().get().execute();
+      return response.body.lineItems;
+    } catch (error) {
+      console.error(error);
+      return undefined;
+      // добавить сообщение об ошибке для юзера
+    }
+  };
+
+  useEffect(() => {
+    const fetchCartItems = async (): Promise<void> => {
+      const lineItems = await getCartItems();
+      if (lineItems) {
+        setCartItems(lineItems);
+      }
+    };
+    fetchCartItems();
+  }, []);
+
+  const itemQuantity = 1;
+
   const smallScreen = useMediaQuery('(max-width: 767px)');
+
   return (
     <Box className={classes.CartContainer}>
-      {!smallScreen && (
+      {!smallScreen && cartItems.length && (
         <TableContainer className={classes.CartProductsTable}>
           <Table>
             <TableHead>
@@ -37,67 +90,81 @@ export const Cart: React.FC = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              <TableRow key="0">
-                <TableCell className={classes.ProductsCell}>
-                  <Box
-                    component="img"
-                    src={KittenImage}
-                    className={classes.CartItemImage}
-                  />
-                  <Stack>
-                    <Typography sx={{ fontWeight: 700 }}>Kitten Kitten Kitten Kitten</Typography>
-                    <Typography>Size: S</Typography>
-                  </Stack>
-                </TableCell>
-                <TableCell>$80.00</TableCell>
-                <TableCell>
-                  <Stack className={classes.ItemQuantity}>
-                    <Remove />
-                    <Typography>1</Typography>
-                    <Add />
-                  </Stack>
-                </TableCell>
-                <TableCell>$80.00</TableCell>
-                <TableCell size="small">
-                  <DeleteForever />
-                </TableCell>
-              </TableRow>
+              {cartItemsData.map(item => {
+                return (
+                  <TableRow key={item.id}>
+                    <TableCell className={classes.ProductsCell}>
+                      <Box
+                        component="img"
+                        src={item.image}
+                        className={classes.CartItemImage}
+                      />
+                      <Stack sx={{ justifyContent: 'center' }}>
+                        <Typography sx={{ fontWeight: 700 }}>{item.name}</Typography>
+                        <Typography>Size: {item.size}</Typography>
+                      </Stack>
+                    </TableCell>
+                    <TableCell>${item.price}</TableCell>
+                    <TableCell>
+                      <Stack className={classes.ItemQuantity}>
+                        <Remove />
+                        <Typography>{itemQuantity}</Typography>
+                        <Add />
+                      </Stack>
+                    </TableCell>
+                    <TableCell>${(itemQuantity * +item.price).toFixed(2)}</TableCell>
+                    <TableCell size="small">
+                      <DeleteForever />
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         </TableContainer>
       )}
-      {smallScreen && (
+      {smallScreen && cartItems.length && (
         <List className={classes.CartProductsList}>
           <Divider
             variant="fullWidth"
             component="li"
           />
-          <ListItem className={classes.CartListItem}>
-            <Box
-              component="img"
-              src={KittenImage}
-              className={classes.CartItemImage}
-            />
-            <Stack className={classes.CartListItemDetails}>
-              <Typography sx={{ fontWeight: 700 }}>Kitten Kitten Kitten Kitten</Typography>
-              <Typography>Size: S</Typography>
-              <Stack className={classes.ItemQuantityAndPrice}>
-                <Stack className={classes.ItemQuantity}>
-                  <Remove />
-                  <Typography>1</Typography>
-                  <Add />
-                </Stack>
-                <Typography sx={{ fontWeight: 700 }}>$80.00</Typography>
-              </Stack>
-            </Stack>
-            <Box className={classes.DeleteButton}>
-              <DeleteForever fontSize="large" />
-            </Box>
-          </ListItem>
-          <Divider
-            variant="fullWidth"
-            component="li"
-          />
+          {cartItemsData.map(item => {
+            return (
+              <>
+                <ListItem
+                  className={classes.CartListItem}
+                  key={item.id}
+                >
+                  <Box
+                    component="img"
+                    src={item.image}
+                    className={classes.CartItemImage}
+                  />
+                  <Stack className={classes.CartListItemDetails}>
+                    <Typography sx={{ fontWeight: 700 }}>{item.name}</Typography>
+                    <Typography>Size: {item.size}</Typography>
+                    <Typography>Price: ${item.price}</Typography>
+                    <Stack className={classes.ItemQuantityAndPrice}>
+                      <Stack className={classes.ItemQuantity}>
+                        <Remove />
+                        <Typography>{itemQuantity}</Typography>
+                        <Add />
+                      </Stack>
+                      <Typography sx={{ fontWeight: 700 }}>${(itemQuantity * +item.price).toFixed(2)}</Typography>
+                    </Stack>
+                  </Stack>
+                  <Box className={classes.DeleteButton}>
+                    <DeleteForever />
+                  </Box>
+                </ListItem>
+                <Divider
+                  variant="fullWidth"
+                  component="li"
+                />
+              </>
+            );
+          })}
         </List>
       )}
       <Box className={classes.TotalPriceBox}>
