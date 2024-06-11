@@ -26,7 +26,7 @@ import classes from './UserCart.module.scss';
 
 export const UserCart: React.FC = () => {
   const [cartItems, setCartItems] = useState<LineItem[]>([]);
-  const [totalPrice, setTotalPrice] = useState<string>();
+  const [totalCartPrice, setTotalCartPrice] = useState<string>();
 
   const cartItemsData = cartItems.reduce((acc: ICartItemsData[], item) => {
     if (
@@ -42,6 +42,7 @@ export const UserCart: React.FC = () => {
         size: item.variant.attributes[1].value['ru-RU'],
         price: (item.price.discounted.value.centAmount / 100).toFixed(2),
         quantity: item.quantity,
+        totalItemPrice: (item.totalPrice.centAmount / 100).toFixed(2),
       };
       acc.push(itemData);
     }
@@ -53,7 +54,7 @@ export const UserCart: React.FC = () => {
       const activeCart = await getCart();
       if (activeCart) {
         setCartItems(activeCart.lineItems);
-        setTotalPrice((activeCart.totalPrice.centAmount / 100).toFixed(2));
+        setTotalCartPrice((activeCart.totalPrice.centAmount / 100).toFixed(2));
       }
     };
     fetchCart();
@@ -98,7 +99,7 @@ export const UserCart: React.FC = () => {
                         <Add />
                       </Stack>
                     </TableCell>
-                    <TableCell>${(item.quantity * +item.price).toFixed(2)}</TableCell>
+                    <TableCell>${item.totalItemPrice}</TableCell>
                     <TableCell size="small">
                       <DeleteForever />
                     </TableCell>
@@ -134,7 +135,7 @@ export const UserCart: React.FC = () => {
                         <Typography>{item.quantity}</Typography>
                         <Add />
                       </Stack>
-                      <Typography sx={{ fontWeight: 700 }}>${(item.quantity * +item.price).toFixed(2)}</Typography>
+                      <Typography sx={{ fontWeight: 700 }}>${item.totalItemPrice}</Typography>
                     </Stack>
                   </Stack>
                   <Box className={classes.DeleteButton}>
@@ -153,7 +154,7 @@ export const UserCart: React.FC = () => {
       <Box className={classes.TotalPriceBox}>
         <Stack className={classes.TotalPrice}>
           <Typography sx={{ fontWeight: 700 }}>Grand Total:</Typography>
-          <Typography sx={{ fontWeight: 700 }}>${totalPrice}</Typography>
+          <Typography sx={{ fontWeight: 700 }}>${totalCartPrice}</Typography>
         </Stack>
         <CustomButton
           variant="contained"

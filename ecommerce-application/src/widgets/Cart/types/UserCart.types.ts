@@ -5,4 +5,5 @@ export interface ICartItemsData {
   size: string;
   price: string;
   quantity: number;
+  totalItemPrice: string;
 }
