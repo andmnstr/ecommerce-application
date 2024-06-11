@@ -9,7 +9,6 @@ export const addProductToCart = async (sku: string): Promise<void> => {
   let cartId = '';
   const id = localStorage.getItem(CART_ID);
   if (id && typeof id === 'string') {
-    console.log(true);
     cartId = id;
   }
   try {
@@ -22,7 +21,6 @@ export const addProductToCart = async (sku: string): Promise<void> => {
     version = cart.body.version;
     cartId = cart.body.id;
   } finally {
-    console.log('CARTID', cartId);
     await getApiRoot()
       .me()
       .carts()
