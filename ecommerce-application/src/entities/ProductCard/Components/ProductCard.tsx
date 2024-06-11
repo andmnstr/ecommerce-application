@@ -4,13 +4,13 @@ import type React from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { getApiRoot } from '../../../shared';
+import { addProductToCart, getApiRoot } from '../../../shared';
 import { getProductCardData } from '../Api';
 import type { IProductCard } from '../Lib/type';
 import classes from './ProductCard.module.scss';
 
 export const ProductCard: React.FC<IProductCard> = props => {
-  const { id, image, name, description, price, oldPrice, product, category, productLink, size, isInCart } = props;
+  const { id, image, name, description, price, oldPrice, product, category, productLink, size, isInCart, sku } = props;
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(isInCart);
@@ -18,13 +18,20 @@ export const ProductCard: React.FC<IProductCard> = props => {
 
   const onClick = async (e: React.MouseEvent): Promise<void> => {
     e.stopPropagation();
+    const cartId = '';
     try {
       setIsLoading(true);
-      const cart = await getApiRoot().me().carts().get().execute();
-      console.log('CART', cart);
+      await addProductToCart(sku);
+      /* const id = localStorage.getItem(CART_ID);
+      if (id && typeof id === 'string') {
+        cartId = id;
+      } */
+      console.log('OTHERCARTID', cartId);
       setIsLoading(false);
       setIsDisabled(true);
     } catch (error) {
+      setIsLoading(false);
+      setIsDisabled(false);
       console.log('ERROR', error);
     }
   };
