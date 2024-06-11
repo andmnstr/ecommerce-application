@@ -3,6 +3,7 @@
   flex-direction: row;
   gap: 5%;
   width: 100%;
+  margin-bottom: 20px;
 }
 
 .CartProductsTable {
@@ -16,16 +17,12 @@
 }
 
 .CartItemImage {
-  height: 48.5px;
-}
-
-.CartProductsTable p {
-  font-size: 0.875rem;
+  height: 100.5px;
 }
 
 .ProductsCell {
   display: flex;
-  gap: 10px;
+  gap: 20px;
 }
 
 .ItemQuantity {
@@ -47,6 +44,8 @@
   width: 20%;
   border: 1px solid #e0e0e0;
   padding: 20px;
+  height: 150px;
+  margin-top: 20px;
 }
 
 .TotalPrice {
@@ -59,19 +58,24 @@
   width: 100%;
 }
 
+.CartProductsTable p,
+.CartProductsList p {
+  font-size: 0.875rem;
+}
+
 .CartListItem {
   width: 100%;
   display: flex;
   flex-direction: row;
   gap: 20px;
+  padding: 10px;
 }
 
 .CartListItemDetails {
   display: flex;
   flex-direction: column;
-  gap: 10px;
   flex-grow: 2;
-  padding: 10px;
+  padding: 0 10px;
 }
 
 .ItemQuantityAndPrice {
@@ -79,10 +83,11 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  padding-top: 5px;
 }
 
 .DeleteButton {
-  padding: 10px 20px;
+  padding: 5px 20px;
   align-self: flex-end;
 }
 
@@ -90,7 +95,7 @@
   .CartContainer {
     flex-direction: column;
     align-items: flex-start;
-    gap: 40px;
+    gap: 20px;
   }
 
   .CartProductsTable {
@@ -121,26 +126,10 @@
   }
 
   .DeleteButton {
-    padding: 10px 0;
+    padding: 5px 0;
   }
 
   .TotalPriceBox {
-    width: 60%;
-  }
-}
-
-@media screen and (width < 420px) {
-  .ItemQuantityAndPrice {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  .TotalPriceBox {
-    width: 80%;
-  }
-
-  .DeleteButton {
-    align-self: center;
+    width: 70%;
   }
 }
