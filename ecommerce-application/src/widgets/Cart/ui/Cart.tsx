@@ -32,18 +32,25 @@ interface ICartItemsData {
   name: string;
   size: string;
   price: string;
+  quantity: number;
 }
 
 export const Cart: React.FC = () => {
   const [cartItems, setCartItems] = useState<LineItem[]>([]);
   const cartItemsData = cartItems.reduce((acc: ICartItemsData[], item) => {
-    if (item.variant.images && item.variant.attributes && isLocalizedString(item.variant.attributes[1].value)) {
+    if (
+      item.variant.images &&
+      item.variant.attributes &&
+      isLocalizedString(item.variant.attributes[1].value) &&
+      item.price.discounted
+    ) {
       const itemData = {
         id: item.id,
         image: item.variant.images[0].url,
         name: item.name['ru-RU'],
         size: item.variant.attributes[1].value['ru-RU'],
-        price: (item.price.value.centAmount / 100).toFixed(2),
+        price: (item.price.discounted.value.centAmount / 100).toFixed(2),
+        quantity: item.quantity,
       };
       acc.push(itemData);
     }
@@ -53,6 +60,7 @@ export const Cart: React.FC = () => {
   const getCartItems = async (): Promise<LineItem[] | undefined> => {
     try {
       const response = await getApiRoot().me().activeCart().get().execute();
+
       return response.body.lineItems;
     } catch (error) {
       console.error(error);
@@ -70,8 +78,6 @@ export const Cart: React.FC = () => {
     };
     fetchCartItems();
   }, []);
-
-  const itemQuantity = 1;
 
   const smallScreen = useMediaQuery('(max-width: 767px)');
 
@@ -108,11 +114,11 @@ export const Cart: React.FC = () => {
                     <TableCell>
                       <Stack className={classes.ItemQuantity}>
                         <Remove />
-                        <Typography>{itemQuantity}</Typography>
+                        <Typography>{item.quantity}</Typography>
                         <Add />
                       </Stack>
                     </TableCell>
-                    <TableCell>${(itemQuantity * +item.price).toFixed(2)}</TableCell>
+                    <TableCell>${(item.quantity * +item.price).toFixed(2)}</TableCell>
                     <TableCell size="small">
                       <DeleteForever />
                     </TableCell>
@@ -148,10 +154,10 @@ export const Cart: React.FC = () => {
                     <Stack className={classes.ItemQuantityAndPrice}>
                       <Stack className={classes.ItemQuantity}>
                         <Remove />
-                        <Typography>{itemQuantity}</Typography>
+                        <Typography>{item.quantity}</Typography>
                         <Add />
                       </Stack>
-                      <Typography sx={{ fontWeight: 700 }}>${(itemQuantity * +item.price).toFixed(2)}</Typography>
+                      <Typography sx={{ fontWeight: 700 }}>${(item.quantity * +item.price).toFixed(2)}</Typography>
                     </Stack>
                   </Stack>
                   <Box className={classes.DeleteButton}>
@@ -170,7 +176,7 @@ export const Cart: React.FC = () => {
       <Box className={classes.TotalPriceBox}>
         <Stack className={classes.TotalPrice}>
           <Typography sx={{ fontWeight: 700 }}>Grand Total:</Typography>
-          <Typography sx={{ fontWeight: 700 }}>$80.00</Typography>
+          <Typography sx={{ fontWeight: 700 }}>${}</Typography>
         </Stack>
         <CustomButton
           variant="contained"
