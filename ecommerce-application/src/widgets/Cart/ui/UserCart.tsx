@@ -16,7 +16,7 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import type React from 'react';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
 import { CustomButton } from '../../../shared/UI/button/CustomButton';
 import { getCart } from '../api/getCart';
@@ -117,11 +117,8 @@ export const UserCart: React.FC = () => {
           />
           {cartItemsData.map(item => {
             return (
-              <>
-                <ListItem
-                  className={classes.CartListItem}
-                  key={item.id}
-                >
+              <Fragment key={item.id}>
+                <ListItem className={classes.CartListItem}>
                   <Box
                     component="img"
                     src={item.image}
@@ -148,7 +145,7 @@ export const UserCart: React.FC = () => {
                   variant="fullWidth"
                   component="li"
                 />
-              </>
+              </Fragment>
             );
           })}
         </List>
