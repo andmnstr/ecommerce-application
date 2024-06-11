@@ -1,4 +1,4 @@
-import type { LineItem, LocalizedString } from '@commercetools/platform-sdk';
+import type { Cart, LineItem, LocalizedString } from '@commercetools/platform-sdk';
 import { Add, DeleteForever, Remove } from '@mui/icons-material';
 import {
   Box,
@@ -35,8 +35,10 @@ interface ICartItemsData {
   quantity: number;
 }
 
-export const Cart: React.FC = () => {
+export const UserCart: React.FC = () => {
   const [cartItems, setCartItems] = useState<LineItem[]>([]);
+  const [totalPrice, setTotalPrice] = useState<string>();
+
   const cartItemsData = cartItems.reduce((acc: ICartItemsData[], item) => {
     if (
       item.variant.images &&
@@ -57,11 +59,11 @@ export const Cart: React.FC = () => {
     return acc;
   }, []);
 
-  const getCartItems = async (): Promise<LineItem[] | undefined> => {
+  const getCart = async (): Promise<Cart | undefined> => {
     try {
       const response = await getApiRoot().me().activeCart().get().execute();
 
-      return response.body.lineItems;
+      return response.body;
     } catch (error) {
       console.error(error);
       return undefined;
@@ -70,13 +72,14 @@ export const Cart: React.FC = () => {
   };
 
   useEffect(() => {
-    const fetchCartItems = async (): Promise<void> => {
-      const lineItems = await getCartItems();
-      if (lineItems) {
-        setCartItems(lineItems);
+    const fetchCart = async (): Promise<void> => {
+      const activeCart = await getCart();
+      if (activeCart) {
+        setCartItems(activeCart.lineItems);
+        setTotalPrice((activeCart.totalPrice.centAmount / 100).toFixed(2));
       }
     };
-    fetchCartItems();
+    fetchCart();
   }, []);
 
   const smallScreen = useMediaQuery('(max-width: 767px)');
@@ -176,7 +179,7 @@ export const Cart: React.FC = () => {
       <Box className={classes.TotalPriceBox}>
         <Stack className={classes.TotalPrice}>
           <Typography sx={{ fontWeight: 700 }}>Grand Total:</Typography>
-          <Typography sx={{ fontWeight: 700 }}>${}</Typography>
+          <Typography sx={{ fontWeight: 700 }}>${totalPrice}</Typography>
         </Stack>
         <CustomButton
           variant="contained"
