@@ -1,4 +1,4 @@
-import type { Cart, LineItem, LocalizedString } from '@commercetools/platform-sdk';
+import type { LineItem } from '@commercetools/platform-sdk';
 import { Add, DeleteForever, Remove } from '@mui/icons-material';
 import {
   Box,
@@ -18,22 +18,11 @@ import {
 import type React from 'react';
 import { useEffect, useState } from 'react';
 
-import { getApiRoot } from '../../../shared';
 import { CustomButton } from '../../../shared/UI/button/CustomButton';
-import classes from './Cart.module.scss';
-
-const isLocalizedString = (value: unknown): value is LocalizedString => {
-  return true;
-};
-
-interface ICartItemsData {
-  id: string;
-  image: string;
-  name: string;
-  size: string;
-  price: string;
-  quantity: number;
-}
+import { getCart } from '../api/getCart';
+import { isLocalizedString } from '../lib/isLocalizedString';
+import type { ICartItemsData } from '../types/UserCart.types';
+import classes from './UserCart.module.scss';
 
 export const UserCart: React.FC = () => {
   const [cartItems, setCartItems] = useState<LineItem[]>([]);
@@ -58,18 +47,6 @@ export const UserCart: React.FC = () => {
     }
     return acc;
   }, []);
-
-  const getCart = async (): Promise<Cart | undefined> => {
-    try {
-      const response = await getApiRoot().me().activeCart().get().execute();
-
-      return response.body;
-    } catch (error) {
-      console.error(error);
-      return undefined;
-      // добавить сообщение об ошибке для юзера
-    }
-  };
 
   useEffect(() => {
     const fetchCart = async (): Promise<void> => {
