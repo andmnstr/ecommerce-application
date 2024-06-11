@@ -3,6 +3,7 @@ import type React from 'react';
 import { useEffect, useState } from 'react';
 
 import { ProductCard } from '../../../entities';
+import { getExistingProductCart } from '../../../shared';
 import { isLocalizedString } from '../Lib/predicates';
 import type { IProducts, IVariants } from '../Lib/types';
 import classes from './ProductGrid.module.scss';
@@ -12,6 +13,7 @@ export const ProductGrid: React.FC<IProducts> = ({ products, action, sort, onSea
   const [pageCount, setPageCount] = useState<number>(0);
   const [productsOnPage, setProductsOnPage] = useState<IVariants[]>();
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [cartItems, setCartItems] = useState<string[]>([]);
   const productsQuantityPerPage = 30;
   const discountPercent = 20;
   const centsPerEuro = 100;
@@ -31,6 +33,21 @@ export const ProductGrid: React.FC<IProducts> = ({ products, action, sort, onSea
       return variant;
     });
     return acc;
+  }, []);
+  useEffect(() => {
+    const getSku = async (): Promise<void> => {
+      try {
+        const cart = (await getExistingProductCart()).body.lineItems;
+        setCartItems(
+          cart.map(item => {
+            return item.variant.sku ? item.variant.sku : '';
+          })
+        );
+      } catch (error) {
+        setCartItems([]);
+      }
+    };
+    getSku();
   }, []);
   useEffect(() => {
     const newPageCount = Math.ceil(variants.length / productsQuantityPerPage);
@@ -93,6 +110,7 @@ export const ProductGrid: React.FC<IProducts> = ({ products, action, sort, onSea
               let productLink = '';
               let oldPrice = '';
               let size = '';
+              let sku = '';
               if (variant.images && variant.images.length) {
                 image = variant.images[0].url;
               }
@@ -129,6 +147,9 @@ export const ProductGrid: React.FC<IProducts> = ({ products, action, sort, onSea
                   size = `Size: ${variantSize.value['ru-RU']}`;
                 }
               }
+              if (variant.sku) {
+                sku = variant.sku;
+              }
               return (
                 <Grid
                   item
@@ -146,8 +167,9 @@ export const ProductGrid: React.FC<IProducts> = ({ products, action, sort, onSea
                     category={category}
                     productLink={productLink}
                     oldPrice={oldPrice}
-                    isInCart={false}
+                    isInCart={cartItems.includes(sku)}
                     size={size}
+                    sku={sku}
                   />
                 </Grid>
               );
