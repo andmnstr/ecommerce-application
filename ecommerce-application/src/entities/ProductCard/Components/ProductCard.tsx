@@ -18,14 +18,16 @@ export const ProductCard: React.FC<IProductCard> = props => {
 
   const onClick = async (e: React.MouseEvent): Promise<void> => {
     e.stopPropagation();
-    try {
-      setIsLoading(true);
-      await addProductToCart(sku);
-      setIsLoading(false);
-      setIsDisabled(true);
-    } catch (error) {
-      setIsLoading(false);
-      setIsDisabled(false);
+    if (!isLoading) {
+      try {
+        setIsLoading(true);
+        await addProductToCart(sku);
+        setIsLoading(false);
+        setIsDisabled(true);
+      } catch (error) {
+        setIsLoading(false);
+        setIsDisabled(false);
+      }
     }
   };
 
