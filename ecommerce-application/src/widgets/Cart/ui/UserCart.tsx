@@ -22,6 +22,7 @@ import { Fragment, useEffect, useState } from 'react';
 import { CustomButton } from '../../../shared/UI/button/CustomButton';
 import { addItem } from '../api/addItem';
 import { getCart } from '../api/getCart';
+import { removeItem } from '../api/removeItem';
 import { isLocalizedString } from '../lib/isLocalizedString';
 import type { ICartItemsData } from '../types/UserCart.types';
 import { EmptyCart } from './EmptyCart/EmptyCart';
@@ -59,6 +60,13 @@ export const UserCart: React.FC = () => {
   const handleAddItem = (sku: string): void => {
     if (cart) {
       addItem(cart.id, cart.version, sku);
+      setIsChangedQuantity(true);
+    }
+  };
+
+  const handleRemoveItem = (id: string): void => {
+    if (cart) {
+      removeItem(cart.id, cart.version, id);
       setIsChangedQuantity(true);
     }
   };
@@ -110,7 +118,12 @@ export const UserCart: React.FC = () => {
                     <TableCell>${item.price}</TableCell>
                     <TableCell>
                       <Stack className={classes.ItemQuantity}>
-                        <IconButton aria-label="Remove">
+                        <IconButton
+                          aria-label="Remove"
+                          onClick={() => {
+                            handleRemoveItem(item.id);
+                          }}
+                        >
                           <Remove />
                         </IconButton>
                         <Typography>{item.quantity}</Typography>
@@ -156,7 +169,12 @@ export const UserCart: React.FC = () => {
                     <Typography>Price: ${item.price}</Typography>
                     <Stack className={classes.ItemQuantityAndPrice}>
                       <Stack className={classes.ItemQuantity}>
-                        <IconButton aria-label="Remove">
+                        <IconButton
+                          aria-label="Remove"
+                          onClick={() => {
+                            handleRemoveItem(item.id);
+                          }}
+                        >
                           <Remove />
                         </IconButton>
                         <Typography>{item.quantity}</Typography>
