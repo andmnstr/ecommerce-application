@@ -3,7 +3,6 @@ import { Add, DeleteForever, Remove } from '@mui/icons-material';
 import {
   Box,
   Divider,
-  Link,
   List,
   ListItem,
   Stack,
@@ -18,13 +17,12 @@ import {
 } from '@mui/material';
 import type React from 'react';
 import { Fragment, useEffect, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 
-import emptyCart from '../../../../public/images/empty_cart.png';
 import { CustomButton } from '../../../shared/UI/button/CustomButton';
 import { getCart } from '../api/getCart';
 import { isLocalizedString } from '../lib/isLocalizedString';
 import type { ICartItemsData } from '../types/UserCart.types';
+import { EmptyCart } from './EmptyCart/EmptyCart';
 import classes from './UserCart.module.scss';
 
 export const UserCart: React.FC = () => {
@@ -169,26 +167,7 @@ export const UserCart: React.FC = () => {
           </CustomButton>
         </Box>
       )}
-      {!cartItems.length && (
-        <Box className={classes.EmptyCartBox}>
-          <Box
-            className={classes.EmptyCartImage}
-            component="img"
-            src={emptyCart}
-          />
-          <Typography className={classes.EmptyCartMessage}>
-            It seems like your shopping cart is empty and sad.
-          </Typography>
-          <Typography className={classes.EmptyCartMessage}>Let&apos;s change that!</Typography>
-          <Link
-            component={RouterLink}
-            to="/shop"
-            className={classes.LinkToShop}
-          >
-            Go to our shop and buy something cool!
-          </Link>
-        </Box>
-      )}
+      {!cartItems.length && <EmptyCart />}
     </Box>
   );
 };
