@@ -3,6 +3,7 @@ import { Add, DeleteForever, Remove } from '@mui/icons-material';
 import {
   Box,
   Divider,
+  IconButton,
   List,
   ListItem,
   Stack,
@@ -95,9 +96,13 @@ export const UserCart: React.FC = () => {
                     <TableCell>${item.price}</TableCell>
                     <TableCell>
                       <Stack className={classes.ItemQuantity}>
-                        <Remove />
+                        <IconButton aria-label="Remove">
+                          <Remove />
+                        </IconButton>
                         <Typography>{item.quantity}</Typography>
-                        <Add />
+                        <IconButton aria-label="Add">
+                          <Add />
+                        </IconButton>
                       </Stack>
                     </TableCell>
                     <TableCell>${item.totalItemPrice}</TableCell>
@@ -132,9 +137,13 @@ export const UserCart: React.FC = () => {
                     <Typography>Price: ${item.price}</Typography>
                     <Stack className={classes.ItemQuantityAndPrice}>
                       <Stack className={classes.ItemQuantity}>
-                        <Remove />
+                        <IconButton aria-label="Remove">
+                          <Remove />
+                        </IconButton>
                         <Typography>{item.quantity}</Typography>
-                        <Add />
+                        <IconButton aria-label="Add">
+                          <Add />
+                        </IconButton>
                       </Stack>
                       <Typography sx={{ fontWeight: 700 }}>${item.totalItemPrice}</Typography>
                     </Stack>
