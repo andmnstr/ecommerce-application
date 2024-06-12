@@ -22,6 +22,7 @@ import { CustomButton } from '../../../shared/UI/button/CustomButton';
 import { getCart } from '../api/getCart';
 import { isLocalizedString } from '../lib/isLocalizedString';
 import type { ICartItemsData } from '../types/UserCart.types';
+import { EmptyCart } from './EmptyCart/EmptyCart';
 import classes from './UserCart.module.scss';
 
 export const UserCart: React.FC = () => {
@@ -64,7 +65,7 @@ export const UserCart: React.FC = () => {
 
   return (
     <Box className={classes.CartContainer}>
-      {!smallScreen && cartItems.length && (
+      {!smallScreen && cartItems.length > 0 && (
         <TableContainer className={classes.CartProductsTable}>
           <Table>
             <TableHead>
@@ -110,7 +111,7 @@ export const UserCart: React.FC = () => {
           </Table>
         </TableContainer>
       )}
-      {smallScreen && cartItems.length && (
+      {smallScreen && cartItems.length > 0 && (
         <List className={classes.CartProductsList}>
           <Divider
             variant="fullWidth"
@@ -151,19 +152,22 @@ export const UserCart: React.FC = () => {
           })}
         </List>
       )}
-      <Box className={classes.TotalPriceBox}>
-        <Stack className={classes.TotalPrice}>
-          <Typography sx={{ fontWeight: 700 }}>Grand Total:</Typography>
-          <Typography sx={{ fontWeight: 700 }}>${totalCartPrice}</Typography>
-        </Stack>
-        <CustomButton
-          variant="contained"
-          size="large"
-          type="button"
-        >
-          Checkout
-        </CustomButton>
-      </Box>
+      {cartItems.length > 0 && (
+        <Box className={classes.TotalPriceBox}>
+          <Stack className={classes.TotalPrice}>
+            <Typography sx={{ fontWeight: 700 }}>Grand Total:</Typography>
+            <Typography sx={{ fontWeight: 700 }}>${totalCartPrice}</Typography>
+          </Stack>
+          <CustomButton
+            variant="contained"
+            size="large"
+            type="button"
+          >
+            Checkout
+          </CustomButton>
+        </Box>
+      )}
+      {!cartItems.length && <EmptyCart />}
     </Box>
   );
 };
