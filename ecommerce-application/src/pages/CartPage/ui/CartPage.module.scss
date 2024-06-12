@@ -1,0 +1,15 @@
+.CartPage__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 90%;
+  height: auto;
+  margin: 100px auto 20px;
+}
+
+.CartPage__Title {
+  font-size: 30px;
+  font-weight: 700;
+  margin: 20px 0 15px 16px;
+}
