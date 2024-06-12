@@ -18,6 +18,7 @@ import {
 import type React from 'react';
 import { Fragment, useEffect, useState } from 'react';
 
+import emptyCart from '../../../../public/images/empty_cart.png';
 import { CustomButton } from '../../../shared/UI/button/CustomButton';
 import { getCart } from '../api/getCart';
 import { isLocalizedString } from '../lib/isLocalizedString';
@@ -164,6 +165,19 @@ export const UserCart: React.FC = () => {
           >
             Checkout
           </CustomButton>
+        </Box>
+      )}
+      {!cartItems.length && (
+        <Box className={classes.EmptyCartBox}>
+          <Box
+            className={classes.EmptyCartImage}
+            component="img"
+            src={emptyCart}
+          />
+          <Typography className={classes.EmptyCartMessage}>
+            It seems like your shopping cart is empty and sad.
+          </Typography>
+          <Typography className={classes.EmptyCartMessage}>Let&apos;s change that!</Typography>
         </Box>
       )}
     </Box>
