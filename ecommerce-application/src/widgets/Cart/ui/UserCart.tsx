@@ -19,8 +19,8 @@ import {
 import type React from 'react';
 import { Fragment, useEffect, useState } from 'react';
 
-import { DISTRIBUTION_CHANNEL, getApiRoot } from '../../../shared';
 import { CustomButton } from '../../../shared/UI/button/CustomButton';
+import { addItem } from '../api/addItem';
 import { getCart } from '../api/getCart';
 import { isLocalizedString } from '../lib/isLocalizedString';
 import type { ICartItemsData } from '../types/UserCart.types';
@@ -31,7 +31,7 @@ export const UserCart: React.FC = () => {
   const [cart, setCart] = useState<Cart>();
   const [cartItems, setCartItems] = useState<LineItem[]>([]);
   const [totalCartPrice, setTotalCartPrice] = useState<string>();
-  const [isChangedQuantity, setisChangedQuantity] = useState<boolean>(false);
+  const [isChangedQuantity, setIsChangedQuantity] = useState<boolean>(false);
 
   const cartItemsData = cartItems.reduce((acc: ICartItemsData[], item) => {
     if (
@@ -56,34 +56,10 @@ export const UserCart: React.FC = () => {
     return acc;
   }, []);
 
-  const addItem = async (sku: string): Promise<void> => {
+  const handleAddItem = (sku: string): void => {
     if (cart) {
-      await getApiRoot()
-        .me()
-        .carts()
-        .withId({ ID: cart.id })
-        .post({
-          body: {
-            version: cart.version,
-            actions: [
-              {
-                action: 'setCountry',
-                country: 'EU',
-              },
-              {
-                action: 'addLineItem',
-                sku,
-                quantity: 1,
-                distributionChannel: {
-                  typeId: 'channel',
-                  id: DISTRIBUTION_CHANNEL,
-                },
-              },
-            ],
-          },
-        })
-        .execute();
-      setisChangedQuantity(true);
+      addItem(cart.id, cart.version, sku);
+      setIsChangedQuantity(true);
     }
   };
 
@@ -97,7 +73,7 @@ export const UserCart: React.FC = () => {
       }
     };
     fetchCart();
-    setisChangedQuantity(false);
+    setIsChangedQuantity(false);
   }, [isChangedQuantity]);
 
   const smallScreen = useMediaQuery('(max-width: 767px)');
@@ -141,7 +117,7 @@ export const UserCart: React.FC = () => {
                         <IconButton
                           aria-label="Add"
                           onClick={() => {
-                            addItem(item.sku);
+                            handleAddItem(item.sku);
                           }}
                         >
                           <Add />
@@ -187,7 +163,7 @@ export const UserCart: React.FC = () => {
                         <IconButton
                           aria-label="Add"
                           onClick={() => {
-                            addItem(item.sku);
+                            handleAddItem(item.sku);
                           }}
                         >
                           <Add />
