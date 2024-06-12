@@ -1,4 +1,4 @@
-import type { LineItem } from '@commercetools/platform-sdk';
+import type { Cart, LineItem } from '@commercetools/platform-sdk';
 import { Add, DeleteForever, Remove } from '@mui/icons-material';
 import {
   Box,
@@ -19,6 +19,7 @@ import {
 import type React from 'react';
 import { Fragment, useEffect, useState } from 'react';
 
+import { DISTRIBUTION_CHANNEL, getApiRoot } from '../../../shared';
 import { CustomButton } from '../../../shared/UI/button/CustomButton';
 import { getCart } from '../api/getCart';
 import { isLocalizedString } from '../lib/isLocalizedString';
@@ -27,18 +28,22 @@ import { EmptyCart } from './EmptyCart/EmptyCart';
 import classes from './UserCart.module.scss';
 
 export const UserCart: React.FC = () => {
+  const [cart, setCart] = useState<Cart>();
   const [cartItems, setCartItems] = useState<LineItem[]>([]);
   const [totalCartPrice, setTotalCartPrice] = useState<string>();
+  const [isChangedQuantity, setisChangedQuantity] = useState<boolean>(false);
 
   const cartItemsData = cartItems.reduce((acc: ICartItemsData[], item) => {
     if (
       item.variant.images &&
+      item.variant.sku &&
       item.variant.attributes &&
       isLocalizedString(item.variant.attributes[1].value) &&
       item.price.discounted
     ) {
       const itemData = {
         id: item.id,
+        sku: item.variant.sku,
         image: item.variant.images[0].url,
         name: item.name['ru-RU'],
         size: item.variant.attributes[1].value['ru-RU'],
@@ -51,16 +56,49 @@ export const UserCart: React.FC = () => {
     return acc;
   }, []);
 
+  const addItem = async (sku: string): Promise<void> => {
+    if (cart) {
+      await getApiRoot()
+        .me()
+        .carts()
+        .withId({ ID: cart.id })
+        .post({
+          body: {
+            version: cart.version,
+            actions: [
+              {
+                action: 'setCountry',
+                country: 'EU',
+              },
+              {
+                action: 'addLineItem',
+                sku,
+                quantity: 1,
+                distributionChannel: {
+                  typeId: 'channel',
+                  id: DISTRIBUTION_CHANNEL,
+                },
+              },
+            ],
+          },
+        })
+        .execute();
+      setisChangedQuantity(true);
+    }
+  };
+
   useEffect(() => {
     const fetchCart = async (): Promise<void> => {
       const activeCart = await getCart();
       if (activeCart) {
+        setCart(activeCart);
         setCartItems(activeCart.lineItems);
         setTotalCartPrice((activeCart.totalPrice.centAmount / 100).toFixed(2));
       }
     };
     fetchCart();
-  }, []);
+    setisChangedQuantity(false);
+  }, [isChangedQuantity]);
 
   const smallScreen = useMediaQuery('(max-width: 767px)');
 
@@ -100,7 +138,12 @@ export const UserCart: React.FC = () => {
                           <Remove />
                         </IconButton>
                         <Typography>{item.quantity}</Typography>
-                        <IconButton aria-label="Add">
+                        <IconButton
+                          aria-label="Add"
+                          onClick={() => {
+                            addItem(item.sku);
+                          }}
+                        >
                           <Add />
                         </IconButton>
                       </Stack>
@@ -141,7 +184,12 @@ export const UserCart: React.FC = () => {
                           <Remove />
                         </IconButton>
                         <Typography>{item.quantity}</Typography>
-                        <IconButton aria-label="Add">
+                        <IconButton
+                          aria-label="Add"
+                          onClick={() => {
+                            addItem(item.sku);
+                          }}
+                        >
                           <Add />
                         </IconButton>
                       </Stack>
