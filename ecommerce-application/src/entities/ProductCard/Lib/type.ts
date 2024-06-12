@@ -11,6 +11,7 @@ export interface IProductCard {
   productLink: string;
   isInCart: boolean;
   size: string;
+  sku: string;
 }
 
 export interface IProductCardData {
