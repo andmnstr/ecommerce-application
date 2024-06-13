@@ -1,3 +1,4 @@
+import { Box } from '@mui/material';
 import type * as React from 'react';
 import { NavLink } from 'react-router-dom';
 
@@ -16,7 +17,13 @@ export const Navbar: React.FC = (): JSX.Element => {
             }}
             key={item.id}
           >
-            {item.text}
+            {typeof item.text === 'string' ? (
+              item.text
+            ) : (
+              <Box className={styles.CartContainer}>
+                <item.text />
+              </Box>
+            )}
           </NavLink>
         );
       })}

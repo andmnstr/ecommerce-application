@@ -30,6 +30,11 @@
   border-bottom: 1px solid #03a8f44b;
 }
 
+.CartContainer {
+  display: flex;
+  align-items: center;
+}
+
 @media screen and (hover: hover) {
   .Link:hover {
     transition: all ease-in-out 0.5s;
