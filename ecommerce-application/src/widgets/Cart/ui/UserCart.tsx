@@ -34,6 +34,7 @@ export const UserCart: React.FC = () => {
   const [cartItems, setCartItems] = useState<LineItem[]>([]);
   const [totalCartPrice, setTotalCartPrice] = useState<string>();
   const [isChangedQuantity, setIsChangedQuantity] = useState<boolean>(false);
+  const [isClearedCart, setIsClearedCart] = useState(false);
 
   const cartItemsData = cartItems.reduce((acc: ICartItemsData[], item) => {
     if (
@@ -72,6 +73,13 @@ export const UserCart: React.FC = () => {
     }
   };
 
+  const handleClearCart = (): void => {
+    setIsClearedCart(true);
+    setCart(undefined);
+    setCartItems([]);
+    setTotalCartPrice(undefined);
+  };
+
   useEffect(() => {
     const fetchCart = async (): Promise<void> => {
       const activeCart = await getCart();
@@ -83,13 +91,14 @@ export const UserCart: React.FC = () => {
     };
     fetchCart();
     setIsChangedQuantity(false);
-  }, [isChangedQuantity]);
+    setIsClearedCart(false);
+  }, [isChangedQuantity, isClearedCart]);
 
   const smallScreen = useMediaQuery('(max-width: 767px)');
 
   return (
     <Box className={classes.CartContainer}>
-      {!smallScreen && cartItems.length > 0 && (
+      {!smallScreen && cartItems.length > 0 && cart && (
         <TableContainer className={classes.CartProductsTable}>
           <Table>
             <TableHead>
@@ -156,7 +165,7 @@ export const UserCart: React.FC = () => {
           </Table>
         </TableContainer>
       )}
-      {smallScreen && cartItems.length > 0 && (
+      {smallScreen && cartItems.length > 0 && cart && (
         <List className={classes.CartProductsList}>
           <Divider
             variant="fullWidth"
@@ -218,7 +227,7 @@ export const UserCart: React.FC = () => {
           })}
         </List>
       )}
-      {cartItems.length > 0 && (
+      {cart && cartItems.length > 0 && (
         <Box className={classes.TotalPriceBox}>
           <Stack className={classes.TotalPrice}>
             <Typography sx={{ fontWeight: 700 }}>Grand Total:</Typography>
@@ -231,7 +240,11 @@ export const UserCart: React.FC = () => {
           >
             Checkout
           </CustomButton>
-          <ClearCartButton />
+          <ClearCartButton
+            cartId={cart.id}
+            cartVersion={cart.version}
+            handleClearCart={handleClearCart}
+          />
         </Box>
       )}
       {!cartItems.length && <EmptyCart />}

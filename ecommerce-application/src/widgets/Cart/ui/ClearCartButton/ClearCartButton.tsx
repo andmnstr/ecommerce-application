@@ -4,9 +4,16 @@ import type React from 'react';
 import { useState } from 'react';
 
 import { CustomButton } from '../../../../shared/UI/button/CustomButton';
+import { clearCart } from '../../api/clearCart';
 import classes from './ClearCartButton.module.scss';
 
-export const ClearCartButton: React.FC = () => {
+interface IClearCartButtonProps {
+  cartId: string;
+  cartVersion: number;
+  handleClearCart: () => void;
+}
+
+export const ClearCartButton: React.FC<IClearCartButtonProps> = ({ cartId, cartVersion, handleClearCart }) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const handleClearCartButtonClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
@@ -15,6 +22,12 @@ export const ClearCartButton: React.FC = () => {
 
   const handlePopoverClose = (): void => {
     setAnchorEl(null);
+  };
+
+  const handleClearCartConfirmationClick = async (): Promise<void> => {
+    await clearCart(cartId, cartVersion);
+    handleClearCart();
+    handlePopoverClose();
   };
 
   const open = Boolean(anchorEl);
@@ -59,6 +72,7 @@ export const ClearCartButton: React.FC = () => {
             variant="contained"
             size="large"
             type="button"
+            onClick={handleClearCartConfirmationClick}
           >
             Yes
           </CustomButton>
