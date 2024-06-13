@@ -64,9 +64,9 @@ export const UserCart: React.FC = () => {
     }
   };
 
-  const handleRemoveItem = (id: string): void => {
+  const handleRemoveItem = (id: string, quantity?: number): void => {
     if (cart) {
-      removeItem(cart.id, cart.version, id);
+      removeItem(cart.id, cart.version, id, quantity);
       setIsChangedQuantity(true);
     }
   };
@@ -121,7 +121,7 @@ export const UserCart: React.FC = () => {
                         <IconButton
                           aria-label="Remove"
                           onClick={() => {
-                            handleRemoveItem(item.id);
+                            handleRemoveItem(item.id, 1);
                           }}
                         >
                           <Remove />
@@ -139,7 +139,14 @@ export const UserCart: React.FC = () => {
                     </TableCell>
                     <TableCell>${item.totalItemPrice}</TableCell>
                     <TableCell size="small">
-                      <DeleteForever />
+                      <IconButton
+                        aria-label="Delete"
+                        onClick={() => {
+                          handleRemoveItem(item.id);
+                        }}
+                      >
+                        <DeleteForever />
+                      </IconButton>
                     </TableCell>
                   </TableRow>
                 );
@@ -172,7 +179,7 @@ export const UserCart: React.FC = () => {
                         <IconButton
                           aria-label="Remove"
                           onClick={() => {
-                            handleRemoveItem(item.id);
+                            handleRemoveItem(item.id, 1);
                           }}
                         >
                           <Remove />
@@ -191,7 +198,14 @@ export const UserCart: React.FC = () => {
                     </Stack>
                   </Stack>
                   <Box className={classes.DeleteButton}>
-                    <DeleteForever />
+                    <IconButton
+                      aria-label="Delete"
+                      onClick={() => {
+                        handleRemoveItem(item.id);
+                      }}
+                    >
+                      <DeleteForever />
+                    </IconButton>
                   </Box>
                 </ListItem>
                 <Divider
