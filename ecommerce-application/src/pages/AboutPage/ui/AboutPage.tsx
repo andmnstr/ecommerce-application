@@ -1,6 +1,7 @@
-import { Divider, Typography } from '@mui/material';
+import { Divider, Link, Typography } from '@mui/material';
 import type React from 'react';
 
+import rsschoolImage from '../../../../public/images/logo-rsschool3.png';
 import { DeveloperCard } from '../../../widgets/DeveloperCard';
 import { Header } from '../../../widgets/Header';
 import { AndreyCardInfo, DmitriyCardInfo, ElenaCardInfo } from '../consts/AboutPage.consts';
@@ -11,6 +12,16 @@ export const AboutPage: React.FC = () => {
     <>
       <Header />
       <section className={styles.developerInfo__section}>
+        <Link
+          href="https://rs.school/"
+          target="blank"
+        >
+          <img
+            src={rsschoolImage}
+            alt="RS School link"
+            className={styles.developerInfo__heading_image}
+          />
+        </Link>
         <Typography className={styles.developerInfo__heading}>The Hardcoders Team</Typography>
         <Divider style={{ width: '95%' }} />
         <Typography className={styles.developerInfo__aboutText}>
