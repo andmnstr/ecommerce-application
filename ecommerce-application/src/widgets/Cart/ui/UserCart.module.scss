@@ -47,6 +47,7 @@
   padding: 20px;
   height: 150px;
   margin-top: 20px;
+  position: relative;
 }
 
 .TotalPrice {
@@ -90,6 +91,11 @@
 .DeleteButton {
   padding: 5px 20px;
   align-self: flex-end;
+}
+
+.TotalPriceBox > button {
+  border-radius: 10px;
+  height: 50px;
 }
 
 @media screen and (width < 1140px) {

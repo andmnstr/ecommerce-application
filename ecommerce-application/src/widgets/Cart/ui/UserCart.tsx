@@ -25,6 +25,7 @@ import { getCart } from '../api/getCart';
 import { removeItem } from '../api/removeItem';
 import { isLocalizedString } from '../lib/isLocalizedString';
 import type { ICartItemsData } from '../types/UserCart.types';
+import { ClearCartButton } from './ClearCartButton/ClearCartButton';
 import { EmptyCart } from './EmptyCart/EmptyCart';
 import classes from './UserCart.module.scss';
 
@@ -230,6 +231,7 @@ export const UserCart: React.FC = () => {
           >
             Checkout
           </CustomButton>
+          <ClearCartButton />
         </Box>
       )}
       {!cartItems.length && <EmptyCart />}
