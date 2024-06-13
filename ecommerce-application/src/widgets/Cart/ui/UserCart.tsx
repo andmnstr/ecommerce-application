@@ -1,8 +1,9 @@
-import type { LineItem } from '@commercetools/platform-sdk';
+import type { Cart, LineItem } from '@commercetools/platform-sdk';
 import { Add, DeleteForever, Remove } from '@mui/icons-material';
 import {
   Box,
   Divider,
+  IconButton,
   List,
   ListItem,
   Stack,
@@ -19,25 +20,31 @@ import type React from 'react';
 import { Fragment, useEffect, useState } from 'react';
 
 import { CustomButton } from '../../../shared/UI/button/CustomButton';
+import { addItem } from '../api/addItem';
 import { getCart } from '../api/getCart';
+import { removeItem } from '../api/removeItem';
 import { isLocalizedString } from '../lib/isLocalizedString';
 import type { ICartItemsData } from '../types/UserCart.types';
 import { EmptyCart } from './EmptyCart/EmptyCart';
 import classes from './UserCart.module.scss';
 
 export const UserCart: React.FC = () => {
+  const [cart, setCart] = useState<Cart>();
   const [cartItems, setCartItems] = useState<LineItem[]>([]);
   const [totalCartPrice, setTotalCartPrice] = useState<string>();
+  const [isChangedQuantity, setIsChangedQuantity] = useState<boolean>(false);
 
   const cartItemsData = cartItems.reduce((acc: ICartItemsData[], item) => {
     if (
       item.variant.images &&
+      item.variant.sku &&
       item.variant.attributes &&
       isLocalizedString(item.variant.attributes[1].value) &&
       item.price.discounted
     ) {
       const itemData = {
         id: item.id,
+        sku: item.variant.sku,
         image: item.variant.images[0].url,
         name: item.name['ru-RU'],
         size: item.variant.attributes[1].value['ru-RU'],
@@ -50,16 +57,32 @@ export const UserCart: React.FC = () => {
     return acc;
   }, []);
 
+  const handleAddItem = (sku: string): void => {
+    if (cart) {
+      addItem(cart.id, cart.version, sku);
+      setIsChangedQuantity(true);
+    }
+  };
+
+  const handleRemoveItem = (id: string): void => {
+    if (cart) {
+      removeItem(cart.id, cart.version, id);
+      setIsChangedQuantity(true);
+    }
+  };
+
   useEffect(() => {
     const fetchCart = async (): Promise<void> => {
       const activeCart = await getCart();
       if (activeCart) {
+        setCart(activeCart);
         setCartItems(activeCart.lineItems);
         setTotalCartPrice((activeCart.totalPrice.centAmount / 100).toFixed(2));
       }
     };
     fetchCart();
-  }, []);
+    setIsChangedQuantity(false);
+  }, [isChangedQuantity]);
 
   const smallScreen = useMediaQuery('(max-width: 767px)');
 
@@ -95,9 +118,23 @@ export const UserCart: React.FC = () => {
                     <TableCell>${item.price}</TableCell>
                     <TableCell>
                       <Stack className={classes.ItemQuantity}>
-                        <Remove />
+                        <IconButton
+                          aria-label="Remove"
+                          onClick={() => {
+                            handleRemoveItem(item.id);
+                          }}
+                        >
+                          <Remove />
+                        </IconButton>
                         <Typography>{item.quantity}</Typography>
-                        <Add />
+                        <IconButton
+                          aria-label="Add"
+                          onClick={() => {
+                            handleAddItem(item.sku);
+                          }}
+                        >
+                          <Add />
+                        </IconButton>
                       </Stack>
                     </TableCell>
                     <TableCell>${item.totalItemPrice}</TableCell>
@@ -132,9 +169,23 @@ export const UserCart: React.FC = () => {
                     <Typography>Price: ${item.price}</Typography>
                     <Stack className={classes.ItemQuantityAndPrice}>
                       <Stack className={classes.ItemQuantity}>
-                        <Remove />
+                        <IconButton
+                          aria-label="Remove"
+                          onClick={() => {
+                            handleRemoveItem(item.id);
+                          }}
+                        >
+                          <Remove />
+                        </IconButton>
                         <Typography>{item.quantity}</Typography>
-                        <Add />
+                        <IconButton
+                          aria-label="Add"
+                          onClick={() => {
+                            handleAddItem(item.sku);
+                          }}
+                        >
+                          <Add />
+                        </IconButton>
                       </Stack>
                       <Typography sx={{ fontWeight: 700 }}>${item.totalItemPrice}</Typography>
                     </Stack>
