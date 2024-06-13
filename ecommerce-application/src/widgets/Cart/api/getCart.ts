@@ -7,7 +7,6 @@ export const getCart = async (): Promise<Cart | undefined> => {
     const response = await getApiRoot().me().activeCart().get().execute();
     return response.body;
   } catch (error) {
-    console.error(error);
     return undefined;
   }
 };
