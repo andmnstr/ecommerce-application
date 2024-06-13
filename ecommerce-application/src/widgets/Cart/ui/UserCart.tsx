@@ -36,6 +36,7 @@ export const UserCart: React.FC = () => {
   const [totalCartPrice, setTotalCartPrice] = useState<string>();
   const [isChangedQuantity, setIsChangedQuantity] = useState<boolean>(false);
   const [isClearedCart, setIsClearedCart] = useState(false);
+  const [promoCodeInputValue, setPromoCodeInputValue] = useState('');
 
   const cartItemsData = cartItems.reduce((acc: ICartItemsData[], item) => {
     if (
@@ -233,7 +234,13 @@ export const UserCart: React.FC = () => {
           <Stack className={classes.PromoCodeArea}>
             <Typography>Enter Promo Code</Typography>
             <Stack className={classes.PromoCode}>
-              <CustomInputText fullWidth />
+              <CustomInputText
+                fullWidth
+                value={promoCodeInputValue}
+                onChange={event => {
+                  setPromoCodeInputValue(event.target.value);
+                }}
+              />
               <CustomButton
                 variant="contained"
                 size="large"
