@@ -1,6 +1,6 @@
 import { getApiRoot } from '../../../shared';
 
-export const removeItem = async (cartId: string, version: number, id: string): Promise<void> => {
+export const removeItem = async (cartId: string, version: number, id: string, quantity?: number): Promise<void> => {
   await getApiRoot()
     .me()
     .carts()
@@ -12,7 +12,7 @@ export const removeItem = async (cartId: string, version: number, id: string): P
           {
             action: 'removeLineItem',
             lineItemId: id,
-            quantity: 1,
+            quantity,
           },
         ],
       },
