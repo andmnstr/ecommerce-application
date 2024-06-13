@@ -8,7 +8,7 @@
 }
 
 .CartProductsTable {
-  width: 75%;
+  width: 70%;
 }
 
 .CartItem {
@@ -36,24 +36,6 @@
   gap: 5px;
   width: 100px;
   padding: 0 15px;
-}
-
-.TotalPriceBox {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  width: 20%;
-  border: 1px solid #e0e0e0;
-  padding: 20px;
-  height: 150px;
-  margin-top: 20px;
-  position: relative;
-}
-
-.TotalPrice {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
 }
 
 .CartProductsList {
@@ -93,9 +75,50 @@
   align-self: flex-end;
 }
 
+.TotalPriceBox {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 25%;
+  border: 1px solid #e0e0e0;
+  padding: 20px;
+  height: 260px;
+  margin-top: 20px;
+  position: relative;
+}
+
+.TotalPrice {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .TotalPriceBox > button {
   border-radius: 10px;
-  height: 50px;
+  height: 56px;
+}
+
+.PromoCodeArea {
+  display: flex;
+  flex-direction: column;
+}
+
+.PromoCodeArea > p {
+  font-size: 12px;
+}
+
+.PromoCode {
+  display: flex;
+  flex-direction: row;
+}
+
+.PromoCode div {
+  border-radius: 10px 0 0 10px;
+}
+
+.PromoCode button {
+  border-radius: 0 10px 10px 0;
+  padding: 8px 30px;
 }
 
 @media screen and (width < 1140px) {

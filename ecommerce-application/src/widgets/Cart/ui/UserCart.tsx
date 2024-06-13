@@ -20,6 +20,7 @@ import type React from 'react';
 import { Fragment, useEffect, useState } from 'react';
 
 import { CustomButton } from '../../../shared/UI/button/CustomButton';
+import CustomInputText from '../../../shared/UI/CustomInputText/CustomInputText';
 import { addItem } from '../api/addItem';
 import { getCart } from '../api/getCart';
 import { removeItem } from '../api/removeItem';
@@ -229,6 +230,20 @@ export const UserCart: React.FC = () => {
       )}
       {cart && cartItems.length > 0 && (
         <Box className={classes.TotalPriceBox}>
+          <Stack className={classes.PromoCodeArea}>
+            <Typography>Enter Promo Code</Typography>
+            <Stack className={classes.PromoCode}>
+              <CustomInputText fullWidth />
+              <CustomButton
+                variant="contained"
+                size="large"
+                type="button"
+              >
+                Apply
+              </CustomButton>
+            </Stack>
+          </Stack>
+          <Divider variant="fullWidth" />
           <Stack className={classes.TotalPrice}>
             <Typography sx={{ fontWeight: 700 }}>Grand Total:</Typography>
             <Typography sx={{ fontWeight: 700 }}>${totalCartPrice}</Typography>
