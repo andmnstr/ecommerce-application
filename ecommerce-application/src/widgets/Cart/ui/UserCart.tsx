@@ -1,4 +1,4 @@
-import type { Cart, LineItem } from '@commercetools/platform-sdk';
+import type { Cart, DiscountCodeInfo, LineItem } from '@commercetools/platform-sdk';
 import { Add, DeleteForever, Remove } from '@mui/icons-material';
 import {
   Box,
@@ -22,10 +22,12 @@ import { Fragment, useEffect, useState } from 'react';
 import { CustomButton } from '../../../shared/UI/button/CustomButton';
 import CustomInputText from '../../../shared/UI/CustomInputText/CustomInputText';
 import { addItem } from '../api/addItem';
+import { applyPromoCode } from '../api/applyPromoCode';
 import { getCart } from '../api/getCart';
 import { removeItem } from '../api/removeItem';
-import { isLocalizedString } from '../lib/isLocalizedString';
-import type { ICartItemsData } from '../types/UserCart.types';
+import { promoCodes } from '../consts/promocodes';
+import { createCartItemsData } from '../lib/createCartItemsData';
+import { PromoCodeMessages } from '../types/UserCart.types';
 import { ClearCartButton } from './ClearCartButton/ClearCartButton';
 import { EmptyCart } from './EmptyCart/EmptyCart';
 import classes from './UserCart.module.scss';
@@ -34,32 +36,15 @@ export const UserCart: React.FC = () => {
   const [cart, setCart] = useState<Cart>();
   const [cartItems, setCartItems] = useState<LineItem[]>([]);
   const [totalCartPrice, setTotalCartPrice] = useState<string>();
+  const [cartDiscountCodes, setCartDiscountCodes] = useState<DiscountCodeInfo[]>([]);
   const [isChangedQuantity, setIsChangedQuantity] = useState<boolean>(false);
   const [isClearedCart, setIsClearedCart] = useState(false);
   const [promoCodeInputValue, setPromoCodeInputValue] = useState('');
+  const [promoCodeMessage, setPromoCodeMessage] = useState(' ');
+  const [promoCodeMessageClass, setPromoCodeMessageClass] = useState(classes.PromoCodeMessageGreen);
+  const [isPromoCodeUsed, setIsPromoCodeUsed] = useState(false);
 
-  const cartItemsData = cartItems.reduce((acc: ICartItemsData[], item) => {
-    if (
-      item.variant.images &&
-      item.variant.sku &&
-      item.variant.attributes &&
-      isLocalizedString(item.variant.attributes[1].value) &&
-      item.price.discounted
-    ) {
-      const itemData = {
-        id: item.id,
-        sku: item.variant.sku,
-        image: item.variant.images[0].url,
-        name: item.name['ru-RU'],
-        size: item.variant.attributes[1].value['ru-RU'],
-        price: (item.price.discounted.value.centAmount / 100).toFixed(2),
-        quantity: item.quantity,
-        totalItemPrice: (item.totalPrice.centAmount / 100).toFixed(2),
-      };
-      acc.push(itemData);
-    }
-    return acc;
-  }, []);
+  const cartItemsData = createCartItemsData(cartItems);
 
   const handleAddItem = (sku: string): void => {
     if (cart) {
@@ -82,6 +67,52 @@ export const UserCart: React.FC = () => {
     setTotalCartPrice(undefined);
   };
 
+  const handleApplyPromoCode = (): void => {
+    if (cart) {
+      if (promoCodeInputValue === promoCodes[0].code || promoCodeInputValue === promoCodes[1].code) {
+        let isUsed = false;
+
+        if (cartDiscountCodes.length > 0) {
+          const code = promoCodes.find(item => {
+            return item.code === promoCodeInputValue;
+          });
+
+          if (
+            code &&
+            cartDiscountCodes.find(item => {
+              return item.discountCode.id === code.id && item.state === 'MatchesCart';
+            })
+          ) {
+            setPromoCodeMessage(PromoCodeMessages.Used);
+            setPromoCodeMessageClass(classes.PromoCodeMessageRed);
+            isUsed = true;
+          }
+        }
+
+        if (
+          !isUsed &&
+          promoCodeInputValue === promoCodes[1].code &&
+          cart.totalLineItemQuantity &&
+          cart.totalLineItemQuantity < promoCodes[1].minItemsInCart
+        ) {
+          setPromoCodeMessage(PromoCodeMessages.NoMatch);
+          setPromoCodeMessageClass(classes.PromoCodeMessageRed);
+          isUsed = true;
+        }
+
+        if (!isUsed) {
+          applyPromoCode(cart.id, cart.version, promoCodeInputValue);
+          setIsPromoCodeUsed(true);
+          setPromoCodeMessage(PromoCodeMessages.Success);
+          setPromoCodeMessageClass(classes.PromoCodeMessageGreen);
+        }
+      } else {
+        setPromoCodeMessage(PromoCodeMessages.WrongCode);
+        setPromoCodeMessageClass(classes.PromoCodeMessageRed);
+      }
+    }
+  };
+
   useEffect(() => {
     const fetchCart = async (): Promise<void> => {
       const activeCart = await getCart();
@@ -89,12 +120,16 @@ export const UserCart: React.FC = () => {
         setCart(activeCart);
         setCartItems(activeCart.lineItems);
         setTotalCartPrice((activeCart.totalPrice.centAmount / 100).toFixed(2));
+        if (activeCart.discountCodes.length > 0) {
+          setCartDiscountCodes(activeCart.discountCodes);
+        }
       }
     };
     fetchCart();
     setIsChangedQuantity(false);
     setIsClearedCart(false);
-  }, [isChangedQuantity, isClearedCart]);
+    setIsPromoCodeUsed(false);
+  }, [isChangedQuantity, isClearedCart, isPromoCodeUsed]);
 
   const smallScreen = useMediaQuery('(max-width: 767px)');
 
@@ -245,10 +280,12 @@ export const UserCart: React.FC = () => {
                 variant="contained"
                 size="large"
                 type="button"
+                onClick={handleApplyPromoCode}
               >
                 Apply
               </CustomButton>
             </Stack>
+            <Typography className={promoCodeMessageClass}>{promoCodeMessage}</Typography>
           </Stack>
           <Divider variant="fullWidth" />
           <Stack className={classes.TotalPrice}>
