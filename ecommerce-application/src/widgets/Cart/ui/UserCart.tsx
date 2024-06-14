@@ -162,7 +162,7 @@ export const UserCart: React.FC = () => {
                         <Typography>Size: {item.size}</Typography>
                       </Stack>
                     </TableCell>
-                    <TableCell>${item.price}</TableCell>
+                    <TableCell>€{item.price}</TableCell>
                     <TableCell>
                       <Stack className={classes.ItemQuantity}>
                         <IconButton
@@ -184,7 +184,7 @@ export const UserCart: React.FC = () => {
                         </IconButton>
                       </Stack>
                     </TableCell>
-                    <TableCell>${item.totalItemPrice}</TableCell>
+                    <TableCell>€{item.totalItemPrice}</TableCell>
                     <TableCell size="small">
                       <IconButton
                         aria-label="Delete"
@@ -220,7 +220,7 @@ export const UserCart: React.FC = () => {
                   <Stack className={classes.CartListItemDetails}>
                     <Typography sx={{ fontWeight: 700 }}>{item.name}</Typography>
                     <Typography>Size: {item.size}</Typography>
-                    <Typography>Price: ${item.price}</Typography>
+                    <Typography>Price: €{item.price}</Typography>
                     <Stack className={classes.ItemQuantityAndPrice}>
                       <Stack className={classes.ItemQuantity}>
                         <IconButton
@@ -241,7 +241,7 @@ export const UserCart: React.FC = () => {
                           <Add />
                         </IconButton>
                       </Stack>
-                      <Typography sx={{ fontWeight: 700 }}>${item.totalItemPrice}</Typography>
+                      <Typography sx={{ fontWeight: 700 }}>€{item.totalItemPrice}</Typography>
                     </Stack>
                   </Stack>
                   <Box className={classes.DeleteButton}>
@@ -290,7 +290,7 @@ export const UserCart: React.FC = () => {
           <Divider variant="fullWidth" />
           <Stack className={classes.TotalPrice}>
             <Typography sx={{ fontWeight: 700 }}>Grand Total:</Typography>
-            <Typography sx={{ fontWeight: 700 }}>${totalCartPrice}</Typography>
+            <Typography sx={{ fontWeight: 700 }}>€{totalCartPrice}</Typography>
           </Stack>
           <CustomButton
             variant="contained"
