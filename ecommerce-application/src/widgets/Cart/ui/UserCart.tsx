@@ -25,6 +25,7 @@ import { addItem } from '../api/addItem';
 import { applyPromoCode } from '../api/applyPromoCode';
 import { getCart } from '../api/getCart';
 import { removeItem } from '../api/removeItem';
+import { centsPerEuro } from '../consts/centsPerEuro';
 import { promoCodes } from '../consts/promocodes';
 import { createCartItemsData } from '../lib/createCartItemsData';
 import { PromoCodeMessages } from '../types/UserCart.types';
@@ -36,15 +37,21 @@ export const UserCart: React.FC = () => {
   const [cart, setCart] = useState<Cart>();
   const [cartItems, setCartItems] = useState<LineItem[]>([]);
   const [totalCartPrice, setTotalCartPrice] = useState<string>();
+  const [totalCartPriceClass, setTotalCartPriceClass] = useState(classes.RealTotalPrice);
   const [cartDiscountCodes, setCartDiscountCodes] = useState<DiscountCodeInfo[]>([]);
   const [isChangedQuantity, setIsChangedQuantity] = useState<boolean>(false);
   const [isClearedCart, setIsClearedCart] = useState(false);
   const [promoCodeInputValue, setPromoCodeInputValue] = useState('');
-  const [promoCodeMessage, setPromoCodeMessage] = useState(' ');
+  const [promoCodeMessage, setPromoCodeMessage] = useState('');
   const [promoCodeMessageClass, setPromoCodeMessageClass] = useState(classes.PromoCodeMessageGreen);
   const [isPromoCodeUsed, setIsPromoCodeUsed] = useState(false);
+  const [discountedCartPrice, setDiscountedCartPrice] = useState<string>();
 
   const cartItemsData = createCartItemsData(cartItems);
+
+  const promoCodesApplied = cartDiscountCodes.filter(item => {
+    return item.state === 'MatchesCart';
+  }).length;
 
   const handleAddItem = (sku: string): void => {
     if (cart) {
@@ -68,7 +75,8 @@ export const UserCart: React.FC = () => {
   };
 
   const handleApplyPromoCode = (): void => {
-    if (cart) {
+    setPromoCodeMessage('');
+    if (cart && promoCodeInputValue) {
       if (promoCodeInputValue === promoCodes[0].code || promoCodeInputValue === promoCodes[1].code) {
         let isUsed = false;
 
@@ -117,11 +125,20 @@ export const UserCart: React.FC = () => {
     const fetchCart = async (): Promise<void> => {
       const activeCart = await getCart();
       if (activeCart) {
+        const totalPrice = activeCart.totalPrice.centAmount;
         setCart(activeCart);
         setCartItems(activeCart.lineItems);
-        setTotalCartPrice((activeCart.totalPrice.centAmount / 100).toFixed(2));
-        if (activeCart.discountCodes.length > 0) {
-          setCartDiscountCodes(activeCart.discountCodes);
+        setCartDiscountCodes(activeCart.discountCodes);
+        if (activeCart.discountOnTotalPrice) {
+          const discountedAmount = activeCart.discountOnTotalPrice.discountedAmount.centAmount;
+          const oldTotalPrice = ((totalPrice + discountedAmount) / centsPerEuro).toFixed(2);
+          setTotalCartPrice(oldTotalPrice);
+          setTotalCartPriceClass(classes.oldTotalPrice);
+          setDiscountedCartPrice((totalPrice / centsPerEuro).toFixed(2));
+        } else {
+          setTotalCartPrice((totalPrice / centsPerEuro).toFixed(2));
+          setTotalCartPriceClass(classes.RealTotalPrice);
+          setDiscountedCartPrice(undefined);
         }
       }
     };
@@ -287,10 +304,12 @@ export const UserCart: React.FC = () => {
             </Stack>
             <Typography className={promoCodeMessageClass}>{promoCodeMessage}</Typography>
           </Stack>
+          <Typography sx={{ fontSize: 14 }}>Promo Codes Applied: {promoCodesApplied}</Typography>
           <Divider variant="fullWidth" />
           <Stack className={classes.TotalPrice}>
-            <Typography sx={{ fontWeight: 700 }}>Grand Total:</Typography>
-            <Typography sx={{ fontWeight: 700 }}>€{totalCartPrice}</Typography>
+            <Typography className={classes.RealTotalPrice}>Grand Total:</Typography>
+            <Typography className={totalCartPriceClass}>€{totalCartPrice}</Typography>
+            {discountedCartPrice && <Typography className={classes.RealTotalPrice}>€{discountedCartPrice}</Typography>}
           </Stack>
           <CustomButton
             variant="contained"
