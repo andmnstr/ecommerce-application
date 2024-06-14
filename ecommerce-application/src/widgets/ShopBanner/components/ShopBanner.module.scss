@@ -24,9 +24,24 @@
   z-index: 2;
 }
 
+.content span {
+  color: #d72929;
+  font-weight: 800;
+}
+
 .text {
   font-size: 2rem;
   color: #d72929;
+  user-select: none;
+}
+
+.promocode {
+  font-size: 1.8rem;
+  font-weight: 800;
+}
+
+.promocodeDetails {
+  font-size: 1.1rem;
   user-select: none;
 }
 
@@ -42,7 +57,7 @@
   width: 160px;
   height: 60px;
   font-size: 1rem;
-  margin: 60px 0 0 0;
+  margin: 20px 0 0 0;
 }
 
 .shop_image {
