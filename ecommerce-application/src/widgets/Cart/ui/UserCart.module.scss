@@ -82,7 +82,7 @@
   width: 25%;
   border: 1px solid #e0e0e0;
   padding: 20px;
-  height: 260px;
+  height: 280px;
   margin-top: 20px;
   position: relative;
 }
@@ -110,6 +110,16 @@
 .PromoCode {
   display: flex;
   flex-direction: row;
+}
+
+.PromoCodeMessageGreen {
+  height: 18px;
+  color: #12e41d;
+}
+
+.PromoCodeMessageRed {
+  height: 18px;
+  color: #f05a46;
 }
 
 .PromoCode div {
