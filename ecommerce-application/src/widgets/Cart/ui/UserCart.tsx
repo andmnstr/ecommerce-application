@@ -39,12 +39,10 @@ export const UserCart: React.FC = () => {
   const [totalCartPrice, setTotalCartPrice] = useState<string>();
   const [totalCartPriceClass, setTotalCartPriceClass] = useState(classes.RealTotalPrice);
   const [cartDiscountCodes, setCartDiscountCodes] = useState<DiscountCodeInfo[]>([]);
-  const [isChangedQuantity, setIsChangedQuantity] = useState<boolean>(false);
-  const [isClearedCart, setIsClearedCart] = useState(false);
+  const [isCartChanged, setIsCartChanged] = useState(false);
   const [promoCodeInputValue, setPromoCodeInputValue] = useState('');
   const [promoCodeMessage, setPromoCodeMessage] = useState('');
   const [promoCodeMessageClass, setPromoCodeMessageClass] = useState(classes.PromoCodeMessageGreen);
-  const [isPromoCodeUsed, setIsPromoCodeUsed] = useState(false);
   const [discountedCartPrice, setDiscountedCartPrice] = useState<string>();
 
   const cartItemsData = createCartItemsData(cartItems);
@@ -56,19 +54,19 @@ export const UserCart: React.FC = () => {
   const handleAddItem = (sku: string): void => {
     if (cart) {
       addItem(cart.id, cart.version, sku);
-      setIsChangedQuantity(true);
+      setIsCartChanged(true);
     }
   };
 
   const handleRemoveItem = (id: string, quantity?: number): void => {
     if (cart) {
       removeItem(cart.id, cart.version, id, quantity);
-      setIsChangedQuantity(true);
+      setIsCartChanged(true);
     }
   };
 
   const handleClearCart = (): void => {
-    setIsClearedCart(true);
+    setIsCartChanged(true);
     setCart(undefined);
     setCartItems([]);
     setTotalCartPrice(undefined);
@@ -110,7 +108,7 @@ export const UserCart: React.FC = () => {
 
         if (!isUsed) {
           applyPromoCode(cart.id, cart.version, promoCodeInputValue);
-          setIsPromoCodeUsed(true);
+          setIsCartChanged(true);
           setPromoCodeMessage(PromoCodeMessages.Success);
           setPromoCodeMessageClass(classes.PromoCodeMessageGreen);
         }
@@ -143,10 +141,8 @@ export const UserCart: React.FC = () => {
       }
     };
     fetchCart();
-    setIsChangedQuantity(false);
-    setIsClearedCart(false);
-    setIsPromoCodeUsed(false);
-  }, [isChangedQuantity, isClearedCart, isPromoCodeUsed]);
+    setIsCartChanged(false);
+  }, [isCartChanged]);
 
   const smallScreen = useMediaQuery('(max-width: 767px)');
 
