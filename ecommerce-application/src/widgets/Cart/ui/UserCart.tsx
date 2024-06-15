@@ -167,6 +167,7 @@ export const UserCart: React.FC = () => {
                     <TableCell className={classes.ProductsCell}>
                       <Box
                         component="img"
+                        alt="product_image"
                         src={item.image}
                         className={classes.CartItemImage}
                       />
@@ -227,6 +228,7 @@ export const UserCart: React.FC = () => {
                 <ListItem className={classes.CartListItem}>
                   <Box
                     component="img"
+                    alt="product_image"
                     src={item.image}
                     className={classes.CartItemImage}
                   />
