@@ -1,9 +1,7 @@
 import type { Cart, DiscountCodeInfo, LineItem } from '@commercetools/platform-sdk';
-import { Add, DeleteForever, Remove } from '@mui/icons-material';
 import {
   Box,
   Divider,
-  IconButton,
   List,
   ListItem,
   Stack,
@@ -11,7 +9,6 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableHead,
   TableRow,
   Typography,
   useMediaQuery,
@@ -21,16 +18,19 @@ import { Fragment, useEffect, useState } from 'react';
 
 import { CustomButton } from '../../../shared/UI/button/CustomButton';
 import CustomInputText from '../../../shared/UI/CustomInputText/CustomInputText';
-import { addItem } from '../api/addItem';
 import { applyPromoCode } from '../api/applyPromoCode';
 import { getCart } from '../api/getCart';
-import { removeItem } from '../api/removeItem';
 import { centsPerEuro } from '../consts/centsPerEuro';
 import { promoCodes } from '../consts/promocodes';
 import { createCartItemsData } from '../lib/createCartItemsData';
 import { PromoCodeMessages } from '../types/UserCart.types';
+import { CartTableHead } from './CartTableHead/CartTableHead';
+import { CheckoutButton } from './CheckoutButton/CheckoutButton';
 import { ClearCartButton } from './ClearCartButton/ClearCartButton';
 import { EmptyCart } from './EmptyCart/EmptyCart';
+import { ItemImageBox } from './ItemImageBox/ItemImageBox';
+import { ItemQuantityChange } from './ItemQuantityChange/ItemQuantityChange';
+import { RemoveItemButton } from './RemoveItemButton/RemoveItemButton';
 import classes from './UserCart.module.scss';
 
 export const UserCart: React.FC = () => {
@@ -51,18 +51,8 @@ export const UserCart: React.FC = () => {
     return item.state === 'MatchesCart';
   }).length;
 
-  const handleAddItem = (sku: string): void => {
-    if (cart) {
-      addItem(cart.id, cart.version, sku);
-      setIsCartChanged(true);
-    }
-  };
-
-  const handleRemoveItem = (id: string, quantity?: number): void => {
-    if (cart) {
-      removeItem(cart.id, cart.version, id, quantity);
-      setIsCartChanged(true);
-    }
+  const setCartChange = (): void => {
+    setIsCartChanged(true);
   };
 
   const handleClearCart = (): void => {
@@ -151,26 +141,13 @@ export const UserCart: React.FC = () => {
       {!smallScreen && cartItems.length > 0 && cart && (
         <TableContainer className={classes.CartProductsTable}>
           <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Products</TableCell>
-                <TableCell>Price</TableCell>
-                <TableCell>Quantity</TableCell>
-                <TableCell>Total</TableCell>
-                <TableCell />
-              </TableRow>
-            </TableHead>
+            <CartTableHead />
             <TableBody>
               {cartItemsData.map(item => {
                 return (
                   <TableRow key={item.id}>
                     <TableCell className={classes.ProductsCell}>
-                      <Box
-                        component="img"
-                        alt="product_image"
-                        src={item.image}
-                        className={classes.CartItemImage}
-                      />
+                      <ItemImageBox imagePath={item.image} />
                       <Stack sx={{ justifyContent: 'center' }}>
                         <Typography sx={{ fontWeight: 700 }}>{item.name}</Typography>
                         <Typography>Size: {item.size}</Typography>
@@ -178,36 +155,21 @@ export const UserCart: React.FC = () => {
                     </TableCell>
                     <TableCell>€{item.price}</TableCell>
                     <TableCell>
-                      <Stack className={classes.ItemQuantity}>
-                        <IconButton
-                          aria-label="Remove"
-                          onClick={() => {
-                            handleRemoveItem(item.id, 1);
-                          }}
-                        >
-                          <Remove />
-                        </IconButton>
-                        <Typography>{item.quantity}</Typography>
-                        <IconButton
-                          aria-label="Add"
-                          onClick={() => {
-                            handleAddItem(item.sku);
-                          }}
-                        >
-                          <Add />
-                        </IconButton>
-                      </Stack>
+                      <ItemQuantityChange
+                        cartId={cart.id}
+                        cartVersion={cart.version}
+                        item={item}
+                        setCartChange={setCartChange}
+                      />
                     </TableCell>
                     <TableCell>€{item.totalItemPrice}</TableCell>
                     <TableCell size="small">
-                      <IconButton
-                        aria-label="Delete"
-                        onClick={() => {
-                          handleRemoveItem(item.id);
-                        }}
-                      >
-                        <DeleteForever />
-                      </IconButton>
+                      <RemoveItemButton
+                        cartId={cart.id}
+                        cartVersion={cart.version}
+                        itemId={item.id}
+                        setCartChange={setCartChange}
+                      />
                     </TableCell>
                   </TableRow>
                 );
@@ -226,48 +188,28 @@ export const UserCart: React.FC = () => {
             return (
               <Fragment key={item.id}>
                 <ListItem className={classes.CartListItem}>
-                  <Box
-                    component="img"
-                    alt="product_image"
-                    src={item.image}
-                    className={classes.CartItemImage}
-                  />
+                  <ItemImageBox imagePath={item.image} />
                   <Stack className={classes.CartListItemDetails}>
                     <Typography sx={{ fontWeight: 700 }}>{item.name}</Typography>
                     <Typography>Size: {item.size}</Typography>
                     <Typography>Price: €{item.price}</Typography>
                     <Stack className={classes.ItemQuantityAndPrice}>
-                      <Stack className={classes.ItemQuantity}>
-                        <IconButton
-                          aria-label="Remove"
-                          onClick={() => {
-                            handleRemoveItem(item.id, 1);
-                          }}
-                        >
-                          <Remove />
-                        </IconButton>
-                        <Typography>{item.quantity}</Typography>
-                        <IconButton
-                          aria-label="Add"
-                          onClick={() => {
-                            handleAddItem(item.sku);
-                          }}
-                        >
-                          <Add />
-                        </IconButton>
-                      </Stack>
+                      <ItemQuantityChange
+                        cartId={cart.id}
+                        cartVersion={cart.version}
+                        item={item}
+                        setCartChange={setCartChange}
+                      />
                       <Typography sx={{ fontWeight: 700 }}>€{item.totalItemPrice}</Typography>
                     </Stack>
                   </Stack>
                   <Box className={classes.DeleteButton}>
-                    <IconButton
-                      aria-label="Delete"
-                      onClick={() => {
-                        handleRemoveItem(item.id);
-                      }}
-                    >
-                      <DeleteForever />
-                    </IconButton>
+                    <RemoveItemButton
+                      cartId={cart.id}
+                      cartVersion={cart.version}
+                      itemId={item.id}
+                      setCartChange={setCartChange}
+                    />
                   </Box>
                 </ListItem>
                 <Divider
@@ -309,13 +251,7 @@ export const UserCart: React.FC = () => {
             <Typography className={totalCartPriceClass}>€{totalCartPrice}</Typography>
             {discountedCartPrice && <Typography className={classes.RealTotalPrice}>€{discountedCartPrice}</Typography>}
           </Stack>
-          <CustomButton
-            variant="contained"
-            size="large"
-            type="button"
-          >
-            Checkout
-          </CustomButton>
+          <CheckoutButton />
           <ClearCartButton
             cartId={cart.id}
             cartVersion={cart.version}
