@@ -1,6 +1,8 @@
 import { DISTRIBUTION_CHANNEL, getApiRoot } from '../../../../../shared';
 
-export const addItemToCart = async (cartId: string, version: number, sku: string, key: string): Promise<void> => {
+export const addItemToCart = async (cartId: string, version: number, sku: string, key: string): Promise<number> => {
+  let cartVersion: number = 0;
+
   await getApiRoot()
     .me()
     .carts()
@@ -26,5 +28,10 @@ export const addItemToCart = async (cartId: string, version: number, sku: string
         ],
       },
     })
-    .execute();
+    .execute()
+    .then(response => {
+      cartVersion = response.body.version;
+    });
+
+  return cartVersion;
 };

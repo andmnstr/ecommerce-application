@@ -5,7 +5,9 @@ export const removeItemFromCart = async (
   version: number,
   key: string,
   quantity?: number
-): Promise<void> => {
+): Promise<number> => {
+  let cartVersion: number = 0;
+
   await getApiRoot()
     .me()
     .carts()
@@ -22,5 +24,10 @@ export const removeItemFromCart = async (
         ],
       },
     })
-    .execute();
+    .execute()
+    .then(response => {
+      cartVersion = response.body.version;
+    });
+
+  return cartVersion;
 };

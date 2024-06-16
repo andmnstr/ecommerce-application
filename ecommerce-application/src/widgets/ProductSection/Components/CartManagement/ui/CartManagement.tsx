@@ -14,9 +14,9 @@ export const CartManagement: React.FC = () => {
   const [products, setProducts] = useState(0);
   const [isItemInCart, setItemInCart] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [version, setVersion] = useState(0);
   const addCartButtonLabel = isItemInCart ? 'Remove from cart' : 'Add to cart';
   const [cart, setCart] = useState<Cart>();
-  const [cartVersion, setCartVersion] = useState(0);
   let productSKU = '';
 
   if (localStorage.getItem('Product sku')) {
@@ -28,31 +28,29 @@ export const CartManagement: React.FC = () => {
       getExistingProductCart()
         .then(activeCart => {
           const currentCart = activeCart.body;
-
           setCart(currentCart);
-          setCartVersion(currentCart.version);
+          setVersion(currentCart.version);
         })
         .catch(() => {
           createProductCart().then(newCart => {
             const currentCart = newCart.body;
-
             setCart(currentCart);
-            setCartVersion(currentCart.version);
+            setVersion(currentCart.version);
           });
         });
     };
     fetchCart();
-  }, [setItemInCart]);
+  }, []);
 
   const handleAddItemToCart = (): void => {
     setIsLoading(true);
 
     if (cart) {
-      addItemToCart(cart.id, cart.version, productSKU, productSKU)
-        .then(() => {
+      addItemToCart(cart.id, version, productSKU, productSKU)
+        .then(cartVersion => {
+          setVersion(cartVersion);
           setItemInCart(true);
           setIsLoading(false);
-          setCart(cart);
         })
         .catch(() => {
           setIsLoading(false);
@@ -65,9 +63,11 @@ export const CartManagement: React.FC = () => {
     setIsLoading(true);
 
     if (cart) {
-      removeItemFromCart(cart.id, cartVersion, productSKU)
-        .then(() => {
+      removeItemFromCart(cart.id, version, productSKU)
+        .then(cartVersion => {
+          setVersion(cartVersion);
           setItemInCart(false);
+          setIsLoading(false);
         })
         .catch(() => {
           setIsLoading(false);
