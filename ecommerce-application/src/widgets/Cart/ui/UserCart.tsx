@@ -1,9 +1,7 @@
-import type { Cart, LineItem } from '@commercetools/platform-sdk';
-import { Add, DeleteForever, Remove } from '@mui/icons-material';
+import type { Cart, DiscountCodeInfo, LineItem } from '@commercetools/platform-sdk';
 import {
   Box,
   Divider,
-  IconButton,
   List,
   ListItem,
   Stack,
@@ -11,7 +9,6 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableHead,
   TableRow,
   Typography,
   useMediaQuery,
@@ -20,79 +17,123 @@ import type React from 'react';
 import { Fragment, useEffect, useState } from 'react';
 
 import { CustomButton } from '../../../shared/UI/button/CustomButton';
-import { addItem } from '../api/addItem';
+import CustomInputText from '../../../shared/UI/CustomInputText/CustomInputText';
+import { applyPromoCode } from '../api/applyPromoCode';
 import { getCart } from '../api/getCart';
-import { removeItem } from '../api/removeItem';
-import { isLocalizedString } from '../lib/isLocalizedString';
-import type { ICartItemsData } from '../types/UserCart.types';
+import { centsPerEuro } from '../consts/centsPerEuro';
+import { promoCodes } from '../consts/promocodes';
+import { createCartItemsData } from '../lib/createCartItemsData';
+import { PromoCodeMessages } from '../types/UserCart.types';
+import { CartTableHead } from './CartTableHead/CartTableHead';
+import { CheckoutButton } from './CheckoutButton/CheckoutButton';
 import { ClearCartButton } from './ClearCartButton/ClearCartButton';
 import { EmptyCart } from './EmptyCart/EmptyCart';
+import { ItemImageBox } from './ItemImageBox/ItemImageBox';
+import { ItemQuantityChange } from './ItemQuantityChange/ItemQuantityChange';
+import { RemoveItemButton } from './RemoveItemButton/RemoveItemButton';
 import classes from './UserCart.module.scss';
 
 export const UserCart: React.FC = () => {
   const [cart, setCart] = useState<Cart>();
   const [cartItems, setCartItems] = useState<LineItem[]>([]);
   const [totalCartPrice, setTotalCartPrice] = useState<string>();
-  const [isChangedQuantity, setIsChangedQuantity] = useState<boolean>(false);
-  const [isClearedCart, setIsClearedCart] = useState(false);
+  const [totalCartPriceClass, setTotalCartPriceClass] = useState(classes.RealTotalPrice);
+  const [cartDiscountCodes, setCartDiscountCodes] = useState<DiscountCodeInfo[]>([]);
+  const [isCartChanged, setIsCartChanged] = useState(false);
+  const [promoCodeInputValue, setPromoCodeInputValue] = useState('');
+  const [promoCodeMessage, setPromoCodeMessage] = useState('');
+  const [promoCodeMessageClass, setPromoCodeMessageClass] = useState(classes.PromoCodeMessageGreen);
+  const [discountedCartPrice, setDiscountedCartPrice] = useState<string>();
 
-  const cartItemsData = cartItems.reduce((acc: ICartItemsData[], item) => {
-    if (
-      item.variant.images &&
-      item.variant.sku &&
-      item.variant.attributes &&
-      isLocalizedString(item.variant.attributes[1].value) &&
-      item.price.discounted
-    ) {
-      const itemData = {
-        id: item.id,
-        sku: item.variant.sku,
-        image: item.variant.images[0].url,
-        name: item.name['ru-RU'],
-        size: item.variant.attributes[1].value['ru-RU'],
-        price: (item.price.discounted.value.centAmount / 100).toFixed(2),
-        quantity: item.quantity,
-        totalItemPrice: (item.totalPrice.centAmount / 100).toFixed(2),
-      };
-      acc.push(itemData);
-    }
-    return acc;
-  }, []);
+  const cartItemsData = createCartItemsData(cartItems);
 
-  const handleAddItem = (sku: string): void => {
-    if (cart) {
-      addItem(cart.id, cart.version, sku);
-      setIsChangedQuantity(true);
-    }
-  };
+  const promoCodesApplied = cartDiscountCodes.filter(item => {
+    return item.state === 'MatchesCart';
+  }).length;
 
-  const handleRemoveItem = (id: string, quantity?: number): void => {
-    if (cart) {
-      removeItem(cart.id, cart.version, id, quantity);
-      setIsChangedQuantity(true);
-    }
+  const setCartChange = (): void => {
+    setIsCartChanged(true);
   };
 
   const handleClearCart = (): void => {
-    setIsClearedCart(true);
+    setIsCartChanged(true);
     setCart(undefined);
     setCartItems([]);
     setTotalCartPrice(undefined);
+  };
+
+  const handleApplyPromoCode = (): void => {
+    setPromoCodeMessage('');
+    const [oneItemPromoCode, fiveItemsPromoCode] = promoCodes;
+    if (cart && promoCodeInputValue) {
+      if (promoCodeInputValue === oneItemPromoCode.code || promoCodeInputValue === fiveItemsPromoCode.code) {
+        let isUsed = false;
+
+        if (cartDiscountCodes.length > 0) {
+          const usedCode = promoCodes.find(item => {
+            return item.code === promoCodeInputValue;
+          });
+
+          if (
+            usedCode &&
+            cartDiscountCodes.find(item => {
+              return item.discountCode.id === usedCode.id && item.state === 'MatchesCart';
+            })
+          ) {
+            setPromoCodeMessage(PromoCodeMessages.Used);
+            setPromoCodeMessageClass(classes.PromoCodeMessageRed);
+            isUsed = true;
+          }
+        }
+
+        if (
+          !isUsed &&
+          promoCodeInputValue === fiveItemsPromoCode.code &&
+          cart.totalLineItemQuantity &&
+          cart.totalLineItemQuantity < fiveItemsPromoCode.minItemsInCart
+        ) {
+          setPromoCodeMessage(PromoCodeMessages.NoMatch);
+          setPromoCodeMessageClass(classes.PromoCodeMessageRed);
+          isUsed = true;
+        }
+
+        if (!isUsed) {
+          applyPromoCode(cart.id, cart.version, promoCodeInputValue);
+          setIsCartChanged(true);
+          setPromoCodeMessage(PromoCodeMessages.Success);
+          setPromoCodeMessageClass(classes.PromoCodeMessageGreen);
+        }
+      } else {
+        setPromoCodeMessage(PromoCodeMessages.WrongCode);
+        setPromoCodeMessageClass(classes.PromoCodeMessageRed);
+      }
+    }
   };
 
   useEffect(() => {
     const fetchCart = async (): Promise<void> => {
       const activeCart = await getCart();
       if (activeCart) {
+        const totalPrice = activeCart.totalPrice.centAmount;
         setCart(activeCart);
         setCartItems(activeCart.lineItems);
-        setTotalCartPrice((activeCart.totalPrice.centAmount / 100).toFixed(2));
+        setCartDiscountCodes(activeCart.discountCodes);
+        if (activeCart.discountOnTotalPrice) {
+          const discountedAmount = activeCart.discountOnTotalPrice.discountedAmount.centAmount;
+          const oldTotalPrice = ((totalPrice + discountedAmount) / centsPerEuro).toFixed(2);
+          setTotalCartPrice(oldTotalPrice);
+          setTotalCartPriceClass(classes.oldTotalPrice);
+          setDiscountedCartPrice((totalPrice / centsPerEuro).toFixed(2));
+        } else {
+          setTotalCartPrice((totalPrice / centsPerEuro).toFixed(2));
+          setTotalCartPriceClass(classes.RealTotalPrice);
+          setDiscountedCartPrice(undefined);
+        }
       }
     };
     fetchCart();
-    setIsChangedQuantity(false);
-    setIsClearedCart(false);
-  }, [isChangedQuantity, isClearedCart]);
+    setIsCartChanged(false);
+  }, [isCartChanged]);
 
   const smallScreen = useMediaQuery('(max-width: 767px)');
 
@@ -101,62 +142,35 @@ export const UserCart: React.FC = () => {
       {!smallScreen && cartItems.length > 0 && cart && (
         <TableContainer className={classes.CartProductsTable}>
           <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Products</TableCell>
-                <TableCell>Price</TableCell>
-                <TableCell>Quantity</TableCell>
-                <TableCell>Total</TableCell>
-                <TableCell />
-              </TableRow>
-            </TableHead>
+            <CartTableHead />
             <TableBody>
               {cartItemsData.map(item => {
                 return (
                   <TableRow key={item.id}>
                     <TableCell className={classes.ProductsCell}>
-                      <Box
-                        component="img"
-                        src={item.image}
-                        className={classes.CartItemImage}
-                      />
+                      <ItemImageBox imagePath={item.image} />
                       <Stack sx={{ justifyContent: 'center' }}>
                         <Typography sx={{ fontWeight: 700 }}>{item.name}</Typography>
                         <Typography>Size: {item.size}</Typography>
                       </Stack>
                     </TableCell>
-                    <TableCell>${item.price}</TableCell>
+                    <TableCell>€{item.price}</TableCell>
                     <TableCell>
-                      <Stack className={classes.ItemQuantity}>
-                        <IconButton
-                          aria-label="Remove"
-                          onClick={() => {
-                            handleRemoveItem(item.id, 1);
-                          }}
-                        >
-                          <Remove />
-                        </IconButton>
-                        <Typography>{item.quantity}</Typography>
-                        <IconButton
-                          aria-label="Add"
-                          onClick={() => {
-                            handleAddItem(item.sku);
-                          }}
-                        >
-                          <Add />
-                        </IconButton>
-                      </Stack>
+                      <ItemQuantityChange
+                        cartId={cart.id}
+                        cartVersion={cart.version}
+                        item={item}
+                        setCartChange={setCartChange}
+                      />
                     </TableCell>
-                    <TableCell>${item.totalItemPrice}</TableCell>
+                    <TableCell>€{item.totalItemPrice}</TableCell>
                     <TableCell size="small">
-                      <IconButton
-                        aria-label="Delete"
-                        onClick={() => {
-                          handleRemoveItem(item.id);
-                        }}
-                      >
-                        <DeleteForever />
-                      </IconButton>
+                      <RemoveItemButton
+                        cartId={cart.id}
+                        cartVersion={cart.version}
+                        itemId={item.id}
+                        setCartChange={setCartChange}
+                      />
                     </TableCell>
                   </TableRow>
                 );
@@ -175,47 +189,28 @@ export const UserCart: React.FC = () => {
             return (
               <Fragment key={item.id}>
                 <ListItem className={classes.CartListItem}>
-                  <Box
-                    component="img"
-                    src={item.image}
-                    className={classes.CartItemImage}
-                  />
+                  <ItemImageBox imagePath={item.image} />
                   <Stack className={classes.CartListItemDetails}>
                     <Typography sx={{ fontWeight: 700 }}>{item.name}</Typography>
                     <Typography>Size: {item.size}</Typography>
-                    <Typography>Price: ${item.price}</Typography>
+                    <Typography>Price: €{item.price}</Typography>
                     <Stack className={classes.ItemQuantityAndPrice}>
-                      <Stack className={classes.ItemQuantity}>
-                        <IconButton
-                          aria-label="Remove"
-                          onClick={() => {
-                            handleRemoveItem(item.id, 1);
-                          }}
-                        >
-                          <Remove />
-                        </IconButton>
-                        <Typography>{item.quantity}</Typography>
-                        <IconButton
-                          aria-label="Add"
-                          onClick={() => {
-                            handleAddItem(item.sku);
-                          }}
-                        >
-                          <Add />
-                        </IconButton>
-                      </Stack>
-                      <Typography sx={{ fontWeight: 700 }}>${item.totalItemPrice}</Typography>
+                      <ItemQuantityChange
+                        cartId={cart.id}
+                        cartVersion={cart.version}
+                        item={item}
+                        setCartChange={setCartChange}
+                      />
+                      <Typography sx={{ fontWeight: 700 }}>€{item.totalItemPrice}</Typography>
                     </Stack>
                   </Stack>
                   <Box className={classes.DeleteButton}>
-                    <IconButton
-                      aria-label="Delete"
-                      onClick={() => {
-                        handleRemoveItem(item.id);
-                      }}
-                    >
-                      <DeleteForever />
-                    </IconButton>
+                    <RemoveItemButton
+                      cartId={cart.id}
+                      cartVersion={cart.version}
+                      itemId={item.id}
+                      setCartChange={setCartChange}
+                    />
                   </Box>
                 </ListItem>
                 <Divider
@@ -229,17 +224,35 @@ export const UserCart: React.FC = () => {
       )}
       {cart && cartItems.length > 0 && (
         <Box className={classes.TotalPriceBox}>
-          <Stack className={classes.TotalPrice}>
-            <Typography sx={{ fontWeight: 700 }}>Grand Total:</Typography>
-            <Typography sx={{ fontWeight: 700 }}>${totalCartPrice}</Typography>
+          <Stack className={classes.PromoCodeArea}>
+            <Typography>Enter Promo Code</Typography>
+            <Stack className={classes.PromoCode}>
+              <CustomInputText
+                fullWidth
+                value={promoCodeInputValue}
+                onChange={event => {
+                  setPromoCodeInputValue(event.target.value);
+                }}
+              />
+              <CustomButton
+                variant="contained"
+                size="large"
+                type="button"
+                onClick={handleApplyPromoCode}
+              >
+                Apply
+              </CustomButton>
+            </Stack>
+            <Typography className={promoCodeMessageClass}>{promoCodeMessage}</Typography>
           </Stack>
-          <CustomButton
-            variant="contained"
-            size="large"
-            type="button"
-          >
-            Checkout
-          </CustomButton>
+          <Typography sx={{ fontSize: 14 }}>Promo Codes Applied: {promoCodesApplied}</Typography>
+          <Divider variant="fullWidth" />
+          <Stack className={classes.TotalPrice}>
+            <Typography className={classes.RealTotalPrice}>Grand Total:</Typography>
+            <Typography className={totalCartPriceClass}>€{totalCartPrice}</Typography>
+            {discountedCartPrice && <Typography className={classes.RealTotalPrice}>€{discountedCartPrice}</Typography>}
+          </Stack>
+          <CheckoutButton />
           <ClearCartButton
             cartId={cart.id}
             cartVersion={cart.version}

@@ -12,6 +12,7 @@ export const EmptyCart: React.FC = () => {
       <Box
         className={classes.EmptyCartImage}
         component="img"
+        alt="empty_cart"
         src={emptyCartImage}
       />
       <Typography className={classes.EmptyCartMessage}>{emptyCartMessages[0]}</Typography>

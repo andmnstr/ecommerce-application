@@ -2,13 +2,13 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
-  gap: 5%;
+  gap: 3%;
   width: 100%;
   margin-bottom: 20px;
 }
 
 .CartProductsTable {
-  width: 75%;
+  width: 67%;
 }
 
 .CartItem {
@@ -36,24 +36,6 @@
   gap: 5px;
   width: 100px;
   padding: 0 15px;
-}
-
-.TotalPriceBox {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  width: 20%;
-  border: 1px solid #e0e0e0;
-  padding: 20px;
-  height: 150px;
-  margin-top: 20px;
-  position: relative;
-}
-
-.TotalPrice {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
 }
 
 .CartProductsList {
@@ -93,9 +75,81 @@
   align-self: flex-end;
 }
 
+.TotalPriceBox {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 30%;
+  border: 1px solid #e0e0e0;
+  padding: 20px;
+  height: 320px;
+  margin-top: 20px;
+  position: relative;
+}
+
+.TotalPrice {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.RealTotalPrice {
+  font-weight: 700;
+}
+
+.oldTotalPrice {
+  color: #888;
+  font-weight: 400;
+  position: relative;
+}
+
+.oldTotalPrice:before {
+  display: block;
+  position: absolute;
+  content: '';
+  left: 0;
+  top: 50%;
+  right: 0;
+  border-top: 1px solid #888;
+  transform: rotate(17deg);
+}
+
 .TotalPriceBox > button {
   border-radius: 10px;
-  height: 50px;
+  height: 56px;
+}
+
+.PromoCodeArea {
+  display: flex;
+  flex-direction: column;
+}
+
+.PromoCodeArea > p {
+  font-size: 12px;
+}
+
+.PromoCode {
+  display: flex;
+  flex-direction: row;
+}
+
+.PromoCodeMessageGreen {
+  height: 18px;
+  color: #12e41d;
+}
+
+.PromoCodeMessageRed {
+  height: 18px;
+  color: #f05a46;
+}
+
+.PromoCode div {
+  border-radius: 10px 0 0 10px;
+}
+
+.PromoCode button {
+  border-radius: 0 10px 10px 0;
+  padding: 8px 30px;
 }
 
 @media screen and (width < 1140px) {
@@ -110,7 +164,7 @@
   }
 
   .TotalPriceBox {
-    width: 40%;
+    width: 45%;
   }
 }
 
@@ -120,7 +174,7 @@
   }
 
   .TotalPriceBox {
-    width: 50%;
+    width: 60%;
   }
 }
 
@@ -136,6 +190,6 @@
   }
 
   .TotalPriceBox {
-    width: 70%;
+    width: 85%;
   }
 }
