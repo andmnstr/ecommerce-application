@@ -64,19 +64,20 @@ export const UserCart: React.FC = () => {
 
   const handleApplyPromoCode = (): void => {
     setPromoCodeMessage('');
+    const [oneItemPromoCode, fiveItemsPromoCode] = promoCodes;
     if (cart && promoCodeInputValue) {
-      if (promoCodeInputValue === promoCodes[0].code || promoCodeInputValue === promoCodes[1].code) {
+      if (promoCodeInputValue === oneItemPromoCode.code || promoCodeInputValue === fiveItemsPromoCode.code) {
         let isUsed = false;
 
         if (cartDiscountCodes.length > 0) {
-          const code = promoCodes.find(item => {
+          const usedCode = promoCodes.find(item => {
             return item.code === promoCodeInputValue;
           });
 
           if (
-            code &&
+            usedCode &&
             cartDiscountCodes.find(item => {
-              return item.discountCode.id === code.id && item.state === 'MatchesCart';
+              return item.discountCode.id === usedCode.id && item.state === 'MatchesCart';
             })
           ) {
             setPromoCodeMessage(PromoCodeMessages.Used);
@@ -87,9 +88,9 @@ export const UserCart: React.FC = () => {
 
         if (
           !isUsed &&
-          promoCodeInputValue === promoCodes[1].code &&
+          promoCodeInputValue === fiveItemsPromoCode.code &&
           cart.totalLineItemQuantity &&
-          cart.totalLineItemQuantity < promoCodes[1].minItemsInCart
+          cart.totalLineItemQuantity < fiveItemsPromoCode.minItemsInCart
         ) {
           setPromoCodeMessage(PromoCodeMessages.NoMatch);
           setPromoCodeMessageClass(classes.PromoCodeMessageRed);
