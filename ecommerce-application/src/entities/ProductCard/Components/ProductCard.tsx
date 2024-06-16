@@ -44,6 +44,7 @@ export const ProductCard: React.FC<IProductCard> = props => {
           category,
           productLink
         );
+        localStorage.setItem('Product sku', sku);
         navigate(`/shop/${categoryName}/${subcategoryName}/${id}`);
       }}
     >
