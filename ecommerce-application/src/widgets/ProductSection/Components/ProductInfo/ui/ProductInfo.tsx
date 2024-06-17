@@ -19,7 +19,7 @@ export const ProductInfo: React.FC<IProductInfoProps> = props => {
   const { name, description, price, discountPrice, colors, sizes } = props;
 
   const productPrice = price ? price / 100 : undefined;
-  const productPriceDiscounted = discountPrice ? discountPrice * 0.008 : undefined;
+  const productPriceDiscounted = discountPrice ? discountPrice / 100 : undefined;
 
   return (
     <aside className={styles.info_section}>

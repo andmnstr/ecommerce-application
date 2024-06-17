@@ -6,7 +6,7 @@ import { ProductSection } from '../../../widgets/ProductSection';
 
 export const ProductPage: React.FC = () => {
   const { category, subcategory, id } = useParams();
-  console.log(category, subcategory, id);
+
   return (
     <>
       <Header />
