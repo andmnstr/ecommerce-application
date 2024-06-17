@@ -28,9 +28,6 @@ export const CartManagement: React.FC = () => {
       getExistingProductCart()
         .then(activeCart => {
           const currentCart = activeCart.body;
-          setCart(currentCart);
-          setVersion(currentCart.version);
-
           const currentItem = currentCart.lineItems.filter(item => {
             return item.variant.sku === productSKU;
           })[0];
@@ -42,6 +39,21 @@ export const CartManagement: React.FC = () => {
           }
         })
         .catch(() => {
+          setCartItem(undefined);
+        });
+    };
+    fetchCart();
+  }, [productSKU]);
+
+  useEffect(() => {
+    const fetchCart = async (): Promise<void> => {
+      getExistingProductCart()
+        .then(activeCart => {
+          const currentCart = activeCart.body;
+          setCart(currentCart);
+          setVersion(currentCart.version);
+        })
+        .catch(() => {
           createProductCart().then(newCart => {
             const currentCart = newCart.body;
             setCart(currentCart);
@@ -50,7 +62,7 @@ export const CartManagement: React.FC = () => {
         });
     };
     fetchCart();
-  }, [version, productSKU]);
+  }, []);
 
   const handleAddItemToCart = (): void => {
     setIsLoading(true);
