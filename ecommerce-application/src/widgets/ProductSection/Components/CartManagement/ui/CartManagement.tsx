@@ -12,7 +12,6 @@ import styles from './CartManagement.module.scss';
 
 export const CartManagement: React.FC = () => {
   let productSKU = '';
-  const [products, setProducts] = useState(0);
   const [cartItem, setCartItem] = useState<LineItem>();
   const [isLoading, setIsLoading] = useState(false);
   const [isItemInCart, setItemInCart] = useState(false);
@@ -87,38 +86,8 @@ export const CartManagement: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    if (products < 0) {
-      setProducts(0);
-    }
-  }, [products]);
-
   return (
     <div className={styles.product__cart_control}>
-      <div
-        className={styles.product__counter}
-        style={{ display: 'none' }}
-      >
-        <CustomButton
-          variant="outlined"
-          className={styles.product__count}
-          onClick={() => {
-            setProducts(products - 1);
-          }}
-        >
-          -
-        </CustomButton>
-        <span className={styles.product__number}>{products}</span>
-        <CustomButton
-          variant="outlined"
-          className={styles.product__count}
-          onClick={() => {
-            setProducts(products + 1);
-          }}
-        >
-          +
-        </CustomButton>
-      </div>
       <CustomButton
         variant={isItemInCart ? 'outlined' : 'contained'}
         className={styles.product__cart_addition}
