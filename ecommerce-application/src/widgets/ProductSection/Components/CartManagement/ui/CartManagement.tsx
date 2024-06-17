@@ -62,7 +62,7 @@ export const CartManagement: React.FC = () => {
         });
     };
     fetchCart();
-  }, []);
+  }, [version]);
 
   const handleAddItemToCart = (): void => {
     setIsLoading(true);
