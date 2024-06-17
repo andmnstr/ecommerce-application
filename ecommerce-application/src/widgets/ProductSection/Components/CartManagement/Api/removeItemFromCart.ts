@@ -3,7 +3,7 @@ import { getApiRoot } from '../../../../../shared';
 export const removeItemFromCart = async (
   cartId: string,
   version: number,
-  key: string,
+  id: string,
   quantity?: number
 ): Promise<number> => {
   let cartVersion: number = 0;
@@ -18,7 +18,7 @@ export const removeItemFromCart = async (
         actions: [
           {
             action: 'removeLineItem',
-            lineItemKey: key,
+            lineItemId: id,
             quantity: quantity ?? 1,
           },
         ],

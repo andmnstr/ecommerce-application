@@ -1,4 +1,4 @@
-import type { Cart } from '@commercetools/platform-sdk';
+import type { Cart, LineItem } from '@commercetools/platform-sdk';
 import { AddShoppingCart } from '@mui/icons-material';
 import { CircularProgress } from '@mui/material';
 import type React from 'react';
@@ -13,8 +13,10 @@ import styles from './CartManagement.module.scss';
 export const CartManagement: React.FC = () => {
   let productSKU = '';
   const [products, setProducts] = useState(0);
-  const [cartItems, setCartItems] = useState<string[]>([]);
+  const [cartItem, setCartItem] = useState<LineItem>();
   const [isLoading, setIsLoading] = useState(false);
+  const [isItemInCart, setItemInCart] = useState(false);
+  const addCartButtonLabel = isItemInCart ? 'Remove from cart' : 'Add to cart';
   const [version, setVersion] = useState(0);
   const [cart, setCart] = useState<Cart>();
 
@@ -23,31 +25,22 @@ export const CartManagement: React.FC = () => {
   }
 
   useEffect(() => {
-    const getAllCartItems = async (): Promise<void> => {
-      try {
-        const currentCart = (await getExistingProductCart()).body.lineItems;
-        setCartItems(
-          currentCart.map(item => {
-            return item.variant.sku ? item.variant.sku : '';
-          })
-        );
-      } catch (error) {
-        setCartItems([]);
-      }
-    };
-    getAllCartItems();
-  }, [version]);
-
-  const [isItemInCart, setItemInCart] = useState(cartItems.includes(productSKU));
-  const addCartButtonLabel = isItemInCart ? 'Remove from cart' : 'Add to cart';
-
-  useEffect(() => {
     const fetchCart = async (): Promise<void> => {
       getExistingProductCart()
         .then(activeCart => {
           const currentCart = activeCart.body;
           setCart(currentCart);
           setVersion(currentCart.version);
+
+          const currentItem = currentCart.lineItems.filter(item => {
+            return item.variant.sku === productSKU;
+          })[0];
+
+          setCartItem(currentItem);
+
+          if (currentItem.id) {
+            setItemInCart(true);
+          }
         })
         .catch(() => {
           createProductCart().then(newCart => {
@@ -58,13 +51,13 @@ export const CartManagement: React.FC = () => {
         });
     };
     fetchCart();
-  }, []);
+  }, [version, productSKU]);
 
   const handleAddItemToCart = (): void => {
     setIsLoading(true);
 
     if (cart) {
-      addItemToCart(cart.id, version, productSKU, productSKU)
+      addItemToCart(cart.id, version, productSKU)
         .then(cartVersion => {
           setVersion(cartVersion);
           setItemInCart(true);
@@ -80,8 +73,8 @@ export const CartManagement: React.FC = () => {
   const handleRemoveItemFromCart = (): void => {
     setIsLoading(true);
 
-    if (cart) {
-      removeItemFromCart(cart.id, version, productSKU)
+    if (cart && cartItem) {
+      removeItemFromCart(cart.id, version, cartItem.id)
         .then(cartVersion => {
           setVersion(cartVersion);
           setItemInCart(false);

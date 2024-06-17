@@ -1,6 +1,6 @@
 import { DISTRIBUTION_CHANNEL, getApiRoot } from '../../../../../shared';
 
-export const addItemToCart = async (cartId: string, version: number, sku: string, key: string): Promise<number> => {
+export const addItemToCart = async (cartId: string, version: number, sku: string): Promise<number> => {
   let cartVersion: number = 0;
 
   await getApiRoot()
@@ -18,7 +18,6 @@ export const addItemToCart = async (cartId: string, version: number, sku: string
           {
             action: 'addLineItem',
             sku,
-            key,
             quantity: 1,
             distributionChannel: {
               typeId: 'channel',
