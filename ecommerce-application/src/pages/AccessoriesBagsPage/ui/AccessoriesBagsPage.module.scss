@@ -60,9 +60,18 @@
 
 .link {
   font-size: 1.2rem;
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.87);
+  transition: all ease-in-out 0.5s;
 }
 
 .divider {
   width: 80%;
   margin: auto;
+}
+
+@media screen and (hover: hover) {
+  .link:hover {
+    color: rgba(0, 0, 0, 0.6);
+  }
 }

@@ -9,6 +9,19 @@
   -webkit-transform: none;
 }
 
+.link {
+  font-size: 1.2rem;
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.87);
+  transition: all ease-in-out 0.5s;
+}
+
+@media screen and (hover: hover) {
+  .link:hover {
+    color: rgba(0, 0, 0, 0.6);
+  }
+}
+
 @media screen and (width <= 500px) {
   .section__breadcrumbs {
     min-width: 200px;
