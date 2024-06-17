@@ -11,17 +11,35 @@ import { removeItemFromCart } from '../Api/removeItemFromCart';
 import styles from './CartManagement.module.scss';
 
 export const CartManagement: React.FC = () => {
+  let productSKU = '';
   const [products, setProducts] = useState(0);
-  const [isItemInCart, setItemInCart] = useState(false);
+  const [cartItems, setCartItems] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [version, setVersion] = useState(0);
-  const addCartButtonLabel = isItemInCart ? 'Remove from cart' : 'Add to cart';
   const [cart, setCart] = useState<Cart>();
-  let productSKU = '';
 
   if (localStorage.getItem('Product sku')) {
     productSKU = localStorage.getItem('Product sku') ?? '';
   }
+
+  useEffect(() => {
+    const getAllCartItems = async (): Promise<void> => {
+      try {
+        const currentCart = (await getExistingProductCart()).body.lineItems;
+        setCartItems(
+          currentCart.map(item => {
+            return item.variant.sku ? item.variant.sku : '';
+          })
+        );
+      } catch (error) {
+        setCartItems([]);
+      }
+    };
+    getAllCartItems();
+  }, [version]);
+
+  const [isItemInCart, setItemInCart] = useState(cartItems.includes(productSKU));
+  const addCartButtonLabel = isItemInCart ? 'Remove from cart' : 'Add to cart';
 
   useEffect(() => {
     const fetchCart = async (): Promise<void> => {
