@@ -1,9 +1,10 @@
 import type { ProductProjection } from '@commercetools/platform-sdk';
 import { ArrowForward } from '@mui/icons-material';
-import { Breadcrumbs, Button, Divider, Link, Typography } from '@mui/material';
+import { Breadcrumbs, Button, Divider, Typography } from '@mui/material';
 import type React from 'react';
 import { useEffect, useState } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 
 import { getApiRoot } from '../../../shared';
 import { ProductGrid, ShopActionDrawer } from '../../../widgets';
@@ -52,17 +53,15 @@ export const WomenTrousersPage: React.FC = () => {
         className={styles.breadcrumbs}
       >
         <Link
-          underline="hover"
           color="inherit"
-          href="/shop"
+          to="/shop"
           className={styles.link}
         >
           Shop
         </Link>
         <Link
-          underline="hover"
           color="inherit"
-          href="/shop/women"
+          to="/shop/women"
           className={styles.link}
         >
           Women
@@ -92,6 +91,7 @@ export const WomenTrousersPage: React.FC = () => {
           action={action}
           sort={sort}
           onSearch={handleSearch}
+          toStartPage={false}
         />
       </div>
     </>
