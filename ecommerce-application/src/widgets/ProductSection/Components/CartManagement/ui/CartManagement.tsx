@@ -43,7 +43,7 @@ export const CartManagement: React.FC = () => {
         });
     };
     fetchCart();
-  }, [productSKU]);
+  }, [version, productSKU]);
 
   useEffect(() => {
     const fetchCart = async (): Promise<void> => {
