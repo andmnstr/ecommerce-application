@@ -1,5 +1,5 @@
 import EastIcon from '@mui/icons-material/East';
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import type React from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,7 +14,19 @@ export const ShopBanner: React.FC = () => {
       <div className={styles.content}>
         <Typography className={styles.text}>Classic Exclusive</Typography>
         <Typography className={styles.heading}>Women&apos;s Collection</Typography>
-        <Typography className={styles.text}>UPTO 40% OFF</Typography>
+        <Typography className={styles.text}>Available Promo Codes:</Typography>
+        <Box>
+          <Typography className={styles.promocode}>SOD1806</Typography>
+          <Typography className={styles.promocodeDetails}>
+            <span>15% off</span> your total cart price
+          </Typography>
+        </Box>
+        <Box>
+          <Typography className={styles.promocode}>5POS10D</Typography>
+          <Typography className={styles.promocodeDetails}>
+            Additional <span>10% off</span> if you buy more than 5 items
+          </Typography>
+        </Box>
         <CustomButton
           className={styles.shop_button}
           variant="contained"

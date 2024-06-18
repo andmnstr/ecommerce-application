@@ -2,6 +2,7 @@ import { AppBar } from '@mui/material';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { createClientWitAnonimousToken, setApiRoot } from '../../../shared';
 import { AuthSection } from './AuthSection';
 import { authPages, userProfilePath } from './AuthSection/config';
 import { BurgerMenu } from './Burger';
@@ -23,9 +24,10 @@ export const Header: React.FC = (): JSX.Element => {
     if (token) {
       localStorage.removeItem(TOKEN_NAME);
     }
+    setApiRoot(createClientWitAnonimousToken());
   };
 
-React.useEffect(() => {
+  React.useEffect(() => {
     if (token) {
       setLogoutEnable(true);
 

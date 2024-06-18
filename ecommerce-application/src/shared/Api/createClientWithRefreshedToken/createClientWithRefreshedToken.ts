@@ -9,7 +9,7 @@ import { isTokenStore } from '../Lib/isTokenStore';
 const { VITE_PROJECT_KEY, VITE_CLIENT_SECRET, VITE_CLIENT_ID, VITE_AUTH_URL, VITE_API_URL } = import.meta.env;
 
 export const createClientWithRefreshedToken = (tokenForRefresh: string): ByProjectKeyRequestBuilder => {
-  const refreshToken = tokenForRefresh.replace('e-commerce-app', '');
+  const refreshToken = tokenForRefresh.replace('e-commerce-app:', '');
   const refreshAuthMiddlewareOptions: RefreshAuthMiddlewareOptions = {
     host: VITE_AUTH_URL,
     projectKey: VITE_PROJECT_KEY,

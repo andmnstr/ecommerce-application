@@ -26,6 +26,7 @@ export const ShopPage: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [categories, setCategories] = useState<IProductCategories[]>();
   const [categoryVisible, setCategoryVisible] = useState(false);
+  const [toStartPage, setToStartPage] = useState(false);
   const [filter, setFilter] = useState<IFilters>({
     colors: [],
     categories: [],
@@ -40,11 +41,13 @@ export const ShopPage: React.FC = () => {
   };
   const handleSearch: SubmitHandler<ISearchField> = newSearch => {
     setSearch(newSearch.search);
+    setToStartPage(!toStartPage);
   };
   const setActionValues = (newFilter: IFilters, newSort: Sort): void => {
     setFilter(newFilter);
     setOpen(false);
     setSort(newSort);
+    setToStartPage(!toStartPage);
   };
   useEffect(() => {
     fetchProducts(getApiRoot(), filter, sort, search).then(response => {
@@ -107,6 +110,7 @@ export const ShopPage: React.FC = () => {
           action={action}
           sort={sort}
           onSearch={handleSearch}
+          toStartPage={toStartPage}
         />
       </div>
     </div>

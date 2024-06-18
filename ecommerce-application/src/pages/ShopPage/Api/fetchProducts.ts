@@ -62,6 +62,7 @@ export const fetchProducts = async (
         .search()
         .get({
           queryArgs: {
+            limit: 200,
             filter: [colorFilter, categoriesFilter, discountedPriceFilter],
             markMatchingVariants: true,
             ...(sortParam && { sort: sortParam }),
@@ -78,6 +79,7 @@ export const fetchProducts = async (
         .search()
         .get({
           queryArgs: {
+            limit: 200,
             ...(sortParam && { sort: sortParam }),
             ...(searchParam && { 'filter.query': [`name.ru-RU:"${searchParam}"`] }),
           },

@@ -1,4 +1,4 @@
-import type { ProductProjection } from '@commercetools/platform-sdk';
+import type { ProductProjection, ProductVariant } from '@commercetools/platform-sdk';
 import { Alert } from '@mui/material';
 import type React from 'react';
 import { useEffect, useState } from 'react';
@@ -34,11 +34,9 @@ export const ProductSection: React.FC<IProductSectionProps> = props => {
   const { category, subcategory, id } = props;
 
   const [product, setProduct] = useState<ProductProjection>();
+  const [currentProduct, setCurrentProduct] = useState<ProductVariant>();
   const [errorDisplay, setErrorDisplay] = useState(false);
   const [open, setOpen] = useState(false);
-
-  // const location = window.location.pathname;
-  // const id = location.substring(location.indexOf(':') + 1, location.length);
 
   const handleClickOpen = (): void => {
     setOpen(true);
@@ -51,6 +49,14 @@ export const ProductSection: React.FC<IProductSectionProps> = props => {
   useEffect(() => {
     getCurrentProductData(getApiRoot(), id)
       .then(response => {
+        const productVariants = response.variants;
+        const productSKU = localStorage.getItem('Product sku') ? localStorage.getItem('Product sku') : '';
+
+        const selectedItem = productVariants.filter(item => {
+          return item.sku === productSKU;
+        })[0];
+
+        setCurrentProduct(selectedItem);
         setProduct(response);
       })
       .catch(error => {
@@ -64,14 +70,15 @@ export const ProductSection: React.FC<IProductSectionProps> = props => {
   const productColors: string[] = [];
   const productSizes: string[] = [];
   const master = product?.masterVariant;
-  const priceAttribute = master?.prices;
+  const priceAttribute = currentProduct?.prices;
   const productAttributes = master?.attributes;
   const productNameData = product?.name;
   const productName = productNameData ? productNameData['ru-RU'] : '';
   const productDescription = product?.description !== undefined ? product.description['ru-RU'] : undefined;
   const productPrice = priceAttribute !== undefined ? priceAttribute[0]?.value?.centAmount : undefined;
-  const productPriceDiscounted = priceAttribute !== undefined ? priceAttribute[0]?.value?.centAmount : undefined;
-  const productImages = master?.images;
+  const productPriceDiscounted =
+    priceAttribute !== undefined ? priceAttribute[0]?.discounted?.value?.centAmount : undefined;
+  const productImages = currentProduct?.images;
   let productSpec: string | undefined;
   const errorMessage = 'Requested product item was not found! Please, return back and try to choose another item.';
   const productAdditionInfo = { color: '', size: '', season: '' };
@@ -101,8 +108,8 @@ export const ProductSection: React.FC<IProductSectionProps> = props => {
     });
   }
 
-  if (master?.attributes !== undefined) {
-    const prodAttributes = master.attributes;
+  if (currentProduct?.attributes !== undefined) {
+    const prodAttributes = currentProduct.attributes;
 
     prodAttributes.map(attribute => {
       if (attribute.name === 'color') {

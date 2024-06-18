@@ -1,7 +1,9 @@
+import { ShoppingCart } from '@mui/icons-material';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import MenuIcon from '@mui/icons-material/Menu';
+import { Box } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
@@ -67,7 +69,13 @@ export const BurgerMenu: React.FC<AuthSectionProps> = (props): JSX.Element => {
                     to={page.href}
                     onClick={handleDrawerClose}
                   >
-                    {page.text}
+                    {page.text !== 'Cart' ? (
+                      page.text
+                    ) : (
+                      <Box className={styles.CartContainer}>
+                        <ShoppingCart />
+                      </Box>
+                    )}
                   </Link>
                 </ListItemButton>
               </ListItem>

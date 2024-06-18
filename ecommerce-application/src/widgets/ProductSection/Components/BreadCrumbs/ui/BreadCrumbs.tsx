@@ -1,5 +1,6 @@
-import { Breadcrumbs, Link, Typography } from '@mui/material';
+import { Breadcrumbs, Typography } from '@mui/material';
 import type React from 'react';
+import { Link } from 'react-router-dom';
 
 import styles from './BreadCrumbs.module.scss';
 
@@ -15,18 +16,16 @@ export const BreadCrumbs: React.FC<IBreadCrumbsProps> = props => {
   return (
     <Breadcrumbs className={styles.section__breadcrumbs}>
       <Link
-        underline="hover"
         color="inherit"
-        href={`/shop/${category}`}
+        to={`/shop/${category}`}
         className={styles.link}
         hidden={!category}
       >
         {category}
       </Link>
       <Link
-        underline="hover"
         color="inherit"
-        href={`/shop/${category}/${subcategory}`}
+        to={`/shop/${category}/${subcategory}`}
         className={styles.link}
         hidden={!subcategory}
       >
