@@ -1,0 +1,1 @@
+export { createClientWitAnonimousToken } from './createClientWithAnonymousToken';

@@ -1,0 +1,57 @@
+.LoginPage__container {
+  display: flex;
+  position: relative;
+  justify-content: flex-end;
+  align-items: center;
+  width: -webkit-fill-available;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: 0;
+  transition: all ease-in-out 0.5s;
+}
+
+.LoginPage__inputs {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  height: 100dvh;
+}
+
+.LoginPage__image {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100vh;
+  background-image: url('../../../../public/images/LoginPage_image.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: -2;
+  transition: all ease-in-out 0.5s;
+}
+
+@media screen and (width < 1200px) {
+  .LoginPage__container {
+    justify-content: center;
+  }
+  .LoginPage__image {
+    width: 100%;
+  }
+
+  .LoginPage__inputs {
+    backdrop-filter: grayscale(0.7) blur(10px);
+    width: 80%;
+    height: auto;
+  }
+}
+
+@media screen and (width < 760px) {
+  .LoginPage__inputs {
+    backdrop-filter: grayscale(0.7) blur(10px);
+    width: 95%;
+    height: auto;
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "src",
+    "app",
+    "processes",
+    "pages",
+    "widgets",
+    "features",
+    "shared",
+    "entities",
+    "components",
+    "ui-components",
+    "ui",
+    ".eslintrc.cjs",
+    "commitlint.config.js",
+    "eslint.config.js"
+  ]
+}

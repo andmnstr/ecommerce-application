@@ -1,0 +1,1 @@
+export { fetchMenProducts } from './fetchMenProducts';

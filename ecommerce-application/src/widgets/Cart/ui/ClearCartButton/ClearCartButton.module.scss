@@ -1,0 +1,34 @@
+.ButtonContainer {
+  position: absolute;
+  top: 100%;
+  padding: 30px 20px;
+  right: 0;
+  left: 0;
+}
+
+.ClearCartButton {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  border-radius: 10px;
+  height: 56px;
+  width: 100%;
+}
+
+.Paper {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+}
+
+.Popover {
+  background-color: rgba(0, 0, 0, 0.54);
+}
+
+.PopoverButtons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}

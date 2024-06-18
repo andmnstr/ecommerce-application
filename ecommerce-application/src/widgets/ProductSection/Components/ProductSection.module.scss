@@ -1,0 +1,27 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin: 100px auto auto auto;
+  padding: 0 20px;
+  width: calc(100% - 40px);
+  max-width: 1440px;
+}
+
+.section__product_wrapper {
+  display: flex;
+  flex-wrap: wrap-reverse;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+  max-width: 1440px;
+  width: 100%;
+  height: fit-content;
+  margin: 0 auto 50px auto;
+}
+
+.product_data_error {
+  margin: 20px auto 20px auto;
+}

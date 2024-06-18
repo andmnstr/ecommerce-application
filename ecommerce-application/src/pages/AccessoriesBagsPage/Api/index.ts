@@ -1,0 +1,1 @@
+export { fetchAccessoriesBags } from './fetchAccessoriesBags';

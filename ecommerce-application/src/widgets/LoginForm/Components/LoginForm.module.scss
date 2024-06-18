@@ -1,0 +1,55 @@
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+  min-width: 300px;
+  width: 90%;
+  gap: 10px;
+}
+
+.loginButton {
+  font-size: 16px;
+  padding: 16px;
+  margin-top: 20px;
+}
+
+.loginTitleAndDescription {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginTitle {
+  font-size: 30px;
+  color: #131118;
+  line-height: 145%;
+  font-weight: 700;
+}
+
+.loginDescription {
+  font-size: 16px;
+  color: #a09b98;
+  line-height: 145%;
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+
+.loginInput {
+  margin-top: 10px;
+}
+
+.errorMessage {
+  margin-left: 5px;
+  margin-bottom: 0px;
+  color: #f00;
+}
+
+.invisible {
+  display: none;
+}
+
+.visible {
+  display: flex;
+  margin-bottom: 10px;
+}

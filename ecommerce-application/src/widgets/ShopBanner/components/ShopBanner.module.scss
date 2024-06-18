@@ -1,0 +1,90 @@
+.banner {
+  display: flex;
+  position: relative;
+  justify-content: flex-start;
+  align-items: center;
+  max-width: 1440px;
+  width: calc(100% - 20px);
+  height: 600px;
+  padding: 0 10px;
+  margin: 100px auto 30px auto;
+  background-color: rgb(243, 243, 243);
+  z-index: 2;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 30px 10px;
+  margin: auto auto auto 150px;
+  transition: all ease-in-out 0.5s;
+  z-index: 2;
+}
+
+.content span {
+  color: #d72929;
+  font-weight: 800;
+}
+
+.text {
+  font-size: 2rem;
+  color: #d72929;
+  user-select: none;
+}
+
+.promocode {
+  font-size: 1.8rem;
+  font-weight: 800;
+}
+
+.promocodeDetails {
+  font-size: 1.1rem;
+  user-select: none;
+}
+
+.heading {
+  font-size: 3rem;
+  font-weight: 800;
+  user-select: none;
+}
+
+.shop_button {
+  display: flex;
+  gap: 10px;
+  width: 160px;
+  height: 60px;
+  font-size: 1rem;
+  margin: 20px 0 0 0;
+}
+
+.shop_image {
+  display: block;
+  position: absolute;
+  right: 20px;
+  width: 600px;
+  height: 600px;
+  background-image: url('../../../../public/images/ShopBannerImage.png');
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  transition: all ease-in-out 0.5s;
+  z-index: 1;
+}
+
+@media screen and (width <= 450px) {
+  .content {
+    backdrop-filter: grayscale(0.7) blur(10px);
+  }
+}
+
+@media screen and (width <= 700px) {
+  .content {
+    margin: auto;
+  }
+  .shop_image {
+    width: 300px;
+  }
+}
